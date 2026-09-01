@@ -24,6 +24,7 @@
 @layer base {
   html {
     direction: rtl;
+    overflow-x: hidden;
   }
 
   body {
@@ -31,6 +32,7 @@
     font-family: 'Heebo', sans-serif;
     background-color: #f0fdfa;
     color: #111827;
+    overflow-x: hidden;
   }
 
   ul,
@@ -49,6 +51,7 @@
 .app-shell {
   min-height: 100dvh;
   background-color: #f0fdfa;
+  overflow-x: hidden;
 }
 
 .app-top-bar {
@@ -61,22 +64,25 @@
   padding-top: var(--safe-top);
 }
 
-.app-bottom-nav {
+/* Single fixed dock at the bottom: pills sit on top of nav, no z-index fights */
+.app-bottom-dock {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 50;
-  height: var(--bottom-nav-offset);
+  display: flex;
+  flex-direction: column;
+  background-color: #0d9488;
   padding-bottom: var(--safe-bottom);
 }
 
+.app-bottom-nav {
+  height: var(--bottom-nav-height);
+}
+
 .app-bus-pills {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 51;
-  bottom: var(--bottom-nav-offset);
+  /* No longer position:fixed; lives inside the dock */
 }
 
 .app-main {
