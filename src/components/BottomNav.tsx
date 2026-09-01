@@ -9,10 +9,7 @@ const TABS = [
 
 export default function BottomNav() {
   return (
-    <nav
-      className="app-bottom-nav flex items-center justify-center px-3"
-      style={{ backgroundColor: '#0d9488' }}
-    >
+    <nav className="app-bottom-nav flex items-center justify-center px-3">
       <div className="flex h-14 w-full items-center justify-around rounded-full bg-white px-2">
         {TABS.map((tab) => {
           const Icon = tab.icon
