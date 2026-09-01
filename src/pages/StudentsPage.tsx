@@ -100,52 +100,59 @@ export default function StudentsPage() {
   }
 
   return (
-    <PageSheet>
-      <div className="relative mb-3">
-        <span className="pointer-events-none absolute top-1/2 start-3 -translate-y-1/2 text-gray-500">
-          <SearchIcon />
-        </span>
-        <input
-          type="text"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="חיפוש לפי שם..."
-          aria-label="חיפוש לפי שם"
-          autoComplete="off"
-          className="min-h-11 w-full rounded-full border-0 bg-[#f3f4f6] py-2 ps-10 pe-12 text-base outline-none focus:ring-2 focus:ring-teal-100"
-        />
-        {search && (
-          <button
-            type="button"
-            onClick={() => setSearch('')}
-            aria-label="נקה חיפוש"
-            className="absolute top-1/2 end-1 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100"
-          >
-            <ClearIcon />
-          </button>
-        )}
+    <>
+      <div
+        className="sticky top-0 z-10 mx-4 px-4 py-3"
+        style={{ backgroundColor: '#f0fdfa' }}
+      >
+        <div className="relative">
+          <span className="pointer-events-none absolute top-1/2 start-3 -translate-y-1/2 text-gray-500">
+            <SearchIcon />
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="חיפוש לפי שם..."
+            aria-label="חיפוש לפי שם"
+            autoComplete="off"
+            className="min-h-11 w-full rounded-full border-0 bg-white py-2 ps-10 pe-12 text-base outline-none focus:ring-2 focus:ring-teal-100"
+          />
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch('')}
+              aria-label="נקה חיפוש"
+              className="absolute top-1/2 end-1 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100"
+            >
+              <ClearIcon />
+            </button>
+          )}
+        </div>
       </div>
 
-      {error ? (
-        <ConnectionError />
-      ) : isLoading ? (
-        <Spinner />
-      ) : visibleStudents.length === 0 ? (
-        <p className="py-12 text-center text-gray-500">{emptyMessage}</p>
-      ) : (
-        <ul className="flex list-none flex-col gap-2 p-0">
-          {visibleStudents.map((student) => (
-            <li key={student.id} className="list-none">
-              <StudentCard
-                student={student}
-                busLabel={arrivalBusLabel(student)}
-                className={classNameById[student.class_id] ?? null}
-                onStatusToggle={(current) => toggleStatus(current, null)}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
-    </PageSheet>
+      <PageSheet>
+        {error ? (
+          <ConnectionError />
+        ) : isLoading ? (
+          <Spinner />
+        ) : visibleStudents.length === 0 ? (
+          <p className="py-12 text-center text-gray-500">{emptyMessage}</p>
+        ) : (
+          <ul className="flex list-none flex-col gap-2 overflow-hidden p-0">
+            {visibleStudents.map((student) => (
+              <li key={student.id} className="list-none">
+                <StudentCard
+                  student={student}
+                  busLabel={arrivalBusLabel(student)}
+                  className={classNameById[student.class_id] ?? null}
+                  onStatusToggle={(current) => toggleStatus(current, null)}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </PageSheet>
+    </>
   )
 }

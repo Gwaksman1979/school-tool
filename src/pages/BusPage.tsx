@@ -68,7 +68,7 @@ export default function BusPage() {
             \u05d0\u05d9\u05df \u05ea\u05dc\u05de\u05d9\u05d3\u05d9\u05dd \u05de\u05e9\u05d5\u05d9\u05db\u05d9\u05dd \u05dc\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1 \u05d6\u05d4
           </p>
         ) : (
-          <ul className="flex list-none flex-col gap-2 p-0">
+          <ul className="flex list-none flex-col gap-2 overflow-hidden p-0">
             {visibleStudents.map((student) => (
               <li key={student.id} className="list-none">
                 <StudentCard
