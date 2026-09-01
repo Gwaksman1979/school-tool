@@ -1,0 +1,161 @@
+@import "tailwindcss/theme" layer(theme);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@source "../**/*.{ts,tsx}";
+@config "../tailwind.config.ts";
+
+@theme {
+  --font-sans: 'Heebo', sans-serif;
+}
+
+:root {
+  --top-bar-height: 56px;
+  --bottom-nav-height: 72px;
+  --bus-pills-height: 124px;
+  --bus-banner-height: 68px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --top-bar-offset: calc(var(--top-bar-height) + var(--safe-top));
+  --bottom-nav-offset: calc(var(--bottom-nav-height) + var(--safe-bottom));
+}
+
+@layer base {
+  html {
+    direction: rtl;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Heebo', sans-serif;
+    background-color: #f0fdfa;
+    color: #111827;
+  }
+
+  ul,
+  ol,
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li::marker {
+    content: none;
+  }
+}
+
+.app-shell {
+  min-height: 100dvh;
+  background-color: #f0fdfa;
+}
+
+.app-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--top-bar-offset);
+  padding-top: var(--safe-top);
+}
+
+.app-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--bottom-nav-offset);
+  padding-bottom: var(--safe-bottom);
+}
+
+.app-bus-pills {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  bottom: var(--bottom-nav-offset);
+}
+
+.app-main {
+  height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: var(--top-bar-offset);
+}
+
+.app-main--default {
+  padding-bottom: calc(80px + var(--safe-bottom));
+}
+
+.app-main--bus {
+  padding-bottom: calc(80px + var(--bus-pills-height) + var(--safe-bottom));
+}
+
+.app-main--bus-banner {
+  padding-bottom: calc(
+    80px + var(--bus-pills-height) + var(--bus-banner-height) + var(--safe-bottom)
+  );
+}
+
+.app-main--settings {
+  padding-bottom: 16px;
+}
+
+.app-fab {
+  position: fixed;
+  z-index: 30;
+  right: 16px;
+}
+
+.app-fab--default {
+  bottom: calc(var(--bottom-nav-offset) + 16px);
+}
+
+.app-fab--bus {
+  bottom: calc(var(--bottom-nav-offset) + var(--bus-pills-height) + 16px);
+}
+
+.app-bus-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 40;
+}
+
+.app-bus-banner--default {
+  bottom: var(--bottom-nav-offset);
+}
+
+.app-bus-banner--pills {
+  bottom: calc(var(--bottom-nav-offset) + var(--bus-pills-height));
+}
+
+@keyframes bus-call-in {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bus-call-flash {
+  0%,
+  100% {
+    background-color: #ef4444;
+  }
+  50% {
+    background-color: #f87171;
+  }
+}
+
+.bus-call-banner {
+  animation:
+    bus-call-in 0.35s ease-out,
+    bus-call-flash 1.1s ease-in-out infinite;
+}

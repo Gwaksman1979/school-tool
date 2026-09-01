@@ -1,0 +1,15 @@
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyAgwM8IakPoKBlIFwmeW7cBLNi49Yv3d-w',
+  authDomain: 'school-tool-5c151.firebaseapp.com',
+  projectId: 'school-tool-5c151',
+  storageBucket: 'school-tool-5c151.firebasestorage.app',
+  messagingSenderId: '361518642776',
+  appId: '1:361518642776:web:a31198c38c5d923759fc2d',
+  measurementId: 'G-KTK8N472T0',
+}
+
+export const app = initializeApp(firebaseConfig)
+export const db = getFirestore(app)
