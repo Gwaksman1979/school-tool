@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import BusCallBanner from '../components/BusCallBanner'
 import BusPills from '../components/BusPills'
 import PageSheet from '../components/PageSheet'
 import Spinner, { ConnectionError } from '../components/Spinner'
@@ -38,7 +37,7 @@ export default function BusPage() {
   const selectedBus = sortedBuses.find((bus) => bus.id === selectedBusId) ?? null
 
   useEffect(() => {
-    setTitle(selectedBus ? `קו ${selectedBus.label}` : 'אוטובוס')
+    setTitle(selectedBus ? `\u05e7\u05d5 ${selectedBus.label}` : '\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1')
   }, [selectedBus, setTitle])
 
   const visibleStudents = useMemo(() => {
@@ -62,11 +61,11 @@ export default function BusPage() {
           <Spinner />
         ) : !selectedBusId ? (
           <p className="py-12 text-center text-gray-500">
-            בחר אוטובוס כדי לראות תלמידים
+            \u05d1\u05d7\u05e8 \u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1 \u05db\u05d3\u05d9 \u05dc\u05e8\u05d0\u05d5\u05ea \u05ea\u05dc\u05de\u05d9\u05d3\u05d9\u05dd
           </p>
         ) : visibleStudents.length === 0 ? (
           <p className="py-12 text-center text-gray-500">
-            אין תלמידים משויכים לאוטובוס זה
+            \u05d0\u05d9\u05df \u05ea\u05dc\u05de\u05d9\u05d3\u05d9\u05dd \u05de\u05e9\u05d5\u05d9\u05db\u05d9\u05dd \u05dc\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1 \u05d6\u05d4
           </p>
         ) : (
           <ul className="flex list-none flex-col gap-2 p-0">
@@ -83,7 +82,6 @@ export default function BusPage() {
           </ul>
         )}
       </PageSheet>
-      <BusCallBanner abovePills />
       <BusPills
         buses={buses}
         students={students}
