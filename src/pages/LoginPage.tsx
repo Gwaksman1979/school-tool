@@ -25,7 +25,7 @@ export default function LoginPage() {
       const match = snapshot.docs.find((docSnap) => docSnap.data().password === password)
 
       if (!match) {
-        setError('שם בית הספר או הסיסמה שגויים')
+        setError('\u05e9\u05dd \u05d1\u05d9\u05ea \u05d4\u05e1\u05e4\u05e8 \u05d0\u05d5 \u05d4\u05e1\u05d9\u05e1\u05de\u05d4 \u05e9\u05d2\u05d5\u05d9\u05d9\u05dd')
         return
       }
 
@@ -40,23 +40,31 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f3f4f6]">
-      <div
-        className="h-2 w-full"
+    <div className="flex min-h-[100dvh] flex-col bg-[#f3f4f6]">
+      <header
+        dir="ltr"
+        className="fixed left-0 right-0 top-0 z-50 flex items-center justify-center text-white"
         style={{
-          background: 'linear-gradient(90deg, #0f766e 0%, #0d9488 50%, #14b8a6 100%)',
+          backgroundColor: '#0d9488',
+          height: 'calc(56px + env(safe-area-inset-top, 0px))',
+          paddingTop: 'env(safe-area-inset-top, 0px)',
         }}
-      />
-      <div className="px-4">
-        <div className="mx-auto mt-16 max-w-sm">
-          <h1 className="mb-8 text-center text-3xl font-bold">School Tool 🏫</h1>
+      >
+        <h1 className="text-lg font-semibold">School Tool</h1>
+      </header>
+
+      <div
+        className="flex flex-1 items-center justify-center px-4"
+        style={{ paddingTop: 'calc(56px + env(safe-area-inset-top, 0px))' }}
+      >
+        <div className="w-full max-w-sm">
           <form
             onSubmit={handleSubmit}
             className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
           >
             <label className="mb-4 block text-right">
               <span className="mb-1.5 block text-sm font-medium text-gray-700">
-                שם בית הספר
+                \u05e9\u05dd \u05d1\u05d9\u05ea \u05d4\u05e1\u05e4\u05e8
               </span>
               <input
                 type="text"
@@ -70,7 +78,7 @@ export default function LoginPage() {
             </label>
             <label className="mb-4 block text-right">
               <span className="mb-1.5 block text-sm font-medium text-gray-700">
-                סיסמה
+                \u05e1\u05d9\u05e1\u05de\u05d4
               </span>
               <input
                 type="password"
@@ -92,11 +100,20 @@ export default function LoginPage() {
               disabled={isSubmitting}
               className="flex min-h-11 w-full items-center justify-center rounded-lg bg-[#0d9488] px-4 py-2.5 text-base font-medium text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-90"
             >
-              {isSubmitting ? <Spinner compact onDark /> : 'כניסה'}
+              {isSubmitting ? <Spinner compact onDark /> : '\u05db\u05e0\u05d9\u05e1\u05d4'}
             </button>
           </form>
         </div>
       </div>
+
+      <div
+        className="fixed bottom-0 left-0 right-0 z-50"
+        style={{
+          backgroundColor: '#0d9488',
+          height: 'calc(8px + env(safe-area-inset-bottom, 0px))',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        }}
+      />
     </div>
   )
 }
