@@ -39,18 +39,16 @@ function formatRemarkDate(isoDate: string): string {
   return `${day}/${month}/${year}`
 }
 
+/* Two states only: at_school = in, everything else = out */
+function isIn(status: Student['current_status'] | string): boolean {
+  return normalizeStatus(status) === 'at_school'
+}
+
 function statusBadge(status: Student['current_status'] | string) {
-  const normalized = normalizeStatus(status)
-  if (normalized === 'at_school') {
+  if (isIn(status)) {
     return {
       label: '\u05d9\u05e6\u05d9\u05d0\u05d4',
       className: 'bg-[#0d9488] text-white',
-    }
-  }
-  if (normalized === 'left') {
-    return {
-      label: '\u05d9\u05e6\u05d0',
-      className: 'bg-[#d1fae5] text-[#0d9488]',
     }
   }
   return {
@@ -81,6 +79,7 @@ export default function StudentCard({
   const meta = buildMetaLine(className, busLabel, student.transport_mode)
   const isNotBus = student.transport_mode !== 'bus'
   const badge = statusBadge(student.current_status)
+  const studentIsIn = isIn(student.current_status)
 
   const [expanded, setExpanded] = useState(false)
   const [pickingMode, setPickingMode] = useState(false)
@@ -156,7 +155,10 @@ export default function StudentCard({
   }
 
   return (
-    <article className="w-full rounded-2xl bg-[#f3f4f6] px-3 py-1.5">
+    <article
+      className="w-full rounded-2xl px-3 py-1.5"
+      style={{ backgroundColor: studentIsIn ? '#d1fae5' : '#f3f4f6' }}
+    >
       <div className="flex min-h-11 items-center gap-2">
         <button
           type="button"
@@ -198,7 +200,7 @@ export default function StudentCard({
       </div>
 
       {expanded && (
-        <div className="mt-2 border-t border-gray-100 pt-2">
+        <div className="mt-2 border-t border-gray-200 pt-2">
           {meta && <p className="mb-2 text-sm text-gray-500">{meta}</p>}
           <label className="flex min-h-11 items-center gap-1.5 text-xs text-gray-600">
             <input
