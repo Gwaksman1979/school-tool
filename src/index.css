@@ -24,7 +24,8 @@
 @layer base {
   html {
     direction: rtl;
-    overflow-x: hidden;
+    overflow: hidden;
+    height: 100%;
   }
 
   body {
@@ -32,7 +33,13 @@
     font-family: 'Heebo', sans-serif;
     background-color: #f0fdfa;
     color: #111827;
-    overflow-x: hidden;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  #root {
+    height: 100%;
+    overflow: hidden;
   }
 
   ul,
@@ -49,11 +56,15 @@
 }
 
 .app-shell {
-  min-height: 100dvh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background-color: #f0fdfa;
-  overflow-x: hidden;
+  overflow: hidden;
+  position: relative;
 }
 
+/* Header: nailed to the top */
 .app-top-bar {
   position: fixed;
   top: 0;
@@ -62,9 +73,12 @@
   z-index: 50;
   height: var(--top-bar-offset);
   padding-top: var(--safe-top);
+  /* force stacking context so iOS never collapses it */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
-/* Single fixed dock at the bottom: pills sit on top of nav, no z-index fights */
+/* Bottom dock: pills + nav, nailed to the bottom */
 .app-bottom-dock {
   position: fixed;
   bottom: 0;
@@ -75,34 +89,40 @@
   flex-direction: column;
   background-color: #0d9488;
   padding-bottom: var(--safe-bottom);
+  /* force stacking context so iOS never collapses it */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .app-bottom-nav {
+  flex-shrink: 0;
   height: var(--bottom-nav-height);
 }
 
 .app-bus-pills {
-  /* No longer position:fixed; lives inside the dock */
+  flex-shrink: 0;
 }
 
+/* Scrollable content area between header and dock */
 .app-main {
   height: 100dvh;
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   padding-top: var(--top-bar-offset);
 }
 
 .app-main--default {
-  padding-bottom: calc(80px + var(--safe-bottom));
+  padding-bottom: calc(var(--bottom-nav-offset) + 16px);
 }
 
 .app-main--bus {
-  padding-bottom: calc(80px + var(--bus-pills-height) + var(--safe-bottom));
+  padding-bottom: calc(var(--bottom-nav-offset) + var(--bus-pills-height) + 16px);
 }
 
 .app-main--bus-banner {
   padding-bottom: calc(
-    80px + var(--bus-pills-height) + var(--bus-banner-height) + var(--safe-bottom)
+    var(--bottom-nav-offset) + var(--bus-pills-height) + var(--bus-banner-height) + 16px
   );
 }
 
@@ -114,6 +134,8 @@
   position: fixed;
   z-index: 30;
   right: 16px;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .app-fab--default {
@@ -129,6 +151,8 @@
   left: 0;
   right: 0;
   z-index: 40;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .app-bus-banner--default {
