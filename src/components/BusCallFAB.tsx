@@ -72,7 +72,7 @@ export default function BusCallFAB({ isBus = false }: { isBus?: boolean }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="\u05e7\u05e8\u05d9\u05d0\u05d4 \u05dc\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1"
+        aria-label="קריאה לאוטובוס"
         className={[
           'app-fab flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg',
           isBus ? 'app-fab--with-pills' : '',
@@ -84,7 +84,7 @@ export default function BusCallFAB({ isBus = false }: { isBus?: boolean }) {
 
       <Modal
         open={open}
-        title="\u05e7\u05e8\u05d9\u05d0\u05d4 \u05dc\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1"
+        title="קריאה לאוטובוס"
         onClose={() => setOpen(false)}
       >
         {callError && (
@@ -93,7 +93,7 @@ export default function BusCallFAB({ isBus = false }: { isBus?: boolean }) {
           </p>
         )}
         {sortedBuses.length === 0 ? (
-          <p className="py-8 text-center text-gray-500">\u05d0\u05d9\u05df \u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1\u05d9\u05dd</p>
+          <p className="py-8 text-center text-gray-500">אין אוטובוסים</p>
         ) : (
           <div className="grid grid-cols-2 gap-3 pb-2">
             {sortedBuses.map((bus) => (

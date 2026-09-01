@@ -14,10 +14,10 @@ export default function BusCallBanner() {
       style={{ backgroundColor: '#ef4444' }}
     >
       <span className="text-[40px] leading-none" aria-hidden="true">
-        \ud83d\udce2
+        📢
       </span>
       <p dir="rtl" className="flex-1 text-center text-xl font-bold text-white">
-        !\u05e7\u05d5 {busLabel ?? ''} \u05d4\u05d2\u05d9\u05e2
+        !קו {busLabel ?? ''} הגיע
       </p>
     </button>
   )

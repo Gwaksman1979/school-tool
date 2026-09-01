@@ -22,7 +22,7 @@ export default function TopBar() {
       {isSettings ? (
         <button
           type="button"
-          aria-label="\u05d7\u05d6\u05e8\u05d4"
+          aria-label="חזרה"
           onClick={goBack}
           className="absolute left-2 flex h-11 min-w-11 items-center justify-center gap-1 rounded-lg px-2 text-white hover:bg-white/10"
         >
@@ -31,7 +31,7 @@ export default function TopBar() {
       ) : (
         <button
           type="button"
-          aria-label="\u05d4\u05d2\u05d3\u05e8\u05d5\u05ea"
+          aria-label="הגדרות"
           onClick={() => navigate('/settings')}
           className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-lg text-white/90 hover:bg-white/10"
         >
