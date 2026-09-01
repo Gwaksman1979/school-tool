@@ -12,27 +12,16 @@ function AppShell() {
   const isSettings = location.pathname === '/settings'
   const isBus = location.pathname === '/bus'
 
-  const mainClass = [
-    'app-main',
-    isSettings
-      ? 'app-main--settings'
-      : isBus && bannerVisible
-        ? 'app-main--bus-banner'
-        : isBus
-          ? 'app-main--bus'
-          : 'app-main--default',
-  ].join(' ')
-
   return (
     <div className="app-shell">
       <TopBar />
-      <main className={mainClass}>
+      <main className="app-main">
         <Outlet />
       </main>
-      {!isSettings && !isBus && <BusCallBanner />}
-      {!isSettings && !bannerVisible && <BusCallFAB />}
+      {!isSettings && !bannerVisible && <BusCallFAB isBus={isBus} />}
       {!isSettings && (
         <div className="app-bottom-dock">
+          {bannerVisible && <BusCallBanner />}
           <div id="bus-pills-slot" />
           <BottomNav />
         </div>
