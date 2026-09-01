@@ -25,7 +25,7 @@ export default function LoginPage() {
       const match = snapshot.docs.find((docSnap) => docSnap.data().password === password)
 
       if (!match) {
-        setError('\u05e9\u05dd \u05d1\u05d9\u05ea \u05d4\u05e1\u05e4\u05e8 \u05d0\u05d5 \u05d4\u05e1\u05d9\u05e1\u05de\u05d4 \u05e9\u05d2\u05d5\u05d9\u05d9\u05dd')
+        setError('שם בית הספר או הסיסמה שגויים')
         return
       }
 
@@ -64,7 +64,7 @@ export default function LoginPage() {
           >
             <label className="mb-4 block text-right">
               <span className="mb-1.5 block text-sm font-medium text-gray-700">
-                \u05e9\u05dd \u05d1\u05d9\u05ea \u05d4\u05e1\u05e4\u05e8
+                שם בית הספר
               </span>
               <input
                 type="text"
@@ -78,7 +78,7 @@ export default function LoginPage() {
             </label>
             <label className="mb-4 block text-right">
               <span className="mb-1.5 block text-sm font-medium text-gray-700">
-                \u05e1\u05d9\u05e1\u05de\u05d4
+                סיסמה
               </span>
               <input
                 type="password"
@@ -100,7 +100,7 @@ export default function LoginPage() {
               disabled={isSubmitting}
               className="flex min-h-11 w-full items-center justify-center rounded-lg bg-[#0d9488] px-4 py-2.5 text-base font-medium text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-90"
             >
-              {isSubmitting ? <Spinner compact onDark /> : '\u05db\u05e0\u05d9\u05e1\u05d4'}
+              {isSubmitting ? <Spinner compact onDark /> : 'כניסה'}
             </button>
           </form>
         </div>
