@@ -27,10 +27,10 @@ function buildMetaLine(
 ): string {
   const parts: string[] = []
   if (className) parts.push(className)
-  if (transportMode === 'independent') parts.push('עצמאי')
-  else if (transportMode === 'family') parts.push('משפחה')
-  else if (busLabel) parts.push(`אוטובוס ${busLabel}`)
-  return parts.join(' · ')
+  if (transportMode === 'independent') parts.push('\u05e2\u05e6\u05de\u05d0\u05d9')
+  else if (transportMode === 'family') parts.push('\u05de\u05e9\u05e4\u05d7\u05d4')
+  else if (busLabel) parts.push(`\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1 ${busLabel}`)
+  return parts.join(' \u00b7 ')
 }
 
 function formatRemarkDate(isoDate: string): string {
@@ -43,18 +43,18 @@ function statusBadge(status: Student['current_status'] | string) {
   const normalized = normalizeStatus(status)
   if (normalized === 'at_school') {
     return {
-      label: 'יציאה',
+      label: '\u05d9\u05e6\u05d9\u05d0\u05d4',
       className: 'bg-[#0d9488] text-white',
     }
   }
   if (normalized === 'left') {
     return {
-      label: 'יצא',
+      label: '\u05d9\u05e6\u05d0',
       className: 'bg-[#d1fae5] text-[#0d9488]',
     }
   }
   return {
-    label: 'לא הגיע',
+    label: '\u05db\u05e0\u05d9\u05e1\u05d4',
     className: 'bg-[#f97316] text-white',
   }
 }
@@ -171,7 +171,7 @@ export default function StudentCard({
               }
             })()
           }}
-          aria-label={`עדכון סטטוס של ${fullName}`}
+          aria-label={`\u05e2\u05d3\u05db\u05d5\u05df \u05e1\u05d8\u05d8\u05d5\u05e1 \u05e9\u05dc ${fullName}`}
           className={`flex min-h-9 min-w-[4.75rem] shrink-0 items-center justify-center rounded-full px-3 text-sm font-bold transition-colors duration-300 ${badge.className}`}
         >
           {badge.label}
@@ -185,14 +185,14 @@ export default function StudentCard({
           type="button"
           onClick={() => setExpanded((open) => !open)}
           aria-expanded={expanded}
-          aria-label={`פרטים נוספים עבור ${fullName}`}
+          aria-label={`\u05e4\u05e8\u05d8\u05d9\u05dd \u05e0\u05d5\u05e1\u05e4\u05d9\u05dd \u05e2\u05d1\u05d5\u05e8 ${fullName}`}
           className="flex h-11 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50"
         >
           <span
             className="text-2xl leading-none transition-transform duration-200"
             style={{ transform: expanded ? 'rotate(-90deg)' : 'none' }}
           >
-            ‹
+            \u2039
           </span>
         </button>
       </div>
@@ -209,7 +209,7 @@ export default function StudentCard({
               }}
               className="h-4 w-4 accent-teal-600"
             />
-            לא נוסע באוטובוס
+            \u05dc\u05d0 \u05e0\u05d5\u05e1\u05e2 \u05d1\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1
           </label>
           {showModeSelector && (
             <div className="mt-1 flex gap-1">
@@ -223,7 +223,7 @@ export default function StudentCard({
                     : 'bg-gray-100 text-gray-700',
                 ].join(' ')}
               >
-                עצמאי
+                \u05e2\u05e6\u05de\u05d0\u05d9
               </button>
               <button
                 type="button"
@@ -235,7 +235,7 @@ export default function StudentCard({
                     : 'bg-gray-100 text-gray-700',
                 ].join(' ')}
               >
-                משפחה
+                \u05de\u05e9\u05e4\u05d7\u05d4
               </button>
             </div>
           )}
@@ -244,7 +244,7 @@ export default function StudentCard({
             onClick={openRemarks}
             className="relative mt-2 flex min-h-11 items-center gap-2 rounded-lg px-2 text-sm text-teal-700 hover:bg-teal-50"
           >
-            הערות
+            \u05d4\u05e2\u05e8\u05d5\u05ea
             {todayRemarkCount > 0 && (
               <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#0d9488] px-1 text-[10px] font-medium text-white">
                 {todayRemarkCount}
@@ -261,7 +261,7 @@ export default function StudentCard({
 
       <Modal
         open={remarksOpen}
-        title={`הערות — ${fullName}`}
+        title={`\u05d4\u05e2\u05e8\u05d5\u05ea \u2014 ${fullName}`}
         onClose={() => setRemarksOpen(false)}
       >
         <form
@@ -272,7 +272,7 @@ export default function StudentCard({
           }}
         >
           <label className="block text-sm font-medium text-gray-700">
-            תאריך
+            \u05ea\u05d0\u05e8\u05d9\u05da
             <input
               type="date"
               value={remarkDate}
@@ -283,7 +283,7 @@ export default function StudentCard({
           <textarea
             value={remarkText}
             onChange={(event) => setRemarkText(event.target.value)}
-            placeholder="הוסף הערה..."
+            placeholder="\u05d4\u05d5\u05e1\u05e3 \u05d4\u05e2\u05e8\u05d4..."
             rows={3}
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
           />
@@ -292,7 +292,7 @@ export default function StudentCard({
             disabled={isSavingRemark || !remarkText.trim()}
             className="flex min-h-11 items-center justify-center rounded-lg bg-[#0d9488] px-4 py-2 text-base font-medium text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
+            {isSavingRemark ? <Spinner compact onDark /> : '\u05e9\u05de\u05d5\u05e8'}
           </button>
           {writeError && (
             <p className="text-center text-sm text-red-600" role="alert">
@@ -303,7 +303,7 @@ export default function StudentCard({
 
         <div className="mt-5 border-t border-gray-100 pt-3">
           {remarks.length === 0 ? (
-            <p className="text-center text-sm text-gray-400">אין הערות</p>
+            <p className="text-center text-sm text-gray-400">\u05d0\u05d9\u05df \u05d4\u05e2\u05e8\u05d5\u05ea</p>
           ) : (
             <ul className="flex flex-col">
               {remarks.map((remark) => (
@@ -322,7 +322,7 @@ export default function StudentCard({
                   <button
                     type="button"
                     onClick={() => void handleDeleteRemark(remark.id)}
-                    aria-label="מחק הערה"
+                    aria-label="\u05de\u05d7\u05e7 \u05d4\u05e2\u05e8\u05d4"
                     className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-gray-400 hover:bg-red-50 hover:text-red-600"
                   >
                     <svg
