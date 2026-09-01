@@ -1,4 +1,5 @@
 import { useMemo, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { normalizeStatus, type Bus, type Student } from '../types'
 
 interface BusPillsProps {
@@ -42,7 +43,7 @@ export default function BusPills({
     scrollerRef.current?.scrollBy({ left: offset, behavior: 'smooth' })
   }
 
-  return (
+  const jsx = (
     <div className="app-bus-pills flex items-center gap-1 bg-white px-1 py-2">
       <button
         type="button"
@@ -90,4 +91,6 @@ export default function BusPills({
       </button>
     </div>
   )
+
+  return createPortal(jsx, document.body)
 }
