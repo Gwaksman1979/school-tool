@@ -43,15 +43,18 @@ export default function BusPills({
     scrollerRef.current?.scrollBy({ left: offset, behavior: 'smooth' })
   }
 
-  const jsx = (
+  const slot = document.getElementById('bus-pills-slot')
+  if (!slot) return null
+
+  return createPortal(
     <div className="app-bus-pills flex items-center gap-1 bg-white px-1 py-2">
       <button
         type="button"
-        aria-label="גלול ימינה"
+        aria-label="\u05d2\u05dc\u05d5\u05dc \u05d9\u05de\u05d9\u05e0\u05d4"
         onClick={() => scrollBy(160)}
         className="flex h-11 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50"
       >
-        ›
+        \u203a
       </button>
       <div
         ref={scrollerRef}
@@ -60,7 +63,7 @@ export default function BusPills({
         {sortedBuses.map((bus) => {
           const done = isBusDone(students, bus.id)
           const selected = bus.id === selectedBusId
-          const icon = done ? '✓' : '←'
+          const icon = done ? '\u2713' : '\u2190'
           return (
             <button
               key={bus.id}
@@ -83,14 +86,13 @@ export default function BusPills({
       </div>
       <button
         type="button"
-        aria-label="גלול שמאלה"
+        aria-label="\u05d2\u05dc\u05d5\u05dc \u05e9\u05de\u05d0\u05dc\u05d4"
         onClick={() => scrollBy(-160)}
         className="flex h-11 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50"
       >
-        ‹
+        \u2039
       </button>
-    </div>
+    </div>,
+    slot,
   )
-
-  return createPortal(jsx, document.body)
 }
