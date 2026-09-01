@@ -5,7 +5,6 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useBuses } from '../hooks/useSchoolData'
 import { getSchoolId } from '../lib/auth'
 import { db } from '../lib/firebase'
@@ -32,14 +31,12 @@ function MegaphoneIcon() {
   )
 }
 
-export default function BusCallFAB() {
+export default function BusCallFAB({ isBus = false }: { isBus?: boolean }) {
   const schoolId = getSchoolId()
-  const location = useLocation()
   const { items: buses } = useBuses(schoolId)
   const [open, setOpen] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const [callError, setCallError] = useState<string | null>(null)
-  const isBus = location.pathname === '/bus'
 
   const sortedBuses = useMemo(
     () =>
@@ -75,10 +72,10 @@ export default function BusCallFAB() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="קריאה לאוטובוס"
+        aria-label="\u05e7\u05e8\u05d9\u05d0\u05d4 \u05dc\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1"
         className={[
           'app-fab flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg',
-          isBus ? 'app-fab--bus' : 'app-fab--default',
+          isBus ? 'app-fab--with-pills' : '',
         ].join(' ')}
         style={{ backgroundColor: '#0d9488' }}
       >
@@ -87,7 +84,7 @@ export default function BusCallFAB() {
 
       <Modal
         open={open}
-        title="קריאה לאוטובוס"
+        title="\u05e7\u05e8\u05d9\u05d0\u05d4 \u05dc\u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1"
         onClose={() => setOpen(false)}
       >
         {callError && (
@@ -96,7 +93,7 @@ export default function BusCallFAB() {
           </p>
         )}
         {sortedBuses.length === 0 ? (
-          <p className="py-8 text-center text-gray-500">אין אוטובוסים</p>
+          <p className="py-8 text-center text-gray-500">\u05d0\u05d9\u05df \u05d0\u05d5\u05d8\u05d5\u05d1\u05d5\u05e1\u05d9\u05dd</p>
         ) : (
           <div className="grid grid-cols-2 gap-3 pb-2">
             {sortedBuses.map((bus) => (
