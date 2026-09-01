@@ -31,7 +31,12 @@ function AppShell() {
       </main>
       {!isSettings && !isBus && <BusCallBanner />}
       {!isSettings && !bannerVisible && <BusCallFAB />}
-      {!isSettings && <BottomNav />}
+      {!isSettings && (
+        <div className="app-bottom-dock">
+          <div id="bus-pills-slot" />
+          <BottomNav />
+        </div>
+      )}
     </div>
   )
 }
