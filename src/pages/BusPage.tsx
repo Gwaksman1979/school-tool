@@ -49,7 +49,7 @@ export default function BusPage() {
     setTitle(
       selectedBus
         ? departed
-          ? 'הסעה יצאה'
+          ? `הסעה יצאה - קו ${selectedBus.label}`
           : `קו ${selectedBus.label}`
         : 'אוטובוס',
     )
