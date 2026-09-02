@@ -31,7 +31,13 @@ function MegaphoneIcon() {
   )
 }
 
-export default function BusCallFAB({ isBus = false }: { isBus?: boolean }) {
+export default function BusCallFAB({
+  isBus = false,
+  departedStrip = false,
+}: {
+  isBus?: boolean
+  departedStrip?: boolean
+}) {
   const schoolId = getSchoolId()
   const { items: buses } = useBuses(schoolId)
   const [open, setOpen] = useState(false)
@@ -76,6 +82,7 @@ export default function BusCallFAB({ isBus = false }: { isBus?: boolean }) {
         className={[
           'app-fab flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg',
           isBus ? 'app-fab--with-pills' : '',
+          departedStrip ? 'app-fab--with-departed' : '',
         ].join(' ')}
         style={{ backgroundColor: '#0d9488' }}
       >

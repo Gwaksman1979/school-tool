@@ -1,6 +1,12 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { normalizeStatus, type Bus, type Student } from '../types'
+import {
+  isBusDeparted,
+  normalizeStatus,
+  sortBuses,
+  type Bus,
+  type Student,
+} from '../types'
 
 interface BusPillsProps {
   buses: Bus[]
@@ -30,52 +36,51 @@ export default function BusPills({
   onSelect,
 }: BusPillsProps) {
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const [slot, setSlot] = useState<HTMLElement | null>(null)
+  const sortedBuses = useMemo(() => sortBuses(buses), [buses])
 
-  const sortedBuses = useMemo(
-    () =>
-      [...buses].sort((a, b) =>
-        a.label.localeCompare(b.label, 'he', { numeric: true }),
-      ),
-    [buses],
-  )
+  useEffect(() => {
+    setSlot(document.getElementById('bus-pills-slot'))
+  }, [])
 
-  function scrollBy(offset: number) {
-    scrollerRef.current?.scrollBy({ left: offset, behavior: 'smooth' })
-  }
+  useEffect(() => {
+    const selected = scrollerRef.current?.querySelector(
+      `[data-bus-id="${selectedBusId}"]`,
+    )
+    selected?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+  }, [selectedBusId])
 
-  const slot = document.getElementById('bus-pills-slot')
   if (!slot) return null
 
   return createPortal(
-    <div className="app-bus-pills flex items-center gap-1 bg-white px-1 py-2">
-      <button
-        type="button"
-        aria-label="גלול ימינה"
-        onClick={() => scrollBy(160)}
-        className="flex h-11 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50"
-      >
-        ›
-      </button>
+    <div className="app-bus-pills bg-white py-2">
       <div
         ref={scrollerRef}
-        className="grid min-w-0 flex-1 auto-cols-max grid-flow-col grid-rows-2 gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        dir="rtl"
+        className="flex gap-3 overflow-x-auto px-[10%] [scrollbar-width:none] [scroll-snap-type:x_mandatory] [&::-webkit-scrollbar]:hidden"
       >
         {sortedBuses.map((bus) => {
           const done = isBusDone(students, bus.id)
           const selected = bus.id === selectedBusId
-          const icon = done ? '✓' : '←'
+          const departed = isBusDeparted(bus)
+          const icon = departed ? '✓' : done ? '✓' : '←'
           return (
             <button
               key={bus.id}
               type="button"
+              data-bus-id={bus.id}
               onClick={() => onSelect(bus.id)}
               className={[
-                'flex h-10 min-w-[4.75rem] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-base font-bold',
-                selected
-                  ? 'border-2 border-[#0d9488] bg-white text-[#0d9488]'
-                  : done
-                    ? 'border-2 border-[#0d9488] bg-[#0d9488] text-white'
-                    : 'border-2 border-amber-400 bg-amber-400 text-white',
+                'flex h-11 w-[22%] min-w-[5rem] shrink-0 snap-center items-center justify-center gap-1.5 rounded-full px-3 text-base font-bold',
+                departed
+                  ? selected
+                    ? 'border-2 border-gray-500 bg-gray-200 text-gray-600'
+                    : 'border-2 border-gray-300 bg-gray-200 text-gray-500'
+                  : selected
+                    ? 'border-2 border-[#0d9488] bg-white text-[#0d9488]'
+                    : done
+                      ? 'border-2 border-[#0d9488] bg-[#0d9488] text-white'
+                      : 'border-2 border-amber-400 bg-amber-400 text-white',
               ].join(' ')}
             >
               <span aria-hidden="true">{icon}</span>
@@ -84,14 +89,6 @@ export default function BusPills({
           )
         })}
       </div>
-      <button
-        type="button"
-        aria-label="גלול שמאלה"
-        onClick={() => scrollBy(-160)}
-        className="flex h-11 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50"
-      >
-        ‹
-      </button>
     </div>,
     slot,
   )

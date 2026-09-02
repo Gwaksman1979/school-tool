@@ -103,7 +103,11 @@
 }
 
 .app-fab--with-pills {
-  bottom: calc(72px + 124px + var(--safe-bottom) + 16px);
+  bottom: calc(72px + 60px + var(--safe-bottom) + 16px);
+}
+
+.app-fab--with-pills.app-fab--with-departed {
+  bottom: calc(72px + 60px + 36px + var(--safe-bottom) + 16px);
 }
 
 /* ===== BUS CALL BANNER ===== */

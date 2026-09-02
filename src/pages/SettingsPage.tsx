@@ -248,6 +248,8 @@ export default function SettingsPage() {
         id: busRef.id,
         school_id: schoolId,
         label,
+        departed: false,
+        departed_at: null,
       }
       await setDoc(busRef, payload)
       setNewBusLabel('')
@@ -380,6 +382,8 @@ export default function SettingsPage() {
             id: busRef.id,
             school_id: currentSchoolId,
             label,
+            departed: false,
+            departed_at: null,
           } satisfies Bus),
         )
         newBusCount += 1

@@ -195,6 +195,8 @@ export default function SeedPage() {
           id: busRef.id,
           school_id: schoolRef.id,
           label,
+          departed: false,
+          departed_at: null,
         }
         batch.set(busRef, bus)
         return busRef

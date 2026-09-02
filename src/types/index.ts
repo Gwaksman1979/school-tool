@@ -16,6 +16,8 @@ export interface Bus {
   id: string
   school_id: string
   label: string
+  departed?: boolean
+  departed_at?: Timestamp | null
 }
 
 export interface Student {
@@ -44,6 +46,16 @@ export interface BusCall {
   school_id: string
   bus_id: string
   triggered_at: Timestamp
+}
+
+export function isBusDeparted(bus: Bus | null | undefined): boolean {
+  return Boolean(bus?.departed)
+}
+
+export function sortBuses(buses: Bus[]): Bus[] {
+  return [...buses].sort((a, b) =>
+    a.label.localeCompare(b.label, 'he', { numeric: true }),
+  )
 }
 
 export function normalizeStatus(
