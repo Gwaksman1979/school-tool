@@ -102,7 +102,7 @@ export default function StudentsPage() {
   return (
     <>
       <div
-        className="sticky top-0 z-10 mx-4 min-w-0 px-4 py-3"
+        className="sticky top-0 z-10 mx-4 box-border overflow-hidden px-4 py-3"
         style={{ backgroundColor: '#f0fdfa' }}
       >
         <div className="relative">
