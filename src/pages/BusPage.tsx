@@ -8,6 +8,7 @@ import { useSchoolCollections } from '../hooks/useSchoolData'
 import { useStatusToggle } from '../hooks/useStatusToggle'
 import { getSchoolId } from '../lib/auth'
 import { useBusChrome } from '../lib/bus-chrome'
+import { checkAndResetBuses } from '../lib/bus-reset'
 import { db } from '../lib/firebase'
 import { WRITE_ERROR } from '../lib/messages'
 import { usePageTitle } from '../lib/page-title'
@@ -24,6 +25,11 @@ export default function BusPage() {
   const [departError, setDepartError] = useState<string | null>(null)
 
   const sortedBuses = useMemo(() => sortBuses(buses), [buses])
+
+  useEffect(() => {
+    if (!schoolId) return
+    void checkAndResetBuses(schoolId)
+  }, [schoolId])
 
   useEffect(() => {
     if (!selectedBusId && sortedBuses[0]) {
