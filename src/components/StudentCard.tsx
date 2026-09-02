@@ -156,7 +156,7 @@ export default function StudentCard({
 
   return (
     <article
-      className="min-w-0 w-full overflow-hidden rounded-2xl px-3 py-1.5"
+      className="min-w-0 w-full rounded-2xl px-3 py-1.5"
       style={{ backgroundColor: studentIsIn ? '#d1fae5' : '#f3f4f6' }}
     >
       <div className="flex min-h-11 items-center gap-2">
@@ -190,12 +190,19 @@ export default function StudentCard({
           aria-label={`פרטים נוספים עבור ${fullName}`}
           className="flex h-11 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50"
         >
-          <span
-            className="text-2xl leading-none transition-transform duration-200"
-            style={{ transform: expanded ? 'rotate(-90deg)' : 'none' }}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+            style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}
           >
-            ‹
-          </span>
+            <path d="m6 9 6 6 6-6" />
+          </svg>
         </button>
       </div>
 
