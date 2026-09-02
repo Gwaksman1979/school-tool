@@ -156,7 +156,7 @@ export default function StudentCard({
 
   return (
     <article
-      className="min-w-0 w-full rounded-2xl px-3 py-1.5"
+      className="rounded-2xl px-3 py-1.5"
       style={{ backgroundColor: studentIsIn ? '#d1fae5' : '#f3f4f6' }}
     >
       <div className="flex min-h-11 items-center gap-2">

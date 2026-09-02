@@ -102,7 +102,7 @@ export default function StudentsPage() {
   return (
     <>
       <div
-        className="sticky top-0 z-10 mx-4 px-4 py-3"
+        className="sticky top-0 z-10 mx-4 min-w-0 px-4 py-3"
         style={{ backgroundColor: '#f0fdfa' }}
       >
         <div className="relative">
@@ -139,7 +139,7 @@ export default function StudentsPage() {
         ) : visibleStudents.length === 0 ? (
           <p className="py-12 text-center text-gray-500">{emptyMessage}</p>
         ) : (
-          <ul className="flex list-none flex-col gap-2 overflow-hidden p-0">
+          <ul className="flex min-w-0 list-none flex-col gap-2 p-0">
             {visibleStudents.map((student) => (
               <li key={student.id} className="list-none">
                 <StudentCard

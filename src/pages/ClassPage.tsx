@@ -88,7 +88,7 @@ export default function ClassPage() {
       ) : visibleStudents.length === 0 ? (
         <p className="py-12 text-center text-gray-500">אין תלמידים בכיתה זו</p>
       ) : (
-        <ul className="flex list-none flex-col gap-2 overflow-hidden p-0">
+        <ul className="flex min-w-0 list-none flex-col gap-2 p-0">
           {visibleStudents.map((student) => (
             <li key={student.id} className="list-none">
               <StudentCard

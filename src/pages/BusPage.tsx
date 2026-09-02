@@ -68,7 +68,7 @@ export default function BusPage() {
             אין תלמידים משויכים לאוטובוס זה
           </p>
         ) : (
-          <ul className="flex list-none flex-col gap-2 overflow-hidden p-0">
+          <ul className="flex min-w-0 list-none flex-col gap-2 p-0">
             {visibleStudents.map((student) => (
               <li key={student.id} className="list-none">
                 <StudentCard
