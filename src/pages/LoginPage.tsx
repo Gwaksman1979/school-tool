@@ -30,7 +30,7 @@ export default function LoginPage() {
       }
 
       setSchoolId(match.id)
-      navigate('/bus')
+      navigate('/splash')
     } catch (err) {
       console.error(err)
       setError(CONNECTION_ERROR)

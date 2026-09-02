@@ -5,6 +5,7 @@ import BusPage from './pages/BusPage'
 import ClassPage from './pages/ClassPage'
 import LoginPage from './pages/LoginPage'
 import SeedPage from './pages/SeedPage'
+import SplashPage from './pages/SplashPage'
 import SettingsPage from './pages/SettingsPage'
 import StudentsPage from './pages/StudentsPage'
 
@@ -28,6 +29,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LoginOrRedirect />} />
         <Route path="/seed" element={<SeedPage />} />
+        <Route path="/splash" element={<SplashPage />} />
         <Route element={<RequireAuth />}>
           <Route element={<AppLayout />}>
             <Route path="/bus" element={<BusPage />} />
