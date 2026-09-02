@@ -22,6 +22,7 @@ export default function BusPage() {
   const { setChrome } = useBusChrome()
   const [selectedBusId, setSelectedBusId] = useState('')
   const [isDeparting, setIsDeparting] = useState(false)
+  const [isResetting, setIsResetting] = useState(false)
   const [departError, setDepartError] = useState<string | null>(null)
 
   const sortedBuses = useMemo(() => sortBuses(buses), [buses])
@@ -97,6 +98,23 @@ export default function BusPage() {
     }
   }
 
+  async function handleResetDeparted() {
+    if (!schoolId || !selectedBusId || !departed || isResetting) return
+    setIsResetting(true)
+    setDepartError(null)
+    try {
+      await updateDoc(doc(db, 'schools', schoolId, 'buses', selectedBusId), {
+        departed: false,
+        departed_at: null,
+      })
+    } catch (writeError) {
+      console.error('Failed to reset bus departed', writeError)
+      setDepartError(WRITE_ERROR)
+    } finally {
+      setIsResetting(false)
+    }
+  }
+
   return (
     <>
       <PageSheet>
@@ -136,6 +154,16 @@ export default function BusPage() {
             >
               {isDeparting ? <Spinner compact onDark /> : 'הסעה יצאה'}
             </button>
+            {departed && (
+              <button
+                type="button"
+                disabled={isResetting}
+                onClick={() => void handleResetDeparted()}
+                className="flex w-full items-center justify-center py-3 text-center font-medium text-[#0d9488] disabled:opacity-50"
+              >
+                {isResetting ? <Spinner compact /> : 'אפס הסעה'}
+              </button>
+            )}
             {departError && (
               <p className="mt-2 text-center text-sm text-red-600" role="alert">
                 {departError}

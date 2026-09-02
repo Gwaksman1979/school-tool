@@ -83,7 +83,9 @@
 
 .app-bottom-nav {
   flex-shrink: 0;
-  height: 72px;
+  height: auto;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .app-bus-pills {
@@ -99,15 +101,15 @@
   position: fixed;
   z-index: 30;
   right: 16px;
-  bottom: calc(72px + var(--safe-bottom) + 16px);
+  bottom: calc(88px + var(--safe-bottom) + 16px);
 }
 
 .app-fab--with-pills {
-  bottom: calc(72px + 60px + var(--safe-bottom) + 16px);
+  bottom: calc(88px + 60px + var(--safe-bottom) + 16px);
 }
 
 .app-fab--with-pills.app-fab--with-departed {
-  bottom: calc(72px + 60px + 36px + var(--safe-bottom) + 16px);
+  bottom: calc(88px + 60px + 36px + var(--safe-bottom) + 16px);
 }
 
 /* ===== BUS CALL BANNER ===== */
