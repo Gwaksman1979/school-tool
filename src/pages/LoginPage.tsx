@@ -118,12 +118,12 @@ export default function LoginPage() {
           <span className="shrink-0 text-sm text-[#8494AD]">או</span>
           <span className="h-px min-w-0 flex-1 bg-[#222A3A]" />
         </div>
-        <button
-          type="button"
-          className="mt-3 border-0 bg-transparent p-0 text-sm font-medium text-[#5BA0FF]"
+        <a
+          href="mailto:gilad@fireflysense.com?subject=School%20Tool%20-%20Reset%20Password&body=Please%20reset%20my%20password"
+          className="mt-3 text-center text-sm font-medium text-[#5BA0FF] no-underline"
         >
           שכחת סיסמה?
-        </button>
+        </a>
       </div>
 
       <p className="shrink-0 px-4 text-center text-[10px] text-white/30">
