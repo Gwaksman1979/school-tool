@@ -123,7 +123,11 @@ export default function StudentsPage() {
                 <StudentCard
                   student={student}
                   busLabel={arrivalBusLabel(student)}
-                  className={classNameById[student.class_id] ?? null}
+                  className={
+                    student.class_id
+                      ? (classNameById[student.class_id] ?? null)
+                      : null
+                  }
                   onStatusToggle={(current) => toggleStatus(current, null)}
                   variant="directory"
                 />

@@ -25,7 +25,7 @@ export interface Student {
   school_id: string
   first_name: string
   last_name: string
-  class_id: string
+  class_id: string | null
   transport_mode: 'bus' | 'independent' | 'family'
   arrival_bus_id: string | null
   departure_bus_id: string | null

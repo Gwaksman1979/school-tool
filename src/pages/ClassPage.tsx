@@ -69,6 +69,7 @@ export default function ClassPage() {
   const countByClassId = useMemo(() => {
     const counts = new Map<string, number>()
     for (const student of students) {
+      if (!student.class_id) continue
       counts.set(student.class_id, (counts.get(student.class_id) ?? 0) + 1)
     }
     return counts
