@@ -93,7 +93,10 @@ export default function TopBar({
         </button>
       )}
 
-      <div ref={menuRef} className="relative max-w-[60%]">
+      <div
+        ref={menuRef}
+        className="absolute left-1/2 max-w-[60%] -translate-x-1/2 bg-transparent"
+      >
         {showDropdown ? (
           <button
             type="button"
@@ -102,16 +105,16 @@ export default function TopBar({
             aria-expanded={open}
             aria-label="בחירה"
             onClick={toggleDropdown}
-            className="flex items-center justify-center gap-1.5"
+            className="flex appearance-none items-center justify-center gap-1.5 border-0 bg-transparent p-0 shadow-none outline-none"
           >
             <span className="truncate text-2xl font-bold text-white">{title}</span>
             <ChevronDownIcon
-              className="h-4 w-4 shrink-0 text-[#8494AD] transition-transform duration-200"
+              className="h-4 w-4 shrink-0 bg-transparent text-[#8494AD] transition-transform duration-200"
               style={{ transform: open ? 'rotate(180deg)' : 'none' }}
             />
           </button>
         ) : (
-          <h1 dir="rtl" className="truncate text-center text-2xl font-bold text-white">
+          <h1 dir="rtl" className="truncate bg-transparent text-center text-2xl font-bold text-white">
             {title}
           </h1>
         )}
