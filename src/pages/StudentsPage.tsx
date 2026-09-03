@@ -81,30 +81,32 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className="px-4 py-3">
-      <div className="relative mb-3">
-        <span className="pointer-events-none absolute top-1/2 start-3 -translate-y-1/2 text-[#8494AD]">
-          <SearchIcon className="h-5 w-5" />
-        </span>
-        <input
-          type="text"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="חיפוש לפי שם..."
-          aria-label="חיפוש לפי שם"
-          autoComplete="off"
-          className="min-h-12 w-full rounded-[18px] border-0 bg-[#151A28] py-2 ps-10 pe-12 text-base text-white outline-none placeholder:text-[#7C7C81]"
-        />
-        {search && (
-          <button
-            type="button"
-            onClick={() => setSearch('')}
-            aria-label="נקה חיפוש"
-            className="absolute top-1/2 end-1 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-[#8494AD]"
-          >
-            <ClearIcon />
-          </button>
-        )}
+    <div className="box-border w-full overflow-hidden px-4 py-3">
+      <div className="mb-3 box-border w-full overflow-hidden">
+        <div className="flex h-12 w-full box-border items-center overflow-hidden rounded-[18px] bg-[#151A28] px-3">
+          <span className="shrink-0 text-[#8494AD]">
+            <SearchIcon className="h-5 w-5" />
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="חיפוש לפי שם..."
+            aria-label="חיפוש לפי שם"
+            autoComplete="off"
+            className="min-w-0 w-full flex-1 border-0 bg-transparent px-3 text-base text-white outline-none placeholder:text-[#7C7C81]"
+          />
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch('')}
+              aria-label="נקה חיפוש"
+              className="shrink-0 border-0 bg-transparent p-0 text-[#8494AD]"
+            >
+              <ClearIcon />
+            </button>
+          )}
+        </div>
       </div>
 
       {error ? (
