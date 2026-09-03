@@ -66,15 +66,6 @@ export default function ClassPage() {
     return () => setChrome(null)
   }, [setChrome])
 
-  const countByClassId = useMemo(() => {
-    const counts = new Map<string, number>()
-    for (const student of students) {
-      if (!student.class_id) continue
-      counts.set(student.class_id, (counts.get(student.class_id) ?? 0) + 1)
-    }
-    return counts
-  }, [students])
-
   const visibleStudents = useMemo(() => {
     if (!selectedClassId) return []
     return students
@@ -97,7 +88,6 @@ export default function ClassPage() {
         <ClassCarousel
           classes={sortedClasses}
           selectedClassId={selectedClassId}
-          counts={countByClassId}
           onSelect={handleSelectClass}
         />
       </div>

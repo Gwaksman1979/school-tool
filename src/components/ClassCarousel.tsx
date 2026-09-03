@@ -20,7 +20,6 @@ const TILE_HEIGHT = 64
 interface ClassCarouselProps {
   classes: SchoolClass[]
   selectedClassId: string
-  counts: Map<string, number>
   onSelect: (classId: string) => void
 }
 
@@ -63,7 +62,6 @@ function nearestTileId(scroller: HTMLElement): string | null {
 export default function ClassCarousel({
   classes,
   selectedClassId,
-  counts,
   onSelect,
 }: ClassCarouselProps) {
   const scrollerRef = useRef<HTMLDivElement>(null)
@@ -160,9 +158,8 @@ export default function ClassCarousel({
               transition: 'transform 180ms ease, border-color 180ms ease',
             }}
           >
-            <span className="text-[15px] font-bold leading-none">{schoolClass.name}</span>
-            <span className="mt-0.5 text-[24px] font-bold leading-none">
-              {counts.get(schoolClass.id) ?? 0}
+            <span className="px-1 text-center text-[17px] font-bold leading-tight">
+              {schoolClass.name}
             </span>
           </button>
         )
