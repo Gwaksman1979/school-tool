@@ -97,6 +97,12 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.app-main--lock {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .app-bottom-dock {
   flex-shrink: 0;
   display: flex;

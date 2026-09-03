@@ -81,8 +81,8 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className="box-border w-full overflow-hidden px-4 py-3">
-      <div className="mb-3 box-border w-full overflow-hidden">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+      <div className="box-border w-full shrink-0 overflow-hidden bg-[#0B0F1A] px-4 py-2">
         <div className="flex h-12 w-full box-border items-center overflow-hidden rounded-[18px] bg-[#151A28] px-3">
           <span className="shrink-0 text-[#8494AD]">
             <SearchIcon className="h-5 w-5" />
@@ -109,27 +109,29 @@ export default function StudentsPage() {
         </div>
       </div>
 
-      {error ? (
-        <ConnectionError />
-      ) : isLoading ? (
-        <Spinner />
-      ) : visibleStudents.length === 0 ? (
-        <p className="py-12 text-center text-[#8494AD]">{emptyMessage}</p>
-      ) : (
-        <ul className="flex min-w-0 list-none flex-col gap-0 p-0">
-          {visibleStudents.map((student) => (
-            <li key={student.id} className="list-none">
-              <StudentCard
-                student={student}
-                busLabel={arrivalBusLabel(student)}
-                className={classNameById[student.class_id] ?? null}
-                onStatusToggle={(current) => toggleStatus(current, null)}
-                variant="directory"
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pb-3">
+        {error ? (
+          <ConnectionError />
+        ) : isLoading ? (
+          <Spinner />
+        ) : visibleStudents.length === 0 ? (
+          <p className="py-12 text-center text-[#8494AD]">{emptyMessage}</p>
+        ) : (
+          <ul className="flex min-w-0 list-none flex-col gap-0 p-0">
+            {visibleStudents.map((student) => (
+              <li key={student.id} className="list-none">
+                <StudentCard
+                  student={student}
+                  busLabel={arrivalBusLabel(student)}
+                  className={classNameById[student.class_id] ?? null}
+                  onStatusToggle={(current) => toggleStatus(current, null)}
+                  variant="directory"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }
