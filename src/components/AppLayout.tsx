@@ -9,7 +9,9 @@ function AppShell() {
   const { chrome } = useBusChrome()
   const isSettings = location.pathname === '/settings'
   const lockMain =
-    location.pathname === '/students' || location.pathname === '/bus'
+    location.pathname === '/students' ||
+    location.pathname === '/bus' ||
+    location.pathname === '/class'
 
   return (
     <div className="app-shell">
