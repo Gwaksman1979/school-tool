@@ -181,9 +181,9 @@ export default function BusPage() {
                 type="button"
                 disabled={isResetting}
                 onClick={() => void handleResetDeparted()}
-                className="mx-auto mt-3 flex min-h-11 items-center justify-center rounded-full bg-[#1A2030] px-6 text-base font-medium text-white disabled:opacity-50"
+                className="mx-auto mt-3 block border-0 bg-transparent p-0 text-center text-base font-medium text-[#3D90F0] disabled:opacity-50"
               >
-                {isResetting ? <Spinner compact onDark /> : 'אפס הסעה'}
+                {isResetting ? <Spinner compact /> : 'אפס הסעה'}
               </button>
             ) : (
               <button
@@ -201,11 +201,6 @@ export default function BusPage() {
                   </>
                 )}
               </button>
-            )}
-            {departed && (
-              <p className="mt-3 text-center text-sm font-medium text-[#E06818]">
-                ההסעה יצאה
-              </p>
             )}
             {departError && (
               <p className="mt-2 text-center text-sm text-red-400" role="alert">
