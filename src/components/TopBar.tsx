@@ -71,8 +71,16 @@ export default function TopBar({
   return (
     <header
       dir="ltr"
-      className="app-top-bar relative flex items-end justify-center bg-transparent px-4 pb-2.5 text-white"
+      className="app-top-bar relative z-[60] flex items-end justify-center overflow-visible bg-transparent px-4 pb-2.5 text-white"
     >
+      {showDropdown && open && (
+        <button
+          type="button"
+          aria-label="סגור"
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-[59] border-0 bg-transparent p-0"
+        />
+      )}
       {isSettings ? (
         <button
           type="button"
@@ -95,7 +103,7 @@ export default function TopBar({
 
       <div
         ref={menuRef}
-        className="absolute left-1/2 max-w-[60%] -translate-x-1/2 bg-transparent"
+        className="absolute left-1/2 z-[60] max-w-[60%] -translate-x-1/2 bg-transparent"
       >
         {showDropdown ? (
           <button
@@ -122,7 +130,7 @@ export default function TopBar({
           <ul
             dir="rtl"
             role="listbox"
-            className="absolute top-full right-1/2 z-50 mt-2 max-h-64 w-52 translate-x-1/2 overflow-y-auto rounded-[18px] border border-[#222A3A] bg-[#1A2030] py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
+            className="absolute top-full right-1/2 z-[60] mt-2 max-h-64 w-52 translate-x-1/2 overflow-y-auto rounded-[18px] border border-[#222A3A] bg-[#1A2030] py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
           >
             {dropdownItems.map((item) => (
               <li key={item.id}>
