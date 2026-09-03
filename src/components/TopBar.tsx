@@ -71,7 +71,7 @@ export default function TopBar({
   return (
     <header
       dir="ltr"
-      className="app-top-bar relative z-[60] flex items-end justify-center overflow-visible bg-transparent px-4 pb-2.5 text-white"
+      className="app-top-bar relative z-[60] flex items-end justify-center overflow-visible bg-transparent px-4 pt-[calc(env(safe-area-inset-top,0px)+0.25rem)] pb-2 text-white"
     >
       {showDropdown && open && (
         <button

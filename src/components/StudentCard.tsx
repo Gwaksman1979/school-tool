@@ -237,7 +237,7 @@ export default function StudentCard({
     <article
       className={
         variant === 'directory'
-          ? 'mb-1.5 box-border rounded-[15px] bg-[#151A28] px-3 py-2.5'
+          ? 'mb-1.5 box-border rounded-[15px] bg-[#151A28] px-3 py-2'
           : 'rounded-[15px] bg-[#1A2030] px-3 py-2'
       }
     >

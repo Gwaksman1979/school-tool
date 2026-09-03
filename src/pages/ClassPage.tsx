@@ -108,7 +108,7 @@ export default function ClassPage() {
       <div
         ref={scrollerRef}
         dir="rtl"
-        className="class-carousel flex items-stretch gap-3 px-[10%] py-3"
+        className="class-carousel flex items-stretch gap-3 px-[10%] py-1"
       >
         {sortedClasses.map((schoolClass, index) => {
           const selected = schoolClass.id === selectedClassId
@@ -160,7 +160,7 @@ export default function ClassPage() {
           </p>
         ) : (
           <>
-            <h2 className="mb-3 text-center text-[17px] font-medium text-white">
+            <h2 className="mb-2 text-center text-[17px] font-medium text-white">
               סה״כ {visibleStudents.length} תלמידים
             </h2>
             {visibleStudents.length === 0 ? (

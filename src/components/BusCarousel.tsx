@@ -138,15 +138,15 @@ export default function BusCarousel({
     <div
       ref={scrollerRef}
       dir="rtl"
-      className="bus-carousel flex items-center gap-3 py-3"
-      style={{ paddingInline: 'calc(50% - 46px)' }}
+      className="bus-carousel flex items-center gap-3 py-1"
+      style={{ paddingInline: 'calc(50% - 40px)' }}
     >
       {sortedBuses.map((bus) => {
         const done = isBusDone(students, bus.id)
         const selected = bus.id === selectedBusId
         const departed = isBusDeparted(bus)
         const fill = departed ? '#1A2030' : done ? '#228B3A' : '#E06818'
-        const size = selected ? 92 : 72
+        const size = selected ? 80 : 64
         return (
           <button
             key={bus.id}
@@ -170,8 +170,8 @@ export default function BusCarousel({
               transition: 'width 180ms ease, height 180ms ease, box-shadow 180ms ease',
             }}
           >
-            <span className="text-xl font-bold leading-none text-white">{bus.label}</span>
-            <BusIcon className="mt-1 h-4 w-4 text-white" />
+            <span className="text-[17px] font-bold leading-none text-white">{bus.label}</span>
+            <BusIcon className="mt-0.5 h-3.5 w-3.5 text-white" />
           </button>
         )
       })}

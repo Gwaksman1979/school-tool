@@ -38,10 +38,6 @@ export default function BottomNav() {
           )
         })}
       </div>
-      <div className="mt-2 h-[5px] w-[134px] rounded-full bg-white/80" />
-      <p className="mt-2 text-center text-[10px] text-white/30">
-        © 2026 All rights reserved to Communit Inclusive Innovation Ltd.
-      </p>
     </nav>
   )
 }

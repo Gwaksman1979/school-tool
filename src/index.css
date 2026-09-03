@@ -85,8 +85,7 @@
 
 .app-top-bar {
   flex-shrink: 0;
-  padding-top: var(--safe-top);
-  height: calc(70px + var(--safe-top));
+  height: calc(56px + var(--safe-top));
 }
 
 .app-main {
@@ -114,8 +113,8 @@
 .app-bottom-nav {
   flex-shrink: 0;
   height: auto;
-  padding-top: 12px;
-  padding-bottom: 8px;
+  padding-top: 4px;
+  padding-bottom: 0;
 }
 
 @keyframes drawS {

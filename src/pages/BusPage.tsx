@@ -150,7 +150,7 @@ export default function BusPage() {
           </p>
         ) : (
           <>
-            <h2 className="mb-3 text-center text-[17px] font-medium text-white">
+            <h2 className="mb-2 text-center text-[17px] font-medium text-white">
               סה״כ {visibleStudents.length} תלמידים
             </h2>
             {visibleStudents.length === 0 ? (
