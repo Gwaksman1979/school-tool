@@ -113,8 +113,8 @@
 .app-bottom-nav {
   flex-shrink: 0;
   height: auto;
-  padding-top: 4px;
-  padding-bottom: 0;
+  padding-top: 8px;
+  padding-bottom: 12px;
 }
 
 @keyframes drawS {

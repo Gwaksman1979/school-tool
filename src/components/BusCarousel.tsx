@@ -138,7 +138,7 @@ export default function BusCarousel({
     <div
       ref={scrollerRef}
       dir="rtl"
-      className="bus-carousel flex items-center gap-3 py-1"
+      className="bus-carousel mb-3 flex items-center gap-3 py-1"
       style={{ paddingInline: 'calc(50% - 40px)' }}
     >
       {sortedBuses.map((bus) => {
