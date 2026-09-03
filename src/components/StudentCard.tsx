@@ -17,7 +17,8 @@ import {
   ExitLeftIcon,
   ExitRightIcon,
   NoteIcon,
-  PersonIcon,
+  ChevronLeftIcon,
+  PersonFilledIcon,
 } from './icons'
 import Modal from './Modal'
 import Spinner from './Spinner'
@@ -95,6 +96,11 @@ export default function StudentCard({
   variant = 'row',
 }: StudentCardProps) {
   const fullName = `${student.first_name} ${student.last_name}`
+  const classLabel = className
+    ? className.startsWith('כיתה')
+      ? className
+      : `כיתה ${className}`
+    : null
   const isNotBus = student.transport_mode !== 'bus'
   const badge = statusBadge(student.current_status)
   const studentIsIn = isIn(student.current_status)
@@ -201,38 +207,49 @@ export default function StudentCard({
     </button>
   )
 
-  const expandButton = (
-    <button
-      type="button"
-      onClick={() => setExpanded((open) => !open)}
-      aria-expanded={expanded}
-      aria-label={`פרטים נוספים עבור ${fullName}`}
-      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#222A3A]"
-    >
-      <ChevronDownIcon
-        className="h-4 w-4 text-[#9A9A9F] transition-transform duration-200"
-        style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}
-      />
-    </button>
-  )
+  const expandButton =
+    variant === 'directory' ? (
+      <button
+        type="button"
+        onClick={() => setExpanded((open) => !open)}
+        aria-expanded={expanded}
+        aria-label={`פרטים נוספים עבור ${fullName}`}
+        className="shrink-0 border-0 bg-transparent p-0 text-[#8E8E93]"
+      >
+        <ChevronLeftIcon className="h-5 w-5" />
+      </button>
+    ) : (
+      <button
+        type="button"
+        onClick={() => setExpanded((open) => !open)}
+        aria-expanded={expanded}
+        aria-label={`פרטים נוספים עבור ${fullName}`}
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#222A3A]"
+      >
+        <ChevronDownIcon
+          className="h-4 w-4 text-[#9A9A9F] transition-transform duration-200"
+          style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}
+        />
+      </button>
+    )
 
   return (
     <article
       className={
         variant === 'directory'
-          ? 'rounded-[15px] bg-[#151A28] px-3 py-2.5'
+          ? 'mb-1.5 box-border rounded-[15px] bg-[#151A28] px-3 py-2.5'
           : 'rounded-[15px] bg-[#1A2030] px-3 py-2'
       }
     >
       {variant === 'directory' ? (
-        <div className="flex min-h-11 items-center gap-2">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1A2030] text-[#3D90F0]">
-            <PersonIcon className="h-5 w-5" />
+        <div className="flex h-[46px] items-center gap-2.5">
+          <span className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-[#1A2030] text-[#3D90F0]">
+            <PersonFilledIcon className="h-6 w-6" />
           </span>
-          <div className="min-w-0 flex-1 text-right">
-            <p className="truncate text-[17px] font-medium text-white">{fullName}</p>
-            {className && (
-              <p className="truncate text-sm text-[#C0C0C6]">{className}</p>
+          <div className="min-w-0 flex-1 text-right leading-tight">
+            <p className="truncate text-[17px] font-bold text-white">{fullName}</p>
+            {classLabel && (
+              <p className="truncate text-[14px] text-[#C0C0C6]">{classLabel}</p>
             )}
           </div>
           {expandButton}

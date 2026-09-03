@@ -163,6 +163,39 @@ export function PersonIcon(props: IconProps) {
   )
 }
 
+export function PersonFilledIcon(props: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20.5c0-3.7 3.6-6 8-6s8 2.3 8 6V22H4z" />
+    </svg>
+  )
+}
+
+export function ChevronLeftIcon(props: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="m15 6-6 6 6 6" />
+    </svg>
+  )
+}
+
 export function LockIcon(props: IconProps) {
   return (
     <svg

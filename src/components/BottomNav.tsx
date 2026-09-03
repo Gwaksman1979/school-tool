@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom'
 import { BusIcon, ClassIcon, StudentsIcon } from './icons'
 
 const TABS = [
-  { to: '/class', label: 'כיתה', icon: ClassIcon },
-  { to: '/bus', label: 'אוטובוס', icon: BusIcon },
+  { to: '/class', label: 'כיתות', icon: ClassIcon },
+  { to: '/bus', label: 'הסעות', icon: BusIcon },
   { to: '/students', label: 'תלמידים', icon: StudentsIcon },
 ] as const
 
