@@ -25,7 +25,6 @@ function useSchoolSubcollection<T>(
       return
     }
 
-    setIsLoading(true)
     setError(false)
 
     const unsubscribe = onSnapshot(

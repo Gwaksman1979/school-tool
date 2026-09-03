@@ -1,5 +1,5 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import BusCarousel from '../components/BusCarousel'
 import PageSheet from '../components/PageSheet'
 import Spinner, { ConnectionError } from '../components/Spinner'
@@ -9,7 +9,6 @@ import { useSchoolCollections } from '../hooks/useSchoolData'
 import { useStatusToggle } from '../hooks/useStatusToggle'
 import { getSchoolId } from '../lib/auth'
 import { useBusChrome } from '../lib/bus-chrome'
-import { checkAndResetBuses } from '../lib/bus-reset'
 import { db } from '../lib/firebase'
 import { WRITE_ERROR } from '../lib/messages'
 import { usePageTitle } from '../lib/page-title'
@@ -35,11 +34,7 @@ export default function BusPage() {
   }, [])
 
   const sortedBuses = useMemo(() => sortBuses(buses), [buses])
-
-  useEffect(() => {
-    if (!schoolId) return
-    void checkAndResetBuses(schoolId)
-  }, [schoolId])
+  const chromeKeyRef = useRef('')
 
   useEffect(() => {
     if (!selectedBusId && sortedBuses[0]) {
@@ -65,18 +60,31 @@ export default function BusPage() {
     )
   }, [selectedBus, departed, setTitle])
 
-  useEffect(() => {
-    setChrome({
-      dropdownItems: sortedBuses.map((bus) => ({
+  const dropdownItems = useMemo(
+    () =>
+      sortedBuses.map((bus) => ({
         id: bus.id,
         label: `קו ${bus.label}`,
         muted: isBusDeparted(bus),
       })),
+    [sortedBuses],
+  )
+
+  useEffect(() => {
+    const key = JSON.stringify({
+      dropdownItems,
+      selectedId: selectedBusId,
+      departed,
+    })
+    if (chromeKeyRef.current === key) return
+    chromeKeyRef.current = key
+    setChrome({
+      dropdownItems,
       selectedId: selectedBusId,
       onDropdownSelect: handleSelectBus,
       departed,
     })
-  }, [sortedBuses, selectedBusId, departed, setChrome, handleSelectBus])
+  }, [dropdownItems, selectedBusId, departed, setChrome, handleSelectBus])
 
   useEffect(() => {
     return () => setChrome(null)

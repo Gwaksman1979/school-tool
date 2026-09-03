@@ -1,5 +1,10 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import {
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAgwM8IakPoKBlIFwmeW7cBLNi49Yv3d-w',
@@ -12,4 +17,18 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
-export const db = getFirestore(app)
+
+function createDb() {
+  try {
+    return initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        tabManager: persistentMultipleTabManager(),
+      }),
+    })
+  } catch (error) {
+    console.warn('Firestore persistence not available:', error)
+    return getFirestore(app)
+  }
+}
+
+export const db = createDb()
