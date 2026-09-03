@@ -8,7 +8,7 @@ export default function SplashPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/bus', { replace: true })
-    }, 5000)
+    }, 2000)
     return () => clearTimeout(timer)
   }, [navigate])
 

@@ -27,9 +27,14 @@ function useSchoolSubcollection<T>(
 
     setError(false)
 
+    const timeout = setTimeout(() => {
+      setIsLoading(false)
+    }, 5000)
+
     const unsubscribe = onSnapshot(
       collection(db, 'schools', schoolId, subcollection),
       (snapshot) => {
+        clearTimeout(timeout)
         setItems(
           snapshot.docs.map((docSnap) => ({
             ...(docSnap.data() as Omit<T, 'id'>),
@@ -40,13 +45,17 @@ function useSchoolSubcollection<T>(
         setError(false)
       },
       (listenError) => {
+        clearTimeout(timeout)
         console.error(`Failed to listen to ${subcollection}`, listenError)
         setIsLoading(false)
         setError(true)
       },
     )
 
-    return unsubscribe
+    return () => {
+      unsubscribe()
+      clearTimeout(timeout)
+    }
   }, [schoolId, subcollection])
 
   return { items, isLoading, error }
@@ -72,7 +81,7 @@ export function useSchoolCollections(schoolId: string | null) {
     buses: buses.items,
     students: students.items,
     classes: classes.items,
-    isLoading: buses.isLoading || students.isLoading || classes.isLoading,
+    isLoading: buses.isLoading && students.isLoading && classes.isLoading,
     error: buses.error || students.error || classes.error,
   }
 }

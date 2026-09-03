@@ -21,7 +21,7 @@ function AppShell() {
     if (!schoolId) return
     resetOnceRef.current = true
     busResetOnce.current = true
-    void checkAndResetBuses(schoolId)
+    setTimeout(() => void checkAndResetBuses(schoolId), 3000)
   }, [])
 
   const lockMain =
