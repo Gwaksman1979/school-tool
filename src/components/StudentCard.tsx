@@ -246,10 +246,10 @@ export default function StudentCard({
           <span className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-[#1A2030] text-[#3D90F0]">
             <PersonFilledIcon className="h-6 w-6" />
           </span>
-          <div className="min-w-0 flex-1 text-right leading-tight">
+          <div className="min-w-0 flex-1 text-right">
             <p className="truncate text-[17px] font-bold text-white">{fullName}</p>
             {classLabel && (
-              <p className="truncate text-[14px] text-[#C0C0C6]">{classLabel}</p>
+              <p className="mt-0.5 truncate text-[13px] leading-none text-[#C0C0C6]">{classLabel}</p>
             )}
           </div>
           {expandButton}
