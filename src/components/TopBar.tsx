@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useStudents } from '../hooks/useSchoolData'
 import { getSchoolId } from '../lib/auth'
@@ -32,20 +33,37 @@ export default function TopBar({
   const schoolId = getSchoolId()
   const { items: students } = useStudents(schoolId)
   const [open, setOpen] = useState(false)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   const showDropdown = Boolean(dropdownItems && dropdownItems.length > 0 && onDropdownSelect)
 
-  const atSchoolCount = useMemo(
+  const atSchoolStudents = useMemo(
     () =>
-      students.filter((student) => normalizeStatus(student.current_status) === 'at_school')
-        .length,
+      students
+        .filter((student) => normalizeStatus(student.current_status) === 'at_school')
+        .sort((a, b) => {
+          const first = a.first_name.localeCompare(b.first_name, 'he')
+          if (first !== 0) return first
+          return a.last_name.localeCompare(b.last_name, 'he')
+        }),
     [students],
   )
+  const atSchoolCount = atSchoolStudents.length
 
   useEffect(() => {
     setOpen(false)
+    setSheetOpen(false)
   }, [location.pathname, selectedId])
+
+  useEffect(() => {
+    if (!sheetOpen) return
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') setSheetOpen(false)
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [sheetOpen])
 
   useEffect(() => {
     if (!open) return
@@ -69,6 +87,7 @@ export default function TopBar({
   }
 
   return (
+    <>
     <header
       dir="ltr"
       className="app-top-bar relative z-[60] flex items-end justify-center overflow-visible bg-transparent px-4 pt-[calc(env(safe-area-inset-top,0px)+0.25rem)] pb-2 text-white"
@@ -157,11 +176,89 @@ export default function TopBar({
       </div>
 
       {!isSettings && (
-        <div className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full bg-[#1A2030] px-3">
+        <button
+          type="button"
+          aria-label="תלמידים בבית הספר"
+          aria-haspopup="dialog"
+          aria-expanded={sheetOpen}
+          onClick={() => {
+            setOpen(false)
+            setSheetOpen(true)
+          }}
+          className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full bg-[#1A2030] px-3"
+        >
           <PeopleIcon className="h-5 w-5 text-[#F0A030]" />
           <span className="text-base font-semibold text-white">{atSchoolCount}</span>
-        </div>
+        </button>
       )}
     </header>
+    {sheetOpen &&
+      createPortal(
+        <div className="fixed inset-0 z-[80] flex items-end justify-center">
+          <button
+            type="button"
+            aria-label="סגור"
+            className="absolute inset-0 border-0 bg-[#0B0F1A]/70 p-0"
+            onClick={() => setSheetOpen(false)}
+          />
+          <div
+            dir="rtl"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="at-school-title"
+            className="relative z-10 flex w-full max-h-[70vh] flex-col rounded-t-[22px] bg-[#151A28] pb-[env(safe-area-inset-bottom,0px)]"
+          >
+            <header className="flex shrink-0 items-center gap-3 border-b border-[#222A3A] px-4 py-3">
+              <h2
+                id="at-school-title"
+                className="min-w-0 flex-1 truncate text-[18px] font-bold text-white"
+              >
+                תלמידים בבית הספר
+              </h2>
+              <button
+                type="button"
+                onClick={() => setSheetOpen(false)}
+                aria-label="סגור"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#8494AD]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            </header>
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              {atSchoolStudents.length === 0 ? (
+                <p className="px-4 py-12 text-center text-base text-[#8494AD]">
+                  אין תלמידים בבית הספר
+                </p>
+              ) : (
+                <ul className="px-4">
+                  {atSchoolStudents.map((student) => (
+                    <li
+                      key={student.id}
+                      className="border-b border-[#222A3A] py-3 text-base text-white last:border-b-0"
+                    >
+                      {student.first_name} {student.last_name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>,
+        document.body,
+      )}
+    </>
   )
 }
