@@ -1,29 +1,51 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useStudents } from '../hooks/useSchoolData'
+import { getSchoolId } from '../lib/auth'
 import { usePageTitle } from '../lib/page-title'
-import { isBusDeparted, type Bus } from '../types'
-import { BackIcon, BusIcon, ChevronDownIcon, ClassIcon, GearIcon } from './icons'
+import { normalizeStatus } from '../types'
+import { BackIcon, ChevronDownIcon, GearIcon, PeopleIcon } from './icons'
 
-interface TopBarProps {
-  buses?: Bus[]
-  selectedBusId?: string
-  onSelectBus?: (busId: string) => void
+export interface TopBarDropdownItem {
+  id: string
+  label: string
+  muted?: boolean
 }
 
-export default function TopBar({ buses, selectedBusId, onSelectBus }: TopBarProps) {
+interface TopBarProps {
+  onDropdown?: () => void
+  dropdownItems?: TopBarDropdownItem[]
+  onDropdownSelect?: (id: string) => void
+  selectedId?: string
+}
+
+export default function TopBar({
+  onDropdown,
+  dropdownItems,
+  onDropdownSelect,
+  selectedId,
+}: TopBarProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const { title } = usePageTitle()
   const isSettings = location.pathname === '/settings'
-  const isBus = location.pathname === '/bus'
+  const schoolId = getSchoolId()
+  const { items: students } = useStudents(schoolId)
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
-  const showBusPicker = isBus && Boolean(buses && buses.length > 0 && onSelectBus)
+  const showDropdown = Boolean(dropdownItems && dropdownItems.length > 0 && onDropdownSelect)
+
+  const atSchoolCount = useMemo(
+    () =>
+      students.filter((student) => normalizeStatus(student.current_status) === 'at_school')
+        .length,
+    [students],
+  )
 
   useEffect(() => {
     setOpen(false)
-  }, [location.pathname, selectedBusId])
+  }, [location.pathname, selectedId])
 
   useEffect(() => {
     if (!open) return
@@ -41,18 +63,22 @@ export default function TopBar({ buses, selectedBusId, onSelectBus }: TopBarProp
     else navigate('/bus')
   }
 
+  function toggleDropdown() {
+    setOpen((value) => !value)
+    onDropdown?.()
+  }
+
   return (
     <header
       dir="ltr"
-      className="app-top-bar relative flex items-end justify-center px-4 pb-2 text-white"
-      style={{ backgroundColor: '#0d9488' }}
+      className="app-top-bar relative flex items-end justify-center bg-transparent px-4 pb-2.5 text-white"
     >
       {isSettings ? (
         <button
           type="button"
           aria-label="חזרה"
           onClick={goBack}
-          className="absolute left-2 flex h-11 min-w-11 items-center justify-center gap-1 rounded-lg px-2 text-white hover:bg-white/10"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full bg-[#1A2030] text-white"
         >
           <BackIcon className="h-6 w-6" />
         </button>
@@ -61,65 +87,70 @@ export default function TopBar({ buses, selectedBusId, onSelectBus }: TopBarProp
           type="button"
           aria-label="הגדרות"
           onClick={() => navigate('/settings')}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-lg text-white/90 hover:bg-white/10"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full bg-[#1A2030] p-0 text-white"
         >
-          <GearIcon />
+          <GearIcon className="h-6 w-6" />
         </button>
       )}
-      <div ref={menuRef} className="relative max-w-[70%]">
-        {showBusPicker ? (
+
+      <div ref={menuRef} className="relative max-w-[60%]">
+        {showDropdown ? (
           <button
             type="button"
             dir="rtl"
             aria-haspopup="listbox"
             aria-expanded={open}
-            aria-label="בחירת קו"
-            onClick={() => setOpen((value) => !value)}
-            className="flex items-center gap-1.5 truncate text-lg font-semibold"
+            aria-label="בחירה"
+            onClick={toggleDropdown}
+            className="flex items-center justify-center gap-1.5"
           >
-            <BusIcon className="h-5 w-5 shrink-0" />
-            <span className="truncate">{title}</span>
-            <ChevronDownIcon className="h-4 w-4 shrink-0" />
+            <span className="truncate text-2xl font-bold text-white">{title}</span>
+            <ChevronDownIcon
+              className="h-4 w-4 shrink-0 text-[#8494AD] transition-transform duration-200"
+              style={{ transform: open ? 'rotate(180deg)' : 'none' }}
+            />
           </button>
         ) : (
-          <h1 dir="rtl" className="flex items-center gap-2 truncate text-lg font-semibold">
-            {location.pathname === '/bus' && <BusIcon className="h-5 w-5 shrink-0" />}
-            {location.pathname === '/class' && <ClassIcon className="h-5 w-5 shrink-0" />}
-            <span className="truncate">{title}</span>
+          <h1 dir="rtl" className="truncate text-center text-2xl font-bold text-white">
+            {title}
           </h1>
         )}
-        {showBusPicker && open && buses && onSelectBus && (
+        {showDropdown && open && dropdownItems && onDropdownSelect && (
           <ul
             dir="rtl"
             role="listbox"
-            className="absolute top-full right-1/2 z-50 mt-2 w-48 max-h-64 translate-x-1/2 overflow-y-auto rounded-xl bg-white py-1 text-gray-900 shadow-lg"
+            className="absolute top-full right-1/2 z-50 mt-2 max-h-64 w-52 translate-x-1/2 overflow-y-auto rounded-[18px] border border-[#222A3A] bg-[#1A2030] py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
           >
-            {buses.map((bus) => (
-              <li key={bus.id}>
+            {dropdownItems.map((item) => (
+              <li key={item.id}>
                 <button
                   type="button"
                   role="option"
-                  aria-selected={bus.id === selectedBusId}
+                  aria-selected={item.id === selectedId}
                   onClick={() => {
-                    onSelectBus(bus.id)
+                    onDropdownSelect(item.id)
                     setOpen(false)
                   }}
                   className={[
                     'flex min-h-11 w-full items-center justify-between px-3 text-right text-base',
-                    bus.id === selectedBusId
-                      ? 'bg-teal-50 font-semibold text-[#0d9488]'
-                      : 'hover:bg-gray-50',
-                    isBusDeparted(bus) ? 'text-gray-400' : '',
+                    item.id === selectedId ? 'font-semibold text-[#3D90F0]' : 'text-white',
+                    item.muted ? 'text-[#8494AD]' : '',
                   ].join(' ')}
                 >
-                  <span>קו {bus.label}</span>
-                  {isBusDeparted(bus) && <span className="text-xs">הסעה יצאה</span>}
+                  <span>{item.label}</span>
                 </button>
               </li>
             ))}
           </ul>
         )}
       </div>
+
+      {!isSettings && (
+        <div className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full bg-[#1A2030] px-3">
+          <PeopleIcon className="h-5 w-5 text-[#F0A030]" />
+          <span className="text-base font-semibold text-white">{atSchoolCount}</span>
+        </div>
+      )}
     </header>
   )
 }

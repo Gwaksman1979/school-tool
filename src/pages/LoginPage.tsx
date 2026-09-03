@@ -1,7 +1,9 @@
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SchoolLogo from '../components/SchoolLogo'
 import Spinner from '../components/Spinner'
+import { EyeIcon, EyeOffIcon, LockIcon, PersonIcon } from '../components/icons'
 import { setSchoolId } from '../lib/auth'
 import { db } from '../lib/firebase'
 import { CONNECTION_ERROR } from '../lib/messages'
@@ -10,6 +12,7 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -40,31 +43,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-[#f3f4f6]">
-      <header
-        dir="ltr"
-        className="fixed left-0 right-0 top-0 z-50 flex items-center justify-center text-white"
-        style={{
-          backgroundColor: '#0d9488',
-          height: 'calc(56px + env(safe-area-inset-top, 0px))',
-          paddingTop: 'env(safe-area-inset-top, 0px)',
-        }}
-      >
-        <h1 className="text-lg font-semibold">School Tool</h1>
-      </header>
+    <div className="flex min-h-[100dvh] flex-col bg-[#0B0F1A] px-6 pt-[calc(48px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <SchoolLogo size={92} />
+        <h1 className="mt-4 text-[38px] font-bold leading-none">
+          <span className="text-white">School</span>
+          <span className="text-[#3D90F0]">Tool</span>
+        </h1>
 
-      <div
-        className="flex flex-1 items-center justify-center px-4"
-        style={{ paddingTop: 'calc(56px + env(safe-area-inset-top, 0px))' }}
-      >
-        <div className="w-full max-w-sm">
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
-          >
-            <label className="mb-4 block text-right">
-              <span className="mb-1.5 block text-sm font-medium text-gray-700">
-                שם בית הספר
+        <form onSubmit={handleSubmit} className="mt-10 w-full max-w-sm">
+          <label className="mb-3 block">
+            <span className="sr-only">שם בית הספר</span>
+            <span className="relative block">
+              <span className="pointer-events-none absolute top-1/2 start-4 -translate-y-1/2 text-[#3D90F0]">
+                <PersonIcon className="h-6 w-6" />
               </span>
               <input
                 type="text"
@@ -73,47 +65,68 @@ export default function LoginPage() {
                 autoComplete="organization"
                 required
                 disabled={isSubmitting}
-                className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+                placeholder="שם בית הספר"
+                className="h-[62px] w-full rounded-[18px] border-0 bg-[#151A28] ps-14 pe-4 text-base text-white outline-none placeholder:text-[#7C7C81]"
               />
-            </label>
-            <label className="mb-4 block text-right">
-              <span className="mb-1.5 block text-sm font-medium text-gray-700">
-                סיסמה
+            </span>
+          </label>
+          <label className="mb-4 block">
+            <span className="sr-only">סיסמה</span>
+            <span className="relative block">
+              <span className="pointer-events-none absolute top-1/2 start-4 -translate-y-1/2 text-[#3D90F0]">
+                <LockIcon className="h-6 w-6" />
               </span>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
                 required
                 disabled={isSubmitting}
-                className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+                placeholder="סיסמה"
+                className="h-[62px] w-full rounded-[18px] border-0 bg-[#151A28] ps-14 pe-14 text-base text-white outline-none placeholder:text-[#7C7C81]"
               />
-            </label>
-            {error && (
-              <p className="mb-4 text-center text-sm text-red-600" role="alert">
-                {error}
-              </p>
-            )}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex min-h-11 w-full items-center justify-center rounded-lg bg-[#0d9488] px-4 py-2.5 text-base font-medium text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-90"
-            >
-              {isSubmitting ? <Spinner compact onDark /> : 'כניסה'}
-            </button>
-          </form>
+              <button
+                type="button"
+                onClick={() => setShowPassword((value) => !value)}
+                aria-label={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
+                className="absolute top-1/2 end-3 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-[#8494AD]"
+              >
+                {showPassword ? (
+                  <EyeOffIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
+            </span>
+          </label>
+          {error && (
+            <p className="mb-4 text-center text-sm text-red-400" role="alert">
+              {error}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="flex h-[58px] w-full items-center justify-center rounded-full bg-[#3D90F0] text-base font-bold text-white shadow-[0_8px_28px_rgba(77,163,255,0.30)] disabled:cursor-not-allowed disabled:opacity-90"
+          >
+            {isSubmitting ? <Spinner compact onDark /> : 'התחבר'}
+          </button>
+        </form>
+
+        <div className="mt-8 flex w-full max-w-sm items-center gap-3">
+          <span className="h-px flex-1 bg-[#222A3A]" />
+          <span className="text-sm text-[#8494AD]">או</span>
+          <span className="h-px flex-1 bg-[#222A3A]" />
         </div>
+        <button type="button" className="mt-4 text-sm font-medium text-[#5BA0FF]">
+          שכחת סיסמה?
+        </button>
       </div>
 
-      <div
-        className="fixed bottom-0 left-0 right-0 z-50"
-        style={{
-          backgroundColor: '#0d9488',
-          height: 'calc(8px + env(safe-area-inset-bottom, 0px))',
-          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-        }}
-      />
+      <p className="text-center text-[10px] text-white/30">
+        © 2026 All rights reserved to Communit Inclusive Innovation Ltd.
+      </p>
     </div>
   )
 }

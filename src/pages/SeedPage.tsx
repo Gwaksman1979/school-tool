@@ -241,18 +241,18 @@ export default function SeedPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#f3f4f6] px-4 text-center">
-      <h1 className="mb-6 text-2xl font-semibold">טעינת נתוני בדיקה</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0B0F1A] px-4 text-center">
+      <h1 className="mb-6 text-2xl font-semibold text-white">טעינת נתוני בדיקה</h1>
       <button
         type="button"
         onClick={handleSeed}
         disabled={isSeeding}
-        className="flex min-h-11 items-center justify-center rounded-lg bg-[#0d9488] px-6 py-3 text-lg font-medium text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-90"
+        className="flex min-h-11 items-center justify-center rounded-full bg-[#3D90F0] px-6 py-3 text-lg font-medium text-white disabled:cursor-not-allowed disabled:opacity-90"
       >
         {isSeeding ? <Spinner compact onDark /> : 'טען נתוני בדיקה'}
       </button>
       {successMessage && (
-        <p className="mt-6 text-green-700">{successMessage}</p>
+        <p className="mt-6 text-[#278A3E]">{successMessage}</p>
       )}
       {errorMessage && <p className="mt-6 text-red-600">{errorMessage}</p>}
     </div>

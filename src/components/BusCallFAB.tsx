@@ -31,13 +31,7 @@ function MegaphoneIcon() {
   )
 }
 
-export default function BusCallFAB({
-  isBus = false,
-  departedStrip = false,
-}: {
-  isBus?: boolean
-  departedStrip?: boolean
-}) {
+export default function BusCallFAB() {
   const schoolId = getSchoolId()
   const { items: buses } = useBuses(schoolId)
   const [open, setOpen] = useState(false)
@@ -79,12 +73,8 @@ export default function BusCallFAB({
         type="button"
         onClick={() => setOpen(true)}
         aria-label="קריאה לאוטובוס"
-        className={[
-          'app-fab flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg',
-          isBus ? 'app-fab--with-pills' : '',
-          departedStrip ? 'app-fab--with-departed' : '',
-        ].join(' ')}
-        style={{ backgroundColor: '#0d9488' }}
+        className="app-fab flex h-14 w-14 items-center justify-center rounded-full text-white shadow-[0_8px_28px_rgba(77,163,255,0.30)]"
+        style={{ backgroundColor: '#3D90F0' }}
       >
         <MegaphoneIcon />
       </button>
@@ -100,7 +90,7 @@ export default function BusCallFAB({
           </p>
         )}
         {sortedBuses.length === 0 ? (
-          <p className="py-8 text-center text-gray-500">אין אוטובוסים</p>
+          <p className="py-8 text-center text-[#8494AD]">אין אוטובוסים</p>
         ) : (
           <div className="grid grid-cols-2 gap-3 pb-2">
             {sortedBuses.map((bus) => (
@@ -109,7 +99,7 @@ export default function BusCallFAB({
                 type="button"
                 disabled={isSending}
                 onClick={() => void handleCall(bus)}
-                className="flex min-h-20 aspect-square items-center justify-center rounded-xl border border-gray-200 bg-gray-50 text-4xl font-bold text-gray-900 hover:border-teal-400 hover:bg-teal-50 disabled:opacity-60"
+                className="flex min-h-20 aspect-square items-center justify-center rounded-xl border border-[#222A3A] bg-[#1A2030] text-4xl font-bold text-white hover:border-[#3D90F0] disabled:opacity-60"
               >
                 {bus.label}
               </button>

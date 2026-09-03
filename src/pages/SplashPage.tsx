@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SchoolLogo from '../components/SchoolLogo'
 
 export default function SplashPage() {
   const navigate = useNavigate()
@@ -12,41 +13,24 @@ export default function SplashPage() {
   }, [navigate])
 
   return (
-    <div
-      className="flex min-h-[100dvh] flex-col items-center justify-center gap-6"
-      style={{ backgroundColor: '#f0fdfa' }}
-    >
-      <div className="splash-wheel">
-        <svg viewBox="0 0 100 100" className="h-32 w-32">
-          <circle cx="50" cy="50" r="44" fill="none" stroke="#0d9488" strokeWidth="5" opacity="0.2" />
-          <circle
-            cx="50"
-            cy="50"
-            r="44"
-            fill="none"
-            stroke="#0d9488"
-            strokeWidth="5"
-            strokeLinecap="round"
-            strokeDasharray="69 208"
-          />
-          <circle cx="50" cy="50" r="10" fill="none" stroke="#0d9488" strokeWidth="4" />
-          {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
-            <line
-              key={angle}
-              x1="50"
-              y1="50"
-              x2={50 + 34 * Math.cos((angle * Math.PI) / 180)}
-              y2={50 + 34 * Math.sin((angle * Math.PI) / 180)}
-              stroke="#0d9488"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-          ))}
-        </svg>
-      </div>
-      <p className="text-xl font-bold" style={{ color: '#0d9488' }}>
-        School Tool
-      </p>
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-[#0B0F1A]">
+      <SchoolLogo size={112} animated />
+      <h1 className="text-[38px] font-bold leading-none">
+        <span className="text-white">School</span>
+        <span className="text-[#3D90F0]">Tool</span>
+      </h1>
+      <svg viewBox="0 0 34 34" width="34" height="34" className="splash-spinner" aria-hidden="true">
+        <circle
+          cx="17"
+          cy="17"
+          r="13"
+          fill="none"
+          stroke="#3D90F0"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeDasharray="60 22"
+        />
+      </svg>
     </div>
   )
 }

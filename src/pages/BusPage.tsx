@@ -1,9 +1,10 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import BusPills from '../components/BusPills'
+import BusCarousel from '../components/BusCarousel'
 import PageSheet from '../components/PageSheet'
 import Spinner, { ConnectionError } from '../components/Spinner'
 import StudentCard from '../components/StudentCard'
+import { BusIcon } from '../components/icons'
 import { useSchoolCollections } from '../hooks/useSchoolData'
 import { useStatusToggle } from '../hooks/useStatusToggle'
 import { getSchoolId } from '../lib/auth'
@@ -50,7 +51,7 @@ export default function BusPage() {
     setTitle(
       selectedBus
         ? departed
-          ? `הסעה יצאה - קו ${selectedBus.label}`
+          ? `יצאה · קו ${selectedBus.label}`
           : `קו ${selectedBus.label}`
         : 'אוטובוס',
     )
@@ -58,10 +59,14 @@ export default function BusPage() {
 
   useEffect(() => {
     setChrome({
-      buses: sortedBuses,
-      selectedBusId,
+      dropdownItems: sortedBuses.map((bus) => ({
+        id: bus.id,
+        label: `קו ${bus.label}`,
+        muted: isBusDeparted(bus),
+      })),
+      selectedId: selectedBusId,
+      onDropdownSelect: setSelectedBusId,
       departed,
-      onSelectBus: setSelectedBusId,
     })
   }, [sortedBuses, selectedBusId, departed, setChrome])
 
@@ -117,19 +122,31 @@ export default function BusPage() {
 
   return (
     <>
+      <BusCarousel
+        buses={buses}
+        students={students}
+        selectedBusId={selectedBusId}
+        onSelect={setSelectedBusId}
+      />
+      <div className="flex justify-center pb-2">
+        <span className="h-2 w-2 rounded-full bg-[#E06818]" />
+      </div>
       <PageSheet>
         {error ? (
           <ConnectionError />
         ) : isLoading ? (
           <Spinner />
         ) : !selectedBusId ? (
-          <p className="py-12 text-center text-gray-500">
+          <p className="py-12 text-center text-[#8494AD]">
             בחר אוטובוס כדי לראות תלמידים
           </p>
         ) : (
           <>
+            <h2 className="mb-3 text-center text-[17px] font-medium text-white">
+              סה״כ {visibleStudents.length} תלמידים
+            </h2>
             {visibleStudents.length === 0 ? (
-              <p className="py-12 text-center text-gray-500">
+              <p className="py-12 text-center text-[#8494AD]">
                 אין תלמידים משויכים לאוטובוס זה
               </p>
             ) : (
@@ -146,38 +163,50 @@ export default function BusPage() {
                 ))}
               </ul>
             )}
-            <button
-              type="button"
-              disabled={departed || isDeparting}
-              onClick={() => void handleDeparted()}
-              className="mt-4 flex min-h-11 w-full items-center justify-center rounded-xl bg-[#0d9488] px-4 text-base font-semibold text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
-            >
-              {isDeparting ? <Spinner compact onDark /> : 'הסעה יצאה'}
-            </button>
             {departed && (
+              <div className="mt-4 flex min-h-10 items-center justify-center rounded-full bg-[#261806] px-4 text-sm font-semibold text-[#FFB27A]">
+                ההסעה יצאה
+              </div>
+            )}
+            {departed ? (
               <button
                 type="button"
                 disabled={isResetting}
                 onClick={() => void handleResetDeparted()}
-                className="flex w-full items-center justify-center py-3 text-center font-medium text-[#0d9488] disabled:opacity-50"
+                className="mx-auto mt-3 flex min-h-11 items-center justify-center rounded-full bg-[#1A2030] px-6 text-base font-medium text-white disabled:opacity-50"
               >
-                {isResetting ? <Spinner compact /> : 'אפס הסעה'}
+                {isResetting ? <Spinner compact onDark /> : 'אפס הסעה'}
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={isDeparting}
+                onClick={() => void handleDeparted()}
+                className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#3580E0] px-4 text-base font-semibold text-white shadow-[0_8px_28px_rgba(59,139,255,0.28)] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isDeparting ? (
+                  <Spinner compact onDark />
+                ) : (
+                  <>
+                    <BusIcon className="h-5 w-5" />
+                    <span>ההסעה יצאה</span>
+                  </>
+                )}
               </button>
             )}
+            {departed && (
+              <p className="mt-3 text-center text-sm font-medium text-[#E06818]">
+                ההסעה יצאה
+              </p>
+            )}
             {departError && (
-              <p className="mt-2 text-center text-sm text-red-600" role="alert">
+              <p className="mt-2 text-center text-sm text-red-400" role="alert">
                 {departError}
               </p>
             )}
           </>
         )}
       </PageSheet>
-      <BusPills
-        buses={buses}
-        students={students}
-        selectedBusId={selectedBusId}
-        onSelect={setSelectedBusId}
-      />
     </>
   )
 }

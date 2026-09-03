@@ -12,30 +12,21 @@ function AppShell() {
   const { isVisible: bannerVisible } = useBusCall()
   const { chrome } = useBusChrome()
   const isSettings = location.pathname === '/settings'
-  const isBus = location.pathname === '/bus'
 
   return (
     <div className="app-shell">
       <TopBar
-        buses={isBus ? chrome?.buses : undefined}
-        selectedBusId={chrome?.selectedBusId}
-        onSelectBus={chrome?.onSelectBus}
+        dropdownItems={chrome?.dropdownItems}
+        onDropdownSelect={chrome?.onDropdownSelect}
+        selectedId={chrome?.selectedId}
       />
       <main className="app-main">
         <Outlet />
       </main>
-      {isBus && chrome?.departed && (
-        <div className="flex h-9 shrink-0 items-center justify-center border-t-2 border-[#0d9488] bg-white text-sm font-semibold text-[#0d9488]">
-          הסעה יצאה
-        </div>
-      )}
-      {!isSettings && !bannerVisible && (
-        <BusCallFAB isBus={isBus} departedStrip={Boolean(isBus && chrome?.departed)} />
-      )}
+      {!isSettings && !bannerVisible && <BusCallFAB />}
       {!isSettings && (
         <div className="app-bottom-dock">
           {bannerVisible && <BusCallBanner />}
-          <div id="bus-pills-slot" />
           <BottomNav />
         </div>
       )}

@@ -33,24 +33,24 @@ export default function Modal({ open, title, onClose, children }: ModalProps) {
       <button
         type="button"
         aria-label="סגור"
-        className="absolute inset-0 bg-black/40"
+        className="absolute inset-0 bg-[#0B0F1A]/70"
         onClick={onClose}
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="relative z-10 flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-2xl bg-white shadow-xl sm:mx-4 sm:rounded-2xl"
+        className="relative z-10 flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-2xl bg-[#151A28] shadow-xl sm:mx-4 sm:rounded-2xl"
       >
-        <header className="flex shrink-0 items-center justify-between gap-3 border-b border-gray-200 px-4 py-3">
-          <h2 id="modal-title" className="min-w-0 flex-1 truncate text-lg font-semibold">
+        <header className="flex shrink-0 items-center justify-between gap-3 border-b border-[#222A3A] px-4 py-3">
+          <h2 id="modal-title" className="min-w-0 flex-1 truncate text-lg font-semibold text-white">
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="סגור"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#8494AD] hover:bg-[#1A2030]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

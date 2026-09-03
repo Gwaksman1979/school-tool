@@ -1,6 +1,14 @@
 import { collection, deleteDoc, doc, setDoc, writeBatch } from 'firebase/firestore'
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import Spinner from '../components/Spinner'
+import {
+  AccountIcon,
+  AddClassIcon,
+  AddStudentIcon,
+  ChevronDownIcon,
+  ImportIcon,
+  ManageBusesIcon,
+} from '../components/icons'
 import { useBuses, useClasses } from '../hooks/useSchoolData'
 import { getSchoolId, logout } from '../lib/auth'
 import { usePageTitle } from '../lib/page-title'
@@ -13,9 +21,9 @@ type Feedback = { type: 'success' | 'error'; text: string } | null
 type TransportMode = Student['transport_mode']
 
 const INPUT_CLASS =
-  'mt-1 min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+  'mt-1 min-h-11 w-full rounded-[14px] border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-base text-white outline-none focus:border-[#3D90F0] focus:ring-2 focus:ring-[#3D90F0]/30'
 const BUTTON_CLASS =
-  'flex min-h-11 w-full items-center justify-center rounded-lg bg-[#0d9488] px-4 py-2 text-base font-medium text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60'
+  'flex min-h-11 w-full items-center justify-center rounded-full bg-[#3D90F0] px-4 py-2 text-base font-medium text-white disabled:cursor-not-allowed disabled:opacity-60'
 const REQUIRED_IMPORT_HEADERS = [
   'שם פרטי',
   'שם משפחה',
@@ -31,8 +39,8 @@ function FeedbackMessage({ message }: { message: Feedback }) {
     <p
       className={
         message.type === 'success'
-          ? 'whitespace-pre-wrap text-sm text-green-700'
-          : 'whitespace-pre-wrap text-sm text-red-600'
+          ? 'whitespace-pre-wrap text-sm text-[#278A3E]'
+          : 'whitespace-pre-wrap text-sm text-red-400'
       }
       role="status"
     >
@@ -44,21 +52,29 @@ function FeedbackMessage({ message }: { message: Feedback }) {
 function SectionCard({
   title,
   defaultOpen = false,
+  icon,
   children,
 }: {
   title: string
   defaultOpen?: boolean
+  icon: ReactNode
   children: ReactNode
 }) {
   return (
     <details
       open={defaultOpen}
-      className="rounded-xl border border-gray-200 bg-white shadow-sm"
+      className="group rounded-[20px] bg-[#151A28]"
     >
-      <summary className="cursor-pointer select-none px-4 py-3 text-lg font-semibold">
-        {title}
+      <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-4 [&::-webkit-details-marker]:hidden">
+        <span className="flex h-10 w-10 items-center justify-center text-[#5BA0FF]">
+          {icon}
+        </span>
+        <span className="min-w-0 flex-1 text-right text-base font-medium text-white">
+          {title}
+        </span>
+        <ChevronDownIcon className="h-5 w-5 text-[#A0A0A6] transition-transform group-open:rotate-180" />
       </summary>
-      <div className="space-y-3 border-t border-gray-100 px-4 py-3">{children}</div>
+      <div className="space-y-3 border-t border-[#222A3A] px-4 py-3">{children}</div>
     </details>
   )
 }
@@ -71,7 +87,7 @@ function FieldLabel({
   children: ReactNode
 }) {
   return (
-    <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">
+    <label htmlFor={htmlFor} className="block text-sm font-medium text-[#C0C0C6]">
       {children}
     </label>
   )
@@ -427,21 +443,21 @@ export default function SettingsPage() {
 
   return (
     <div className="px-4 py-4">
-      <h1 className="mb-4 text-2xl font-bold">הגדרות</h1>
+      <h1 className="mb-4 text-2xl font-bold text-white">הגדרות</h1>
 
       <div className="flex flex-col gap-3">
-        <SectionCard title="חשבון" defaultOpen>
-          <p className="text-sm text-gray-600">יציאה תחזיר אותך למסך ההתחברות.</p>
+        <SectionCard title="חשבון" defaultOpen icon={<AccountIcon className="h-6 w-6" />}>
+          <p className="text-sm text-[#8494AD]">יציאה תחזיר אותך למסך ההתחברות.</p>
           <button
             type="button"
             onClick={logout}
-            className="flex min-h-11 w-full items-center justify-center rounded-lg border border-red-200 bg-white px-4 py-2 text-base font-medium text-red-600 hover:bg-red-50"
+            className="flex min-h-11 w-full items-center justify-center rounded-full border border-red-400/40 bg-[#1A2030] px-4 py-2 text-base font-medium text-red-400"
           >
             התנתקות
           </button>
         </SectionCard>
 
-        <SectionCard title="הוספת תלמיד" defaultOpen>
+        <SectionCard title="הוספת תלמיד" defaultOpen icon={<AddStudentIcon className="h-6 w-6" />}>
           <form className="flex flex-col gap-3" onSubmit={handleAddStudent}>
             <div>
               <FieldLabel htmlFor="student-first">שם פרטי</FieldLabel>
@@ -545,7 +561,7 @@ export default function SettingsPage() {
           </form>
         </SectionCard>
 
-        <SectionCard title="הוספת כיתה">
+        <SectionCard title="הוספת כיתה" icon={<AddClassIcon className="h-6 w-6" />}>
           <form className="flex flex-col gap-3" onSubmit={handleAddClass}>
             <div>
               <FieldLabel htmlFor="class-name">שם הכיתה</FieldLabel>
@@ -562,17 +578,17 @@ export default function SettingsPage() {
               {isAddingClass ? <Spinner compact onDark /> : 'הוסף כיתה'}
             </button>
           </form>
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-[#222A3A]">
             {sortedClasses.map((schoolClass) => (
               <li
                 key={schoolClass.id}
                 className="flex min-h-11 items-center justify-between gap-2 py-2"
               >
-                <span className="font-medium">{schoolClass.name}</span>
+                <span className="font-medium text-white">{schoolClass.name}</span>
                 <button
                   type="button"
                   onClick={() => void handleDeleteClass(schoolClass)}
-                  className="rounded-lg px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
+                  className="rounded-lg px-3 py-1.5 text-sm text-red-400"
                 >
                   מחק
                 </button>
@@ -581,7 +597,7 @@ export default function SettingsPage() {
           </ul>
         </SectionCard>
 
-        <SectionCard title="ניהול אוטובוסים">
+        <SectionCard title="ניהול אוטובוסים" icon={<ManageBusesIcon className="h-6 w-6" />}>
           <form className="flex flex-col gap-3" onSubmit={handleAddBus}>
             <div>
               <FieldLabel htmlFor="bus-label">מספר/שם אוטובוס</FieldLabel>
@@ -598,17 +614,17 @@ export default function SettingsPage() {
               {isAddingBus ? <Spinner compact onDark /> : 'הוסף אוטובוס'}
             </button>
           </form>
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-[#222A3A]">
             {sortedBuses.map((bus) => (
               <li
                 key={bus.id}
                 className="flex min-h-11 items-center justify-between gap-2 py-2"
               >
-                <span className="font-medium">אוטובוס {bus.label}</span>
+                <span className="font-medium text-white">אוטובוס {bus.label}</span>
                 <button
                   type="button"
                   onClick={() => void handleDeleteBus(bus)}
-                  className="rounded-lg px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
+                  className="rounded-lg px-3 py-1.5 text-sm text-red-400"
                 >
                   מחק
                 </button>
@@ -617,8 +633,8 @@ export default function SettingsPage() {
           </ul>
         </SectionCard>
 
-        <SectionCard title="ייבוא תלמידים">
-          <p className="text-sm text-gray-600">
+        <SectionCard title="ייבוא תלמידים" icon={<ImportIcon className="h-6 w-6" />}>
+          <p className="text-sm text-[#8494AD]">
             העלה קובץ עם העמודות: שם פרטי, שם משפחה, כיתה, אוטובוס הגעה, אוטובוס עזיבה
           </p>
           <FieldLabel htmlFor="import-file">קובץ CSV / Excel</FieldLabel>
@@ -632,7 +648,7 @@ export default function SettingsPage() {
               if (file) void handleImportFile(file)
               event.target.value = ''
             }}
-            className="block w-full text-sm text-gray-700 file:me-3 file:min-h-11 file:rounded-lg file:border-0 file:bg-teal-50 file:px-4 file:text-sm file:font-medium file:text-teal-700"
+            className="block w-full text-sm text-[#C0C0C6] file:me-3 file:min-h-11 file:rounded-full file:border-0 file:bg-[#1A2030] file:px-4 file:text-sm file:font-medium file:text-[#5BA0FF]"
           />
           {isImporting && <Spinner />}
           <FeedbackMessage message={importFeedback} />

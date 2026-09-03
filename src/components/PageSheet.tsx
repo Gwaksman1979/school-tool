@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 export default function PageSheet({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-4 mt-2 rounded-3xl bg-white px-4 py-3 shadow-sm">
+    <div className="mx-4 mt-2 rounded-[22px] bg-[#151A28] px-[14px] py-[14px]">
       {children}
     </div>
   )

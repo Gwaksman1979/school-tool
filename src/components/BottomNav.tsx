@@ -9,8 +9,8 @@ const TABS = [
 
 export default function BottomNav() {
   return (
-    <nav className="app-bottom-nav flex items-center justify-center px-3">
-      <div className="flex h-14 w-full items-center justify-around rounded-full bg-white px-2">
+    <nav className="app-bottom-nav flex flex-col items-center px-3">
+      <div className="flex h-[58px] w-full items-center justify-around rounded-full bg-[#151A28] px-2">
         {TABS.map((tab) => {
           const Icon = tab.icon
           return (
@@ -18,23 +18,30 @@ export default function BottomNav() {
               key={tab.to}
               to={tab.to}
               aria-label={tab.label}
-              className="flex h-12 w-14 items-center justify-center"
+              className="flex h-12 min-w-[4.5rem] items-center justify-center"
             >
               {({ isActive }) => (
-                <span
-                  className={
-                    isActive
-                      ? 'flex h-10 w-10 items-center justify-center rounded-full bg-[#0d9488] text-white'
-                      : 'flex h-10 w-10 items-center justify-center rounded-full text-[#0d9488]'
-                  }
-                >
-                  <Icon className="h-6 w-6" />
+                <span className="flex flex-col items-center gap-0.5">
+                  <Icon
+                    className="h-5 w-5"
+                    style={{ color: isActive ? '#4E9BFF' : '#C3C3C9' }}
+                  />
+                  <span
+                    className="text-[11px] font-medium"
+                    style={{ color: isActive ? '#A9CDFF' : '#C3C3C9' }}
+                  >
+                    {tab.label}
+                  </span>
                 </span>
               )}
             </NavLink>
           )
         })}
       </div>
+      <div className="mt-2 h-[5px] w-[134px] rounded-full bg-white/80" />
+      <p className="mt-2 text-center text-[10px] text-white/30">
+        © 2026 All rights reserved to Communit Inclusive Innovation Ltd.
+      </p>
     </nav>
   )
 }

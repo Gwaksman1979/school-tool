@@ -13,6 +13,20 @@
 :root {
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --ff-bg: #0B0F1A;
+  --ff-surface: #0E1220;
+  --ff-card: #151A28;
+  --ff-row: #1A2030;
+  --ff-hairline: #222A3A;
+  --ff-chip: #1A2030;
+  --ff-text: #FFFFFF;
+  --ff-subtitle: #8494AD;
+  --ff-dim: #4E5D75;
+  --ff-blue: #3D90F0;
+  --ff-blue-solid: #3580E0;
+  --ff-green: #278A3E;
+  --ff-orange: #E06818;
+  --ff-amber: #F0A030;
 }
 
 @layer base {
@@ -20,13 +34,14 @@
     direction: rtl;
     height: 100%;
     overflow: hidden;
+    color-scheme: dark;
   }
 
   body {
     margin: 0;
     font-family: 'Heebo', sans-serif;
-    background-color: #f0fdfa;
-    color: #111827;
+    background-color: #0B0F1A;
+    color: #FFFFFF;
     height: 100%;
     overflow: hidden;
   }
@@ -45,6 +60,15 @@
   li::marker {
     content: none;
   }
+
+  input, textarea, select {
+    color: #FFFFFF;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #7C7C81;
+  }
 }
 
 /* ===== FLEX SKELETON =====
@@ -56,13 +80,13 @@
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
-  background-color: #f0fdfa;
+  background-color: #0B0F1A;
 }
 
 .app-top-bar {
   flex-shrink: 0;
   padding-top: var(--safe-top);
-  height: calc(56px + var(--safe-top));
+  height: calc(70px + var(--safe-top));
 }
 
 .app-main {
@@ -77,19 +101,15 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background-color: #0d9488;
+  background-color: #0B0F1A;
   padding-bottom: var(--safe-bottom);
 }
 
 .app-bottom-nav {
   flex-shrink: 0;
   height: auto;
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-
-.app-bus-pills {
-  flex-shrink: 0;
+  padding-top: 12px;
+  padding-bottom: 8px;
 }
 
 .app-bus-banner-slot {
@@ -101,15 +121,7 @@
   position: fixed;
   z-index: 30;
   right: 16px;
-  bottom: calc(88px + var(--safe-bottom) + 16px);
-}
-
-.app-fab--with-pills {
-  bottom: calc(88px + 60px + var(--safe-bottom) + 16px);
-}
-
-.app-fab--with-pills.app-fab--with-departed {
-  bottom: calc(88px + 60px + 36px + var(--safe-bottom) + 16px);
+  bottom: calc(132px + var(--safe-bottom) + 16px);
 }
 
 /* ===== BUS CALL BANNER ===== */
@@ -129,11 +141,47 @@
     bus-call-flash 1.1s ease-in-out infinite;
 }
 
-@keyframes wheelSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+@keyframes drawS {
+  to { stroke-dashoffset: 0; }
 }
 
-.splash-wheel {
-  animation: wheelSpin 1.2s linear infinite;
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.splash-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawS 1.1s ease-out forwards;
+}
+
+.splash-draw-delay {
+  animation-delay: 0.35s;
+}
+
+.splash-spinner {
+  animation: spin 0.9s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+.bus-carousel {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.bus-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.class-carousel {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.class-carousel::-webkit-scrollbar {
+  display: none;
 }

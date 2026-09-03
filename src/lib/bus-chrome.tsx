@@ -5,13 +5,18 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import type { Bus } from '../types'
+
+export interface ChromeDropdownItem {
+  id: string
+  label: string
+  muted?: boolean
+}
 
 interface BusChromeValue {
-  buses: Bus[]
-  selectedBusId: string
-  departed: boolean
-  onSelectBus: (busId: string) => void
+  dropdownItems?: ChromeDropdownItem[]
+  selectedId?: string
+  onDropdownSelect?: (id: string) => void
+  departed?: boolean
 }
 
 interface BusChromeContextValue {
