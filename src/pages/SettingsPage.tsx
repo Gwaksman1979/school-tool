@@ -21,7 +21,7 @@ type Feedback = { type: 'success' | 'error'; text: string } | null
 type TransportMode = Student['transport_mode']
 
 const INPUT_CLASS =
-  'mt-1 min-h-11 w-full rounded-[14px] border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-base text-white outline-none focus:border-[#3D90F0] focus:ring-2 focus:ring-[#3D90F0]/30'
+  'mt-1 box-border min-h-11 w-full overflow-hidden rounded-[14px] border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-base text-white outline-none focus:border-[#3D90F0] focus:ring-2 focus:ring-[#3D90F0]/30'
 const BUTTON_CLASS =
   'flex min-h-11 w-full items-center justify-center rounded-full bg-[#3D90F0] px-4 py-2 text-base font-medium text-white disabled:cursor-not-allowed disabled:opacity-60'
 const REQUIRED_IMPORT_HEADERS = [
@@ -51,20 +51,15 @@ function FeedbackMessage({ message }: { message: Feedback }) {
 
 function SectionCard({
   title,
-  defaultOpen = false,
   icon,
   children,
 }: {
   title: string
-  defaultOpen?: boolean
   icon: ReactNode
   children: ReactNode
 }) {
   return (
-    <details
-      open={defaultOpen}
-      className="group rounded-[20px] bg-[#151A28]"
-    >
+    <details className="group box-border w-full overflow-hidden rounded-[20px] bg-[#151A28]">
       <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-4 [&::-webkit-details-marker]:hidden">
         <span className="flex h-10 w-10 items-center justify-center text-[#5BA0FF]">
           {icon}
@@ -74,7 +69,9 @@ function SectionCard({
         </span>
         <ChevronDownIcon className="h-5 w-5 text-[#A0A0A6] transition-transform group-open:rotate-180" />
       </summary>
-      <div className="space-y-3 border-t border-[#222A3A] px-4 py-3">{children}</div>
+      <div className="box-border w-full space-y-3 overflow-hidden border-t border-[#222A3A] px-4 py-3">
+        {children}
+      </div>
     </details>
   )
 }
@@ -87,7 +84,7 @@ function FieldLabel({
   children: ReactNode
 }) {
   return (
-    <label htmlFor={htmlFor} className="block text-sm font-medium text-[#C0C0C6]">
+    <label htmlFor={htmlFor} className="block w-full text-sm font-medium text-[#C0C0C6]">
       {children}
     </label>
   )
@@ -442,11 +439,9 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="px-4 py-4">
-      <h1 className="mb-4 text-2xl font-bold text-white">הגדרות</h1>
-
-      <div className="flex flex-col gap-3">
-        <SectionCard title="חשבון" defaultOpen icon={<AccountIcon className="h-6 w-6" />}>
+    <div className="box-border w-full overflow-hidden px-4 py-4">
+      <div className="flex w-full min-w-0 flex-col gap-3 overflow-hidden">
+        <SectionCard title="חשבון" icon={<AccountIcon className="h-6 w-6" />}>
           <p className="text-sm text-[#8494AD]">יציאה תחזיר אותך למסך ההתחברות.</p>
           <button
             type="button"
@@ -457,9 +452,9 @@ export default function SettingsPage() {
           </button>
         </SectionCard>
 
-        <SectionCard title="הוספת תלמיד" defaultOpen icon={<AddStudentIcon className="h-6 w-6" />}>
-          <form className="flex flex-col gap-3" onSubmit={handleAddStudent}>
-            <div>
+        <SectionCard title="הוספת תלמיד" icon={<AddStudentIcon className="h-6 w-6" />}>
+          <form className="flex w-full min-w-0 flex-col gap-3 overflow-hidden" onSubmit={handleAddStudent}>
+            <div className="box-border w-full min-w-0 overflow-hidden">
               <FieldLabel htmlFor="student-first">שם פרטי</FieldLabel>
               <input
                 id="student-first"
@@ -469,7 +464,7 @@ export default function SettingsPage() {
                 className={INPUT_CLASS}
               />
             </div>
-            <div>
+            <div className="box-border w-full min-w-0 overflow-hidden">
               <FieldLabel htmlFor="student-last">שם משפחה</FieldLabel>
               <input
                 id="student-last"
@@ -479,7 +474,7 @@ export default function SettingsPage() {
                 className={INPUT_CLASS}
               />
             </div>
-            <div>
+            <div className="box-border w-full min-w-0 overflow-hidden">
               <FieldLabel htmlFor="student-class">כיתה</FieldLabel>
               <select
                 id="student-class"
@@ -496,7 +491,7 @@ export default function SettingsPage() {
                 ))}
               </select>
             </div>
-            <div>
+            <div className="box-border w-full min-w-0 overflow-hidden">
               <FieldLabel htmlFor="student-transport">אמצעי הגעה</FieldLabel>
               <select
                 id="student-transport"
@@ -513,7 +508,7 @@ export default function SettingsPage() {
             </div>
             {transportMode === 'bus' && (
               <>
-                <div>
+                <div className="box-border w-full min-w-0 overflow-hidden">
                   <FieldLabel htmlFor="student-arrival">אוטובוס הגעה</FieldLabel>
                   <select
                     id="student-arrival"
@@ -536,7 +531,7 @@ export default function SettingsPage() {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="box-border w-full min-w-0 overflow-hidden">
                   <FieldLabel htmlFor="student-departure">אוטובוס עזיבה</FieldLabel>
                   <select
                     id="student-departure"
@@ -562,8 +557,8 @@ export default function SettingsPage() {
         </SectionCard>
 
         <SectionCard title="הוספת כיתה" icon={<AddClassIcon className="h-6 w-6" />}>
-          <form className="flex flex-col gap-3" onSubmit={handleAddClass}>
-            <div>
+          <form className="flex w-full min-w-0 flex-col gap-3 overflow-hidden" onSubmit={handleAddClass}>
+            <div className="box-border w-full min-w-0 overflow-hidden">
               <FieldLabel htmlFor="class-name">שם הכיתה</FieldLabel>
               <input
                 id="class-name"
@@ -598,8 +593,8 @@ export default function SettingsPage() {
         </SectionCard>
 
         <SectionCard title="ניהול אוטובוסים" icon={<ManageBusesIcon className="h-6 w-6" />}>
-          <form className="flex flex-col gap-3" onSubmit={handleAddBus}>
-            <div>
+          <form className="flex w-full min-w-0 flex-col gap-3 overflow-hidden" onSubmit={handleAddBus}>
+            <div className="box-border w-full min-w-0 overflow-hidden">
               <FieldLabel htmlFor="bus-label">מספר/שם אוטובוס</FieldLabel>
               <input
                 id="bus-label"
@@ -648,7 +643,7 @@ export default function SettingsPage() {
               if (file) void handleImportFile(file)
               event.target.value = ''
             }}
-            className="block w-full text-sm text-[#C0C0C6] file:me-3 file:min-h-11 file:rounded-full file:border-0 file:bg-[#1A2030] file:px-4 file:text-sm file:font-medium file:text-[#5BA0FF]"
+            className="box-border block w-full overflow-hidden text-sm text-[#C0C0C6] file:me-3 file:min-h-11 file:rounded-full file:border-0 file:bg-[#1A2030] file:px-4 file:text-sm file:font-medium file:text-[#5BA0FF]"
           />
           {isImporting && <Spinner />}
           <FeedbackMessage message={importFeedback} />
