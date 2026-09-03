@@ -8,7 +8,8 @@ function AppShell() {
   const location = useLocation()
   const { chrome } = useBusChrome()
   const isSettings = location.pathname === '/settings'
-  const isStudents = location.pathname === '/students'
+  const lockMain =
+    location.pathname === '/students' || location.pathname === '/bus'
 
   return (
     <div className="app-shell">
@@ -17,7 +18,7 @@ function AppShell() {
         onDropdownSelect={chrome?.onDropdownSelect}
         selectedId={chrome?.selectedId}
       />
-      <main className={isStudents ? 'app-main app-main--lock' : 'app-main'}>
+      <main className={lockMain ? 'app-main app-main--lock' : 'app-main'}>
         <Outlet />
       </main>
       {!isSettings && (

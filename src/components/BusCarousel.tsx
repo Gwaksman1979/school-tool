@@ -29,6 +29,38 @@ function isBusDone(students: Student[], busId: string): boolean {
   return riders.every((student) => normalizeStatus(student.current_status) !== 'not_arrived')
 }
 
+function scrollDiscToCenter(
+  scroller: HTMLElement,
+  disc: HTMLElement,
+  behavior: ScrollBehavior,
+) {
+  const scrollerRect = scroller.getBoundingClientRect()
+  const discRect = disc.getBoundingClientRect()
+  const delta =
+    discRect.left + discRect.width / 2 - (scrollerRect.left + scrollerRect.width / 2)
+  scroller.scrollTo({
+    left: scroller.scrollLeft + delta,
+    behavior,
+  })
+}
+
+function nearestDiscId(scroller: HTMLElement): string | null {
+  const view = scroller.getBoundingClientRect()
+  const viewCenter = view.left + view.width / 2
+  let bestId: string | null = null
+  let bestDist = Number.POSITIVE_INFINITY
+  for (const node of scroller.querySelectorAll<HTMLElement>('[data-bus-id]')) {
+    const rect = node.getBoundingClientRect()
+    const dist = Math.abs(rect.left + rect.width / 2 - viewCenter)
+    const id = node.dataset.busId
+    if (id && dist < bestDist) {
+      bestDist = dist
+      bestId = id
+    }
+  }
+  return bestId
+}
+
 export default function BusCarousel({
   buses,
   students,
@@ -36,20 +68,78 @@ export default function BusCarousel({
   onSelect,
 }: BusCarouselProps) {
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const selectedRef = useRef(selectedBusId)
+  const programmaticRef = useRef(false)
+  const settleTimerRef = useRef<number>(0)
+  const didMountScroll = useRef(false)
   const sortedBuses = useMemo(() => sortBuses(buses), [buses])
 
+  selectedRef.current = selectedBusId
+
+  function centerDisc(busId: string, behavior: ScrollBehavior) {
+    const scroller = scrollerRef.current
+    const disc = scroller?.querySelector<HTMLElement>(`[data-bus-id="${busId}"]`)
+    if (!scroller || !disc) return
+    programmaticRef.current = true
+    scrollDiscToCenter(scroller, disc, behavior)
+  }
+
   useEffect(() => {
-    const selected = scrollerRef.current?.querySelector(
-      `[data-bus-id="${selectedBusId}"]`,
-    )
-    selected?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+    if (!selectedBusId) return
+    const behavior = didMountScroll.current ? 'smooth' : 'auto'
+    didMountScroll.current = true
+    centerDisc(selectedBusId, behavior)
   }, [selectedBusId])
+
+  useEffect(() => {
+    const scroller = scrollerRef.current
+    if (!scroller) return
+    const element = scroller
+
+    function settleFromScroll() {
+      if (programmaticRef.current) {
+        programmaticRef.current = false
+        return
+      }
+      const id = nearestDiscId(element)
+      if (id && id !== selectedRef.current) {
+        onSelect(id)
+      }
+    }
+
+    function handleScroll() {
+      window.clearTimeout(settleTimerRef.current)
+      settleTimerRef.current = window.setTimeout(settleFromScroll, 150)
+    }
+
+    function handleScrollEnd() {
+      window.clearTimeout(settleTimerRef.current)
+      settleFromScroll()
+    }
+
+    scroller.addEventListener('scroll', handleScroll, { passive: true })
+    scroller.addEventListener('scrollend', handleScrollEnd)
+    return () => {
+      scroller.removeEventListener('scroll', handleScroll)
+      scroller.removeEventListener('scrollend', handleScrollEnd)
+      window.clearTimeout(settleTimerRef.current)
+    }
+  }, [onSelect])
+
+  function handleTap(busId: string) {
+    if (busId === selectedRef.current) {
+      centerDisc(busId, 'smooth')
+      return
+    }
+    onSelect(busId)
+  }
 
   return (
     <div
       ref={scrollerRef}
       dir="rtl"
-      className="bus-carousel flex items-center gap-3 px-[12%] py-3"
+      className="bus-carousel flex items-center gap-3 py-3"
+      style={{ paddingInline: 'calc(50% - 46px)' }}
     >
       {sortedBuses.map((bus) => {
         const done = isBusDone(students, bus.id)
@@ -62,7 +152,7 @@ export default function BusCarousel({
             key={bus.id}
             type="button"
             data-bus-id={bus.id}
-            onClick={() => onSelect(bus.id)}
+            onClick={() => handleTap(bus.id)}
             aria-label={`קו ${bus.label}`}
             aria-pressed={selected}
             className="flex shrink-0 snap-center flex-col items-center justify-center rounded-full"

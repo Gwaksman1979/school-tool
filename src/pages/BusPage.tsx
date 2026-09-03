@@ -1,5 +1,5 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import BusCarousel from '../components/BusCarousel'
 import PageSheet from '../components/PageSheet'
 import Spinner, { ConnectionError } from '../components/Spinner'
@@ -25,6 +25,14 @@ export default function BusPage() {
   const [isDeparting, setIsDeparting] = useState(false)
   const [isResetting, setIsResetting] = useState(false)
   const [departError, setDepartError] = useState<string | null>(null)
+
+  const handleSelectBus = useCallback((busId: string) => {
+    setSelectedBusId((current) => {
+      if (busId === current) return current
+      navigator.vibrate?.(10)
+      return busId
+    })
+  }, [])
 
   const sortedBuses = useMemo(() => sortBuses(buses), [buses])
 
@@ -65,10 +73,10 @@ export default function BusPage() {
         muted: isBusDeparted(bus),
       })),
       selectedId: selectedBusId,
-      onDropdownSelect: setSelectedBusId,
+      onDropdownSelect: handleSelectBus,
       departed,
     })
-  }, [sortedBuses, selectedBusId, departed, setChrome])
+  }, [sortedBuses, selectedBusId, departed, setChrome, handleSelectBus])
 
   useEffect(() => {
     return () => setChrome(null)
@@ -121,16 +129,16 @@ export default function BusPage() {
   }
 
   return (
-    <>
-      <BusCarousel
-        buses={buses}
-        students={students}
-        selectedBusId={selectedBusId}
-        onSelect={setSelectedBusId}
-      />
-      <div className="flex justify-center pb-2">
-        <span className="h-2 w-2 rounded-full bg-[#E06818]" />
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+      <div className="shrink-0 bg-[#0B0F1A]">
+        <BusCarousel
+          buses={buses}
+          students={students}
+          selectedBusId={selectedBusId}
+          onSelect={handleSelectBus}
+        />
       </div>
+      <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
       <PageSheet>
         {error ? (
           <ConnectionError />
@@ -207,6 +215,7 @@ export default function BusPage() {
           </>
         )}
       </PageSheet>
-    </>
+      </div>
+    </div>
   )
 }
