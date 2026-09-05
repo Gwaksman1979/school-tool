@@ -43,7 +43,30 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[100dvh] w-full flex-col overflow-hidden bg-[#0B0F1A] pt-[calc(32px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+    <div className="flex min-h-[100dvh] w-full flex-col overflow-hidden bg-[#0B0F1A] pt-[calc(20px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+      {/* Back to the New Mainstream portal. Full page load, not a router link,
+          because the portal is a static page outside the React app. */}
+      <div className="shrink-0 px-5">
+        <a
+          href="/"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#8494AD] no-underline"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-5 w-5"
+            aria-hidden="true"
+          >
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+          חזרה לפורטל
+        </a>
+      </div>
+
       <div className="flex w-full min-w-0 flex-1 flex-col items-center justify-center overflow-hidden">
         <SchoolLogo size={92} />
         <h1 className="mt-3 text-[38px] font-bold leading-none">
