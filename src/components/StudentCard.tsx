@@ -238,43 +238,54 @@ export default function StudentCard({
               {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
             </button>
           </div>
-          <div className="relative flex items-center gap-2 mt-2 cursor-pointer">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={targetDate ? 'text-[#0071e3]' : 'text-[#98989d]'}
-              aria-hidden="true"
-            >
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <path d="M16 2v4" />
-              <path d="M8 2v4" />
-              <path d="M3 10h18" />
-            </svg>
-            <span className={targetDate ? 'text-sm text-[#0071e3]' : 'text-sm text-[#98989d]'}>
-              {targetDate ? formatRemarkDate(targetDate) : 'הוסף תאריך יעד'}
-            </span>
+          <div className="flex items-center gap-2 mt-2">
+            <div className="relative flex min-w-0 flex-1 items-center gap-2 cursor-pointer">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={targetDate ? 'text-[#0071e3]' : 'text-[#98989d]'}
+                aria-hidden="true"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4" />
+                <path d="M8 2v4" />
+                <path d="M3 10h18" />
+              </svg>
+              <span className={targetDate ? 'text-sm text-[#0071e3]' : 'text-sm text-[#98989d]'}>
+                {targetDate ? formatRemarkDate(targetDate) : 'הוסף תאריך יעד'}
+              </span>
+              <input
+                type="date"
+                value={targetDate}
+                onChange={(event) => setTargetDate(event.target.value)}
+                aria-label="הוסף תאריך יעד"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                style={{ colorScheme: 'dark' }}
+              />
+            </div>
             {targetDate && (
               <button
                 type="button"
                 aria-label="נקה תאריך יעד"
                 onClick={() => setTargetDate('')}
-                className="relative z-10 border-0 bg-transparent p-0 text-[#8494AD] hover:text-red-400"
+                className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#222A3A] text-[#98989d] hover:text-white"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.8"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="h-4 w-4"
+                  width="16"
+                  height="16"
                   aria-hidden="true"
                 >
                   <path d="M18 6 6 18" />
@@ -282,14 +293,6 @@ export default function StudentCard({
                 </svg>
               </button>
             )}
-            <input
-              type="date"
-              value={targetDate}
-              onChange={(event) => setTargetDate(event.target.value)}
-              aria-label="הוסף תאריך יעד"
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              style={{ colorScheme: 'dark' }}
-            />
           </div>
           {writeError && (
             <p className="mt-2 text-xs text-red-400" role="alert">
