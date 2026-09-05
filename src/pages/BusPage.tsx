@@ -1,6 +1,7 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import BusCarousel from '../components/BusCarousel'
+import InlineSearch from '../components/InlineSearch'
 import PageSheet from '../components/PageSheet'
 import Spinner, { ConnectionError } from '../components/Spinner'
 import StudentCard from '../components/StudentCard'
@@ -21,6 +22,7 @@ export default function BusPage() {
   const { setTitle } = usePageTitle()
   const { setChrome } = useBusChrome()
   const [selectedBusId, setSelectedBusId] = useState('')
+  const [search, setSearch] = useState('')
   const [isDeparting, setIsDeparting] = useState(false)
   const [isResetting, setIsResetting] = useState(false)
   const [departError, setDepartError] = useState<string | null>(null)
@@ -92,6 +94,7 @@ export default function BusPage() {
 
   const visibleStudents = useMemo(() => {
     if (!selectedBusId) return []
+    const query = search.trim().toLocaleLowerCase('he')
     return students
       .filter(
         (student) =>
@@ -99,8 +102,18 @@ export default function BusPage() {
           (student.arrival_bus_id === selectedBusId ||
             student.departure_bus_id === selectedBusId),
       )
+      .filter((student) => {
+        if (!query) return true
+        const first = student.first_name.toLocaleLowerCase('he')
+        const last = student.last_name.toLocaleLowerCase('he')
+        return (
+          first.includes(query) ||
+          last.includes(query) ||
+          `${first} ${last}`.includes(query)
+        )
+      })
       .sort((a, b) => a.first_name.localeCompare(b.first_name, 'he'))
-  }, [students, selectedBusId])
+  }, [students, selectedBusId, search])
 
   async function handleDeparted() {
     if (!schoolId || !selectedBusId || departed || isDeparting) return
@@ -137,7 +150,7 @@ export default function BusPage() {
   }
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-4">
       <div className="shrink-0">
         <BusCarousel
           buses={buses}
@@ -145,6 +158,16 @@ export default function BusPage() {
           selectedBusId={selectedBusId}
           onSelect={handleSelectBus}
         />
+        <InlineSearch
+          value={search}
+          onChange={setSearch}
+          placeholder="חיפוש תלמיד..."
+        />
+        {selectedBus && (
+          <p className="text-center text-xs text-[#98989d] mt-1 mb-2">
+            קו {selectedBus.label}
+          </p>
+        )}
       </div>
       <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
       <PageSheet>
@@ -163,7 +186,7 @@ export default function BusPage() {
             </h2>
             {visibleStudents.length === 0 ? (
               <p className="py-12 text-center text-[#98989d]">
-                אין תלמידים משויכים לאוטובוס זה
+                {search.trim() ? 'לא נמצאו תלמידים' : 'אין תלמידים משויכים לאוטובוס זה'}
               </p>
             ) : (
               <ul className="flex min-w-0 list-none flex-col gap-2 p-0">

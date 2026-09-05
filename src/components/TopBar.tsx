@@ -30,6 +30,7 @@ export default function TopBar({
   const location = useLocation()
   const { title } = usePageTitle()
   const isSettings = location.pathname === '/settings'
+  const isBusOrClass = location.pathname === '/bus' || location.pathname === '/class'
   const schoolId = getSchoolId()
   const { items: students } = useStudents(schoolId)
   const [open, setOpen] = useState(false)
@@ -92,7 +93,7 @@ export default function TopBar({
       dir="ltr"
       className="app-top-bar relative z-[60] flex items-end justify-center overflow-visible bg-transparent px-4 pt-[calc(env(safe-area-inset-top,0px)+0.25rem)] pb-2 text-white"
     >
-      {showDropdown && open && (
+      {!isBusOrClass && showDropdown && open && (
         <button
           type="button"
           aria-label="סגור"
@@ -120,6 +121,7 @@ export default function TopBar({
         </button>
       )}
 
+      {!isBusOrClass && (
       <div
         ref={menuRef}
         className="absolute left-1/2 z-[60] max-w-[60%] -translate-x-1/2 bg-transparent"
@@ -183,6 +185,7 @@ export default function TopBar({
           </ul>
         )}
       </div>
+      )}
 
       {!isSettings && (
         <button
