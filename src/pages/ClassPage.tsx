@@ -96,9 +96,14 @@ export default function ClassPage() {
   }
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-[env(safe-area-inset-top,0px)]">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
       <div className="shrink-0">
-        <h2 className="text-base font-normal text-[#98989d] px-5 pt-3 pb-2">כיתות</h2>
+        <h2
+          className="text-base font-normal text-[#98989d] px-5 pb-2"
+          style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}
+        >
+          כיתות
+        </h2>
         <ClassCarousel
           classes={filteredClasses}
           selectedClassId={selectedClassId}
@@ -111,11 +116,6 @@ export default function ClassPage() {
             placeholder="חיפוש כיתה..."
           />
         </div>
-        {selectedClass && (
-          <p className="px-5 text-xs text-[#98989d] mt-1 mb-2">
-            {selectedClass.name}
-          </p>
-        )}
       </div>
       <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-4 pb-3">
         {error ? (

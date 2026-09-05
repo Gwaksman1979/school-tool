@@ -48,14 +48,14 @@ export default function SideStrip() {
           right: 0,
           top: 0,
           bottom: 0,
-          width: 56,
+          width: 64,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'rgba(0,0,0,0.20)',
+          backgroundColor: 'rgba(28,28,30,0.65)',
           backgroundImage:
-            'linear-gradient(180deg, rgba(62,142,222,0.04) 0%, rgba(155,89,208,0.04) 55%, rgba(224,68,124,0.04) 100%)',
-          borderLeft: '1px solid rgba(255,255,255,0.08)',
+            'linear-gradient(180deg, rgba(62,142,222,0.08) 0%, rgba(155,89,208,0.08) 55%, rgba(224,68,124,0.08) 100%)',
+          borderLeft: '1px solid rgba(255,255,255,0.12)',
           zIndex: 30,
           paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)',
           paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
@@ -66,17 +66,17 @@ export default function SideStrip() {
             href="/"
             aria-label="דף הבית"
             style={{
-              color: '#98989d',
+              color: '#b0b0b5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 36,
-              height: 36,
+              width: 44,
+              height: 44,
             }}
           >
             <svg
-              width="20"
-              height="20"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -93,7 +93,7 @@ export default function SideStrip() {
             onClick={() => navigate('/settings')}
             aria-label="הגדרות"
             style={{
-              color: path === '/settings' ? '#0071e3' : '#98989d',
+              color: path === '/settings' ? '#0071e3' : '#b0b0b5',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -101,13 +101,13 @@ export default function SideStrip() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 36,
-              height: 36,
+              width: 44,
+              height: 44,
             }}
           >
             <svg
-              width="20"
-              height="20"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -154,8 +154,8 @@ export default function SideStrip() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 36,
-              height: 36,
+              width: 44,
+              height: 44,
               borderRadius: '50%',
               background: 'rgba(244,197,66,0.15)',
               color: '#f4c542',
@@ -176,7 +176,7 @@ export default function SideStrip() {
             onClick={() => navigate('/students')}
             aria-label="תלמידים"
             style={{
-              color: path === '/students' ? '#0071e3' : '#98989d',
+              color: path === '/students' ? '#0071e3' : '#b0b0b5',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -184,13 +184,13 @@ export default function SideStrip() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
             }}
           >
             <svg
-              width="22"
-              height="22"
+              width="26"
+              height="26"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -207,7 +207,7 @@ export default function SideStrip() {
             onClick={() => navigate('/class')}
             aria-label="כיתות"
             style={{
-              color: path === '/class' ? '#0071e3' : '#98989d',
+              color: path === '/class' ? '#0071e3' : '#b0b0b5',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -215,13 +215,13 @@ export default function SideStrip() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
             }}
           >
             <svg
-              width="22"
-              height="22"
+              width="26"
+              height="26"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -238,7 +238,7 @@ export default function SideStrip() {
             onClick={() => navigate('/bus')}
             aria-label="הסעות"
             style={{
-              color: path === '/bus' ? '#0071e3' : '#98989d',
+              color: path === '/bus' ? '#0071e3' : '#b0b0b5',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -246,13 +246,13 @@ export default function SideStrip() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
             }}
           >
             <svg
-              width="22"
-              height="22"
+              width="26"
+              height="26"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

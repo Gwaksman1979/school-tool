@@ -81,8 +81,13 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-[env(safe-area-inset-top,0px)]">
-      <h2 className="text-base font-normal text-[#98989d] px-5 pt-3 pb-2">תלמידים</h2>
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+      <h2
+        className="text-base font-normal text-[#98989d] px-5 pb-2"
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}
+      >
+        תלמידים
+      </h2>
       <div className="box-border w-full shrink-0 overflow-hidden bg-transparent px-5 pb-2">
         <div className="flex h-12 w-full box-border items-center overflow-hidden rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-3">
           <span className="shrink-0 text-[#98989d]">
