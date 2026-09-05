@@ -9,4 +9,6 @@
   --nm-border-subtle: rgba(255,255,255,0.08);
   --nm-radius-lg: 18px;
   --nm-radius-pill: 999px;
+  --nm-side-strip-width: 46px;
+  --nm-tabbar-height: 76px;
 }

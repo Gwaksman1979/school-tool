@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SchoolLogo from '../components/SchoolLogo'
+import SideStrip from '../components/SideStrip'
 
 export default function SplashPage() {
   const navigate = useNavigate()
@@ -13,7 +14,8 @@ export default function SplashPage() {
   }, [navigate])
 
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-[#000000]">
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-[#000000]" style={{ paddingLeft: 'var(--nm-side-strip-width)' }}>
+      <SideStrip />
       <SchoolLogo size={112} animated />
       <h1 className="text-[38px] font-bold leading-none">
         <span className="text-white">School </span>

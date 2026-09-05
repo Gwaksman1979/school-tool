@@ -85,12 +85,47 @@
    header + scrollable-middle + dock.
    Nothing is position:fixed. Only <main> scrolls. */
 
+/* Portal wordmark strip — same treatment as public/index.html */
+.side-strip {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--nm-side-strip-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(62,142,222,0.16) 0%, rgba(155,89,208,0.16) 55%, rgba(224,68,124,0.16) 100%);
+  border-right: 1px solid var(--nm-border-subtle);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.side-strip .wordmark {
+  writing-mode: vertical-rl;
+  transform: scaleY(1.35) rotate(180deg);
+  font-family: "Montserrat", -apple-system, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #3E8EDE 0%, #9B59D0 55%, #E0447C 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.side-strip .wordmark--dock {
+  margin-bottom: var(--nm-tabbar-height);
+}
+
 .app-shell {
   display: flex;
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
-  padding-left: 32px;
+  padding-left: var(--nm-side-strip-width);
   background-color: #000000;
   background:
     radial-gradient(circle at 18% 8%, rgba(62,142,222,0.12), transparent 50%),
