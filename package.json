@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && cp -r public/* dist/ 2>/dev/null || true",
+    "build": "tsc -b && vite build && mv dist/index.html dist/app.html && cp -r public/. dist/",
     "lint": "oxlint",
     "preview": "vite preview"
   },
