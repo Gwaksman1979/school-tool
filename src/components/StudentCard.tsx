@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {
   addRemark,
   deleteRemark,
@@ -59,9 +59,9 @@ export default function StudentCard({
 
   const [expanded, setExpanded] = useState(false)
   const [noteText, setNoteText] = useState('')
-  const [includeTargetDate, setIncludeTargetDate] = useState(false)
   const [targetDate, setTargetDate] = useState('')
   const [sortBy, setSortBy] = useState<'created' | 'target'>('created')
+  const targetDateInputRef = useRef<HTMLInputElement>(null)
   const [isSavingRemark, setIsSavingRemark] = useState(false)
   const [writeError, setWriteError] = useState<string | null>(null)
 
@@ -99,10 +99,9 @@ export default function StudentCard({
         student.id,
         todayDateString(),
         noteText,
-        includeTargetDate && targetDate ? targetDate : null,
+        targetDate || null,
       )
       setNoteText('')
-      setIncludeTargetDate(false)
       setTargetDate('')
       setWriteError(null)
     } catch (error) {
@@ -110,6 +109,20 @@ export default function StudentCard({
       setWriteError(WRITE_ERROR)
     } finally {
       setIsSavingRemark(false)
+    }
+  }
+
+  function openTargetDatePicker() {
+    const input = targetDateInputRef.current
+    if (!input) return
+    try {
+      if (typeof input.showPicker === 'function') {
+        input.showPicker()
+      } else {
+        input.click()
+      }
+    } catch {
+      input.click()
     }
   }
 
@@ -239,28 +252,75 @@ export default function StudentCard({
             >
               {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
             </button>
-            <label className="flex min-w-0 items-center gap-1.5 text-xs text-[#C0C0C6]">
-              <input
-                type="checkbox"
-                checked={includeTargetDate}
-                onChange={(event) => {
-                  setIncludeTargetDate(event.target.checked)
-                  if (!event.target.checked) setTargetDate('')
-                }}
-                className="h-4 w-4 accent-[#0071e3]"
-              />
-              הוסף תאריך יעד
-            </label>
           </div>
-          {includeTargetDate && (
-            <input
-              type="date"
-              value={targetDate}
-              onChange={(event) => setTargetDate(event.target.value)}
-              className="w-full box-border mt-1 min-h-[44px] rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white"
-              style={{ colorScheme: 'dark' }}
-            />
-          )}
+          <div
+            role="button"
+            tabIndex={0}
+            className="flex items-center gap-2 mt-2 cursor-pointer"
+            onClick={openTargetDatePicker}
+            onKeyDown={(event) => {
+              if (event.key !== 'Enter' && event.key !== ' ') return
+              event.preventDefault()
+              openTargetDatePicker()
+            }}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={targetDate ? 'text-[#0071e3]' : 'text-[#98989d]'}
+              aria-hidden="true"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4" />
+              <path d="M8 2v4" />
+              <path d="M3 10h18" />
+            </svg>
+            <span className={targetDate ? 'text-sm text-[#0071e3]' : 'text-sm text-[#98989d]'}>
+              {targetDate ? formatRemarkDate(targetDate) : 'הוסף תאריך יעד'}
+            </span>
+            {targetDate && (
+              <button
+                type="button"
+                aria-label="נקה תאריך יעד"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  setTargetDate('')
+                }}
+                className="border-0 bg-transparent p-0 text-[#8494AD] hover:text-red-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+          <input
+            ref={targetDateInputRef}
+            type="date"
+            value={targetDate}
+            onChange={(event) => setTargetDate(event.target.value)}
+            className="sr-only"
+            style={{ colorScheme: 'dark' }}
+            tabIndex={-1}
+            aria-hidden="true"
+          />
           {writeError && (
             <p className="mt-2 text-xs text-red-400" role="alert">
               {writeError}
