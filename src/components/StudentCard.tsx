@@ -7,7 +7,7 @@ import {
 } from '../hooks/useRemarks'
 import { WRITE_ERROR } from '../lib/messages'
 import { normalizeStatus, type Student } from '../types'
-import { ChevronDownIcon, ChevronLeftIcon, PersonFilledIcon } from './icons'
+import { ChevronDownIcon, PersonFilledIcon } from './icons'
 import Spinner from './Spinner'
 
 interface StudentCardProps {
@@ -166,7 +166,10 @@ export default function StudentCard({
         aria-label={`פרטים נוספים עבור ${fullName}`}
         className="shrink-0 border-0 bg-transparent p-0 text-[#8E8E93]"
       >
-        <ChevronLeftIcon className="h-5 w-5" />
+        <ChevronDownIcon
+          className="h-5 w-5 transition-transform duration-200"
+          style={{ transform: expanded ? 'rotate(0deg)' : 'rotate(90deg)' }}
+        />
       </button>
     ) : (
       <button
