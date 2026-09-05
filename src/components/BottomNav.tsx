@@ -10,11 +10,12 @@ const TABS = [
 export default function BottomNav() {
   return (
     <nav
-      className="app-bottom-nav flex justify-around items-center px-2 pt-2.5 pb-[max(12px,env(safe-area-inset-bottom))]"
+      className="fixed bottom-0 left-0 right-0 z-[25] flex justify-around items-center"
       style={{
-        background: 'rgba(0,0,0,0.85)',
-        backdropFilter: 'blur(10px)',
+        background: 'rgba(20,20,22,0.92)',
         borderTop: '1px solid rgba(255,255,255,0.08)',
+        backdropFilter: 'blur(10px)',
+        padding: '8px 0 max(20px, env(safe-area-inset-bottom))',
       }}
     >
       {TABS.map((tab) => {
@@ -24,21 +25,21 @@ export default function BottomNav() {
             key={tab.to}
             to={tab.to}
             aria-label={tab.label}
-            className="flex h-12 min-w-[4.5rem] items-center justify-center"
+            className="flex flex-col items-center gap-[3px] no-underline"
           >
             {({ isActive }) => (
-              <span className="flex flex-col items-center gap-0.5">
+              <>
                 <Icon
-                  className="h-5 w-5"
+                  className="h-[22px] w-[22px]"
                   style={{ color: isActive ? '#0071e3' : '#98989d' }}
                 />
                 <span
-                  className="text-[11px] font-medium"
+                  className="text-[11px] text-center"
                   style={{ color: isActive ? '#0071e3' : '#98989d' }}
                 >
                   {tab.label}
                 </span>
-              </span>
+              </>
             )}
           </NavLink>
         )
