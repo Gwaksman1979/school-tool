@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>החשבון שלי — New Mainstream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-black: #000000;
+    --bg-card: #1c1c1e;
+    --text-primary: #f5f5f7;
+    --text-secondary: #98989d;
+    --accent-blue: #0071e3;
+    --border-subtle: rgba(255,255,255,0.08);
+    --side-strip-width: 46px;
+    --tabbar-height: 76px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg-black);
+    color: var(--text-primary);
+    font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+  }
+
+  .hero-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse 70% 100% at 75% 0%, rgba(0,113,227,0.20), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .side-strip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--side-strip-width);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(62,142,222,0.16) 0%, rgba(155,89,208,0.16) 55%, rgba(224,68,124,0.16) 100%);
+    border-right: 1px solid var(--border-subtle);
+    z-index: 10;
+    pointer-events: none;
+  }
+  .side-strip .wordmark {
+    writing-mode: vertical-rl;
+    transform: scaleY(1.35) rotate(180deg);
+    margin-bottom: var(--tabbar-height);
+    font-family: "Montserrat", -apple-system, sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    background: linear-gradient(180deg, #3E8EDE 0%, #9B59D0 55%, #E0447C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 20px calc(var(--tabbar-height) + 32px) 56px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .acct-hero { padding: 8px 0 24px; }
+  .acct-hero h1 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 6px;
+  }
+  .acct-hero p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  /* Segmented switch between sign-in and sign-up */
+  .seg {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .seg button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .seg button.active {
+    background: var(--accent-blue);
+    color: #fff;
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 15px;
+    outline: none;
+    font-family: inherit;
+  }
+  .field input:focus { border-color: var(--accent-blue); }
+
+  .forgot {
+    display: block;
+    text-align: left;
+    font-size: 13px;
+    color: var(--accent-blue);
+    text-decoration: none;
+    margin: 2px 0 22px;
+  }
+  .forgot.hidden { display: none; }
+
+  .submit {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 999px;
+    background: var(--accent-blue);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .or {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+  .or::before, .or::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px;
+    border-radius: 999px;
+    border: 1px solid var(--border-subtle);
+    background: #fff;
+    color: #1f1f1f;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .google-btn svg { width: 19px; height: 19px; flex: 0 0 auto; }
+
+  .note {
+    margin-top: 20px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .note a { color: var(--accent-blue); font-weight: 600; text-decoration: none; }
+
+  .tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 max(20px, env(safe-area-inset-bottom));
+    background: rgba(20,20,22,0.92);
+    border-top: 1px solid var(--border-subtle);
+    backdrop-filter: blur(10px);
+    z-index: 25;
+  }
+  .tabbar a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 11px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .tabbar a.active { color: var(--accent-blue); }
+  .tabbar svg { width: 22px; height: 22px; }
+
+  .a11y-btn {
+    position: fixed;
+    bottom: calc(var(--tabbar-height) + 12px);
+    left: 14px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 26;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .a11y-btn svg { width: 24px; height: 24px; stroke: #fff; }
+  .a11y-panel {
+    position: fixed;
+    bottom: calc(var(--tabbar-height) + 64px);
+    left: 14px;
+    width: 220px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 14px;
+    z-index: 27;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .a11y-panel.open { display: block; }
+  .a11y-panel h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--text-primary);
+  }
+  .a11y-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .a11y-row:first-of-type { border-top: none; }
+  .a11y-stepper { display: flex; align-items: center; gap: 8px; }
+  .a11y-stepper button {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .a11y-toggle {
+    width: 38px;
+    height: 22px;
+    border-radius: 11px;
+    background: #444;
+    position: relative;
+    cursor: pointer;
+    border: none;
+  }
+  .a11y-toggle::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.15s ease;
+  }
+  .a11y-toggle.on { background: var(--accent-blue); }
+  .a11y-toggle.on::after { transform: translateX(16px); }
+</style>
+</head>
+<body>
+
+<div class="hero-glow"></div>
+
+<div class="side-strip">
+  <span class="wordmark">new mainstream</span>
+</div>
+
+<main>
+  <div class="acct-hero">
+    <h1 id="acctTitle">החשבון שלי</h1>
+    <p id="acctSub">התחברות לכל הכלים בחשבון אחד</p>
+  </div>
+
+  <div class="seg">
+    <button id="tabSignin" class="active" onclick="setMode('signin')">כניסה</button>
+    <button id="tabSignup" onclick="setMode('signup')">הרשמה</button>
+  </div>
+
+  <form id="acctForm" onsubmit="return handleSubmit(event)">
+    <div class="field" id="nameField" style="display:none">
+      <label for="fullname">שם מלא</label>
+      <input type="text" id="fullname" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="email">אימייל</label>
+      <input type="email" id="email" autocomplete="email" required>
+    </div>
+    <div class="field">
+      <label for="password">סיסמה</label>
+      <input type="password" id="password" autocomplete="current-password" required>
+    </div>
+    <a class="forgot" id="forgotLink" href="mailto:gilad@fireflysense.com?subject=New%20Mainstream%20-%20שחזור%20סיסמה&body=שכחתי%20את%20הסיסמה%20שלי">שכחתי סיסמה</a>
+    <button type="submit" class="submit" id="submitBtn">כניסה</button>
+  </form>
+
+  <div class="or">או</div>
+
+  <button class="google-btn" onclick="googleAuth()">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.76h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.76c-.99.66-2.26 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.11a6.6 6.6 0 0 1 0-4.22V7.05H2.18a11 11 0 0 0 0 9.9l3.66-2.84z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.05l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/>
+    </svg>
+    <span id="googleLabel">כניסה עם Google</span>
+  </button>
+
+  <div class="note">
+    כרגע הכניסה לכלים נעשית ישירות מתוך כל כלי.
+    <a href="/app/">לכניסה ל־SchoolTool ›</a>
+  </div>
+</main>
+
+<button class="a11y-btn" onclick="toggleA11yPanel()" aria-label="נגישות">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="4" r="1.6" fill="#fff" stroke="none"/><path d="M4 8c3 1 13 1 16 0"/><path d="M12 8v6"/><path d="M12 14l-3 7"/><path d="M12 14l3 7"/><path d="M8 11l-2 3"/><path d="M16 11l2 3"/></svg>
+</button>
+
+<div class="a11y-panel" id="a11yPanel">
+  <h4>נגישות</h4>
+  <div class="a11y-row">
+    <span>גודל טקסט</span>
+    <div class="a11y-stepper">
+      <button onclick="adjustFont(-1)">−</button>
+      <button onclick="adjustFont(1)">+</button>
+    </div>
+  </div>
+  <div class="a11y-row">
+    <span>ניגודיות גבוהה</span>
+    <button class="a11y-toggle" id="contrastToggle" onclick="toggleContrast()"></button>
+  </div>
+</div>
+
+<nav class="tabbar">
+  <a href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    אפליקציות
+  </a>
+  <a href="/story">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z"/><path d="M8 4v13"/></svg>
+    הסיפור
+  </a>
+  <a href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    חיפוש
+  </a>
+  <a href="/account" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    החשבון שלי
+  </a>
+</nav>
+
+<script>
+  var mode = 'signin';
+
+  function setMode(next) {
+    mode = next;
+    var signin = mode === 'signin';
+    document.getElementById('tabSignin').classList.toggle('active', signin);
+    document.getElementById('tabSignup').classList.toggle('active', !signin);
+    document.getElementById('nameField').style.display = signin ? 'none' : 'block';
+    document.getElementById('forgotLink').classList.toggle('hidden', !signin);
+    document.getElementById('submitBtn').textContent = signin ? 'כניסה' : 'יצירת חשבון';
+    document.getElementById('googleLabel').textContent = signin ? 'כניסה עם Google' : 'הרשמה עם Google';
+    document.getElementById('acctSub').textContent = signin
+      ? 'התחברות לכל הכלים בחשבון אחד'
+      : 'חשבון אחד לכל הכלים בפורטל';
+    document.getElementById('password').setAttribute('autocomplete', signin ? 'current-password' : 'new-password');
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Auth is wired per-tool for now; send people to the live tool.
+    window.location.href = '/app/';
+    return false;
+  }
+
+  function googleAuth() {
+    window.location.href = '/app/';
+  }
+
+  function toggleA11yPanel() {
+    document.getElementById('a11yPanel').classList.toggle('open');
+  }
+  var fontStep = 0;
+  function adjustFont(delta) {
+    fontStep = Math.max(-2, Math.min(4, fontStep + delta));
+    document.querySelector('main').style.fontSize = (100 + fontStep * 10) + '%';
+  }
+  function toggleContrast() {
+    document.body.classList.toggle('high-contrast');
+    document.getElementById('contrastToggle').classList.toggle('on');
+  }
+</script>
+
+</body>
+</html>
