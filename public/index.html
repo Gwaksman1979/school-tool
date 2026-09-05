@@ -40,12 +40,14 @@
     pointer-events: none;
   }
 
-  /* Vertical wordmark strip, stops where the tab bar begins */
+  /* Wordmark strip: runs the full height, passing behind the tab bar.
+     The wordmark itself is nudged up by the tab bar height so it centres
+     in the band the reader can actually see. */
   .side-strip {
     position: fixed;
     left: 0;
     top: 0;
-    bottom: var(--tabbar-height);
+    bottom: 0;
     width: var(--side-strip-width);
     display: flex;
     align-items: center;
@@ -58,6 +60,7 @@
   .side-strip .wordmark {
     writing-mode: vertical-rl;
     transform: scaleY(1.35) rotate(180deg);
+    margin-bottom: var(--tabbar-height);
     font-family: "Montserrat", -apple-system, sans-serif;
     font-size: 17px;
     font-weight: 700;
