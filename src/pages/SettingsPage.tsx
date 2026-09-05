@@ -628,7 +628,7 @@ export default function SettingsPage() {
           </ul>
         </SectionCard>
 
-        <SectionCard title="ייבוא תלמידים" icon={<ImportIcon className="h-6 w-6" />}>
+        <SectionCard title="העלאת קובץ" icon={<ImportIcon className="h-6 w-6" />}>
           <p className="text-sm text-[#98989d]">
             העלה קובץ עם העמודות: שם פרטי, שם משפחה, כיתה, אוטובוס הגעה, אוטובוס עזיבה
           </p>

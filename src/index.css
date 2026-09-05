@@ -90,6 +90,7 @@
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
+  padding-left: 32px;
   background-color: #000000;
   background:
     radial-gradient(circle at 18% 8%, rgba(62,142,222,0.12), transparent 50%),

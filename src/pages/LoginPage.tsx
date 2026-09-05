@@ -43,7 +43,25 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[100dvh] w-full flex-col overflow-hidden bg-[#000000] pt-[calc(20px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+    <div className="flex min-h-[100dvh] w-full flex-col overflow-hidden bg-[#000000] pl-8 pt-[calc(20px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+      <div
+        className="pointer-events-none fixed top-0 bottom-0 left-0 z-[5] flex w-8 items-center justify-center"
+        style={{ background: 'linear-gradient(to bottom, #3E8EDE, #9B59D0, #E0447C)' }}
+        aria-hidden="true"
+      >
+        <span
+          className="text-[10px] font-bold tracking-[0.3em] text-white"
+          style={{
+            writingMode: 'vertical-lr',
+            transform: 'rotate(180deg)',
+            fontFamily: '"Montserrat", sans-serif',
+            letterSpacing: '0.35em',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          NEW MAINSTREAM
+        </span>
+      </div>
       {/* Back to the New Mainstream portal. Full page load, not a router link,
           because the portal is a static page outside the React app. */}
       <div className="shrink-0 px-5">

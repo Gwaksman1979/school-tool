@@ -25,9 +25,14 @@ function createDb() {
         tabManager: persistentMultipleTabManager(),
       }),
     })
-  } catch (error) {
-    console.warn('Firestore persistence not available:', error)
-    return getFirestore(app)
+  } catch {
+    try {
+      return initializeFirestore(app, {
+        localCache: persistentLocalCache({}),
+      })
+    } catch {
+      return getFirestore(app)
+    }
   }
 }
 

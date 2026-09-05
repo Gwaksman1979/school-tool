@@ -31,6 +31,24 @@ function AppShell() {
 
   return (
     <div className="app-shell">
+      <div
+        className="pointer-events-none fixed top-0 bottom-0 left-0 z-[5] flex w-8 items-center justify-center"
+        style={{ background: 'linear-gradient(to bottom, #3E8EDE, #9B59D0, #E0447C)' }}
+        aria-hidden="true"
+      >
+        <span
+          className="text-[10px] font-bold tracking-[0.3em] text-white"
+          style={{
+            writingMode: 'vertical-lr',
+            transform: 'rotate(180deg)',
+            fontFamily: '"Montserrat", sans-serif',
+            letterSpacing: '0.35em',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          NEW MAINSTREAM
+        </span>
+      </div>
       <TopBar
         dropdownItems={chrome?.dropdownItems}
         onDropdownSelect={chrome?.onDropdownSelect}
