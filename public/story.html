@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הסיפור של ניו מיינסטרים — New Mainstream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-black: #000000;
+    --bg-card: #1c1c1e;
+    --text-primary: #f5f5f7;
+    --text-secondary: #98989d;
+    --accent-blue: #0071e3;
+    --border-subtle: rgba(255,255,255,0.08);
+    --side-strip-width: 46px;
+    --tabbar-height: 76px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg-black);
+    color: var(--text-primary);
+    font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+  }
+
+  .side-strip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--side-strip-width);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(62,142,222,0.16) 0%, rgba(155,89,208,0.16) 55%, rgba(224,68,124,0.16) 100%);
+    border-right: 1px solid var(--border-subtle);
+    z-index: 20;
+    pointer-events: none;
+  }
+  .side-strip .wordmark {
+    writing-mode: vertical-rl;
+    transform: scaleY(1.35) rotate(180deg);
+    font-family: "Montserrat", -apple-system, sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    background: linear-gradient(180deg, #3E8EDE 0%, #9B59D0 55%, #E0447C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  main {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 20px calc(var(--tabbar-height) + 32px) 56px;
+    min-height: 100vh;
+  }
+
+  .story-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13.5px;
+    padding: 4px 0 16px;
+  }
+  .story-back svg { width: 20px; height: 20px; }
+
+  .story-hero {
+    background:
+      radial-gradient(circle at 25% 0%, rgba(0,113,227,0.20), transparent 60%),
+      var(--bg-black);
+    margin: 0 -20px 0 -56px;
+    padding: 8px 20px 22px 56px;
+  }
+  .story-hero h1 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 8px;
+  }
+  .story-hero .kicker {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    margin: 0;
+  }
+
+  .story-body { padding-top: 22px; }
+  .story-body p {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: #d8d8dc;
+    margin: 0 0 18px;
+  }
+  .story-body p:last-child { margin-bottom: 0; }
+  .story-body a {
+    color: var(--accent-blue);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .pull-quote {
+    border-inline-start: 2px solid var(--accent-blue);
+    padding: 2px 16px;
+    margin: 26px 0;
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .pull-quote cite {
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+
+  #storyMore {
+    display: none;
+    animation: fadeUp 0.4s ease both;
+  }
+  #storyMore.open { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .read-more {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0 4px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 14.5px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .read-more.hidden { display: none; }
+
+  .story-sign {
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .story-sign .term {
+    font-family: "Montserrat", -apple-system, sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #3E8EDE 0%, #9B59D0 55%, #E0447C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+  .story-sign p {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    margin: 0;
+  }
+
+  .story-cta {
+    display: block;
+    text-align: center;
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 24px;
+    background: var(--accent-blue);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+  }
+
+  .tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 max(20px, env(safe-area-inset-bottom));
+    background: rgba(20,20,22,0.92);
+    border-top: 1px solid var(--border-subtle);
+    backdrop-filter: blur(10px);
+    z-index: 15;
+  }
+  .tabbar a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 11px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .tabbar a.active { color: var(--accent-blue); }
+  .tabbar svg { width: 22px; height: 22px; }
+
+  .a11y-btn {
+    position: fixed;
+    bottom: calc(var(--tabbar-height) + 12px);
+    left: 14px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 16;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .a11y-btn svg { width: 24px; height: 24px; stroke: #fff; }
+  .a11y-panel {
+    position: fixed;
+    bottom: calc(var(--tabbar-height) + 64px);
+    left: 14px;
+    width: 220px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 14px;
+    z-index: 17;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .a11y-panel.open { display: block; }
+  .a11y-panel h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--text-primary);
+  }
+  .a11y-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .a11y-row:first-of-type { border-top: none; }
+  .a11y-stepper { display: flex; align-items: center; gap: 8px; }
+  .a11y-stepper button {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .a11y-toggle {
+    width: 38px;
+    height: 22px;
+    border-radius: 11px;
+    background: #444;
+    position: relative;
+    cursor: pointer;
+    border: none;
+  }
+  .a11y-toggle::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.15s ease;
+  }
+  .a11y-toggle.on { background: var(--accent-blue); }
+  .a11y-toggle.on::after { transform: translateX(16px); }
+  body.high-contrast .story-body p { color: #ffffff; }
+  body.high-contrast .story-hero .kicker { color: #e5e5e5; }
+</style>
+</head>
+<body>
+
+<div class="side-strip">
+  <span class="wordmark">new mainstream</span>
+</div>
+
+<main>
+  <a class="story-back" href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+    חזרה לכלים
+  </a>
+
+  <div class="story-hero">
+    <h1>הסיפור של<br>ניו מיינסטרים</h1>
+    <p class="kicker">גלעד וקסמן · דור שלישי בתחום</p>
+  </div>
+
+  <div class="story-body">
+    <p>מעל שני עשורים פעלתי בעולם העסקים והסטארט־אפים, תמיד כעצמאי. אולי בזכות כך מעולם לא השלמתי עם הסטטוס קוו, ותמיד האמנתי שניתן לשבור מוסכמות קיימות. איך בדיוק הגעתי משם אל העבודה עם בוגרים ונוער על הספקטרום האוטיסטי, וכיצד האמונה הזו עומדת מול עבודה בסביבות שמתקדמות באיטיות ונרתעות משינוי — זהו סיפור שראוי להרחיב עליו בנפרד. חלק נכבד מההשפעה שהובילה אותי להשתלב בתחום, ולהעניק לניסיון ולידע שצברתי משמעות אמיתית, שייך לזוגתי — עובדת סוציאלית — שלימדה אותי רבות לאורך הדרך.</p>
+
+    <p>הפורטל הזה הוא ארגז הכלים שלי. אחד המיזמים המרכזיים שאני עובד עליהם כיום הוא <a href="https://fireflysense.com" target="_blank" rel="noopener">Firefly</a> — מיזם שמטרתו להתאים את שוק הדיור לאנשים עם מוגבלויות בלתי נראות, כדי לאפשר להם לחיות באופן עצמאי ולבחור היכן לגור.</p>
+
+    <p>התחלתי בדיור בקהילה, המשכתי לעבודה עם בוגרים היוצאים לעצמאות, והשתלבתי גם בחינוך המיוחד בתיכון, בדגש על פיתוח פתרונות עצמאיים על ידי הנוער עצמו.</p>
+
+    <button class="read-more" id="readMoreBtn" onclick="openMore()">קרא עוד ›</button>
+
+    <div id="storyMore">
+      <p>התחוור לי שהבעיה לרוב אינה באדם, אלא בסביבה חסרת התאמות. ניגשתי לכל מקרה כאל בעיה שניתן לפצח בכלים מעולם פיתוח המוצר.</p>
+
+      <p>כך פיתחתי צ'אטבוט בוואטסאפ לתזמון מראש של הודעות מלחיצות, כמו הודעת מחלה למנהל. עם בוגר בן עשרים וחמש שרצה לעזוב את הבית, הצעתי לו לראות במשפחה זירת אימון בטוחה — וזו הייתה נקודת המפנה; בהמשך התאמתי לאותה משפחה מערכת ניהול משימות מעולם הפיתוח, מחוברת לוואטסאפ ולמייל, עד שהוא עצמו הפך למי שמנגיש אותה לשאר בני המשפחה. לבוגר אחר הטמעתי עוזר AI שליווה את שגרתו ולימד אותו שמותר להשיב "תן לי לחשוב על כך" במקום תחת לחץ. בכל המקרים הפתרון פעל מאחורי הקלעים, דרך ממשקים מוכרים.</p>
+
+      <p>אני בונה תמיד מתוך חוויית המשתמש, ונשען על רקע טכנולוגי כדי לבנות פתרונות עבור בוגרים ונוער על הספקטרום ומשפחותיהם. לאורך השנים היו לי גם הזדמנויות לעבוד עם ארגונים כמו איקאה, קוקה קולה ישראל, מקדונלד'ס, HP ונורת' פייס, מה שהקנה לי הבנה מעמיקה של תעסוקה והנגשה בבתי עסק. יש לי גם רקע קצר בפיננסים וקריפטו, שעזר לי, למשל, לכוון אדם שהתקשה עם הבנק לפתוח חשבון בבנק זירו הדיגיטלי, הפועל כולו דרך צ'אטבוט.</p>
+
+      <p>חלק מהמפתח להבנה הזו לא הגיע רק מבחוץ: לפני מספר שנים אובחנתי בעצמי עם הפרעת קשב וריכוז, אבחנה שפתחה בפניי את עולם הניורודיברסיטי ואת הקשר עם אנשי מקצוע ברחבי העולם. גיליתי גם שיכולת הקשב שלי דווקא פתחה ערוצי תקשורת ייחודיים עם אנשים על הספקטרום.</p>
+
+      <blockquote class="pull-quote">
+        "יש לך פרופיל שאינו קיים בתחום שלנו. כדאי שתשתמש בו, כי הקהילה זקוקה לכך."
+        <cite>ליסה, אנגליה · דמות בולטת בתחום</cite>
+      </blockquote>
+
+      <p>זו הפכה למוטיבציה המרכזית שלי. במידה רבה חזרתי הביתה: סבי לימד כארבעים שנה, כולל במוסדות לילדים עם שיתוק מוחין, ואמי לימדה חינוך מיוחד לפני שעברה לאקדמיה. אני דור שלישי בתחום — רק שהכלים שלי היום הם מעולמות הטכנולוגיה.</p>
+
+      <div class="story-sign">
+        <span class="term">inclusive innovation</span>
+        <p>זה מה שאני קורא לזה.</p>
+      </div>
+
+      <a class="story-cta" href="/">לארגז הכלים</a>
+    </div>
+  </div>
+</main>
+
+<button class="a11y-btn" onclick="toggleA11yPanel()" aria-label="נגישות">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="4" r="1.6" fill="#fff" stroke="none"/><path d="M4 8c3 1 13 1 16 0"/><path d="M12 8v6"/><path d="M12 14l-3 7"/><path d="M12 14l3 7"/><path d="M8 11l-2 3"/><path d="M16 11l2 3"/></svg>
+</button>
+
+<div class="a11y-panel" id="a11yPanel">
+  <h4>נגישות</h4>
+  <div class="a11y-row">
+    <span>גודל טקסט</span>
+    <div class="a11y-stepper">
+      <button onclick="adjustFont(-1)">−</button>
+      <button onclick="adjustFont(1)">+</button>
+    </div>
+  </div>
+  <div class="a11y-row">
+    <span>ניגודיות גבוהה</span>
+    <button class="a11y-toggle" id="contrastToggle" onclick="toggleContrast()"></button>
+  </div>
+</div>
+
+<nav class="tabbar">
+  <a href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    אפליקציות
+  </a>
+  <a href="/story" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z"/><path d="M8 4v13"/></svg>
+    הסיפור
+  </a>
+  <a href="/search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    חיפוש
+  </a>
+  <a href="/account">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    החשבון שלי
+  </a>
+</nav>
+
+<script>
+  function openMore() {
+    document.getElementById('storyMore').classList.add('open');
+    document.getElementById('readMoreBtn').classList.add('hidden');
+  }
+  function toggleA11yPanel() {
+    document.getElementById('a11yPanel').classList.toggle('open');
+  }
+  var fontStep = 0;
+  function adjustFont(delta) {
+    fontStep = Math.max(-2, Math.min(4, fontStep + delta));
+    document.querySelector('main').style.fontSize = (100 + fontStep * 10) + '%';
+  }
+  function toggleContrast() {
+    document.body.classList.toggle('high-contrast');
+    document.getElementById('contrastToggle').classList.toggle('on');
+  }
+</script>
+
+</body>
+</html>
