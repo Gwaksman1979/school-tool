@@ -96,7 +96,7 @@ export default function ClassPage() {
   }
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-4">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-[calc(env(safe-area-inset-top,0px)+3.5rem)]">
       <div className="shrink-0">
         <ClassCarousel
           classes={filteredClasses}

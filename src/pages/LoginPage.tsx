@@ -3,7 +3,6 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HeroGlow from '../components/HeroGlow'
 import SchoolLogo from '../components/SchoolLogo'
-import SideStrip from '../components/SideStrip'
 import Spinner from '../components/Spinner'
 import { EyeIcon, EyeOffIcon, LockIcon, PersonIcon } from '../components/icons'
 import { setSchoolId } from '../lib/auth'
@@ -45,8 +44,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative z-[1] flex min-h-[100dvh] w-full flex-col overflow-hidden bg-transparent pl-[46px] pt-[calc(20px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
-      <SideStrip />
+    <div className="relative z-[1] flex min-h-[100dvh] w-full flex-col overflow-hidden bg-transparent pl-0 pt-[calc(20px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
       <HeroGlow />
       {/* Back to the New Mainstream portal. Full page load, not a router link,
           because the portal is a static page outside the React app. */}

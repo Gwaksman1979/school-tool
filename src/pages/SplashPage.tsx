@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HeroGlow from '../components/HeroGlow'
 import SchoolLogo from '../components/SchoolLogo'
-import SideStrip from '../components/SideStrip'
 
 export default function SplashPage() {
   const navigate = useNavigate()
@@ -15,8 +14,7 @@ export default function SplashPage() {
   }, [navigate])
 
   return (
-    <div className="relative z-[1] flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-transparent pl-[46px]">
-      <SideStrip />
+    <div className="relative z-[1] flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-transparent pl-0">
       <HeroGlow />
       <SchoolLogo size={112} animated />
       <h1 className="text-[38px] font-bold leading-none">

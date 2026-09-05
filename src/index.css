@@ -77,28 +77,23 @@
 }
 
 /* ===== FLEX SKELETON =====
-   header + scrollable-middle + dock spacer.
-   Side strip, hero glow, and tab bar are position:fixed. Only <main> scrolls. */
+   Right-side strip is position:fixed. Only <main> scrolls. */
 
 .app-shell {
   display: flex;
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
-  padding-left: 46px;
+  padding-left: 0;
+  padding-right: 56px;
   background-color: transparent;
-}
-
-.app-top-bar {
-  flex-shrink: 0;
-  min-height: calc(48px + var(--safe-top));
 }
 
 .app-main {
   position: relative;
   z-index: 1;
-  flex: 1 1 0%;
-  min-height: 0;          /* lets flex child shrink below content height */
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -108,12 +103,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-.app-bottom-dock {
-  flex-shrink: 0;
-  min-height: 76px;
-  background-color: transparent;
 }
 
 @keyframes drawS {

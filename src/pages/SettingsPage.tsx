@@ -1,5 +1,6 @@
 import { collection, deleteDoc, doc, setDoc, writeBatch } from 'firebase/firestore'
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Spinner from '../components/Spinner'
 import {
   AccountIcon,
@@ -111,6 +112,7 @@ function normalizeRow(row: Record<string, unknown>): Record<string, string> {
 }
 
 export default function SettingsPage() {
+  const navigate = useNavigate()
   const { setTitle } = usePageTitle()
   const schoolId = getSchoolId()
   const { items: classes } = useClasses(schoolId)
@@ -439,8 +441,26 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="box-border w-full overflow-hidden px-4 py-4">
+    <div className="box-border w-full overflow-hidden px-4 pb-4 pt-[calc(env(safe-area-inset-top,0px)+1rem)]">
       <div className="flex w-full min-w-0 flex-col gap-3 overflow-hidden">
+        <button
+          type="button"
+          onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/bus'))}
+          className="mb-3 flex items-center gap-1 text-sm text-[#98989d]"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+          חזרה
+        </button>
         <SectionCard title="חשבון" icon={<AccountIcon className="h-6 w-6" />}>
           <p className="text-sm text-[#98989d]">יציאה תחזיר אותך למסך ההתחברות.</p>
           <button
