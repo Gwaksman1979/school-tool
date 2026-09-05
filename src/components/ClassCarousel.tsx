@@ -1,15 +1,9 @@
 import type { SchoolClass } from '../types'
 
-const CLASS_COLORS = ['#3a7bd5', '#b6a324', '#d97a1f', '#E06818']
-
 interface ClassCarouselProps {
   classes: SchoolClass[]
   selectedClassId: string
   onSelect: (classId: string) => void
-}
-
-function classColor(index: number): string {
-  return CLASS_COLORS[index % CLASS_COLORS.length] ?? '#3a7bd5'
 }
 
 export default function ClassCarousel({
@@ -23,7 +17,7 @@ export default function ClassCarousel({
       className="flex gap-2 overflow-x-auto px-5 pb-3.5"
       style={{ scrollbarWidth: 'none' }}
     >
-      {classes.map((schoolClass, index) => {
+      {classes.map((schoolClass) => {
         const selected = schoolClass.id === selectedClassId
         return (
           <button
@@ -33,13 +27,16 @@ export default function ClassCarousel({
             onClick={() => onSelect(schoolClass.id)}
             aria-label={schoolClass.name}
             aria-pressed={selected}
-            className="flex-none px-5 py-2.5 rounded-full text-sm font-semibold text-white whitespace-nowrap"
+            className="flex-none px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap"
             style={{
-              backgroundColor: classColor(index),
+              background: selected
+                ? 'linear-gradient(135deg, #f5a742, #F0A030)'
+                : '#2c2c2e',
+              color: selected ? '#000000' : '#ffffff',
               border: selected ? '2px solid #fff' : '2px solid transparent',
               transform: selected ? 'scale(1.05)' : 'none',
-              boxShadow: selected ? '0 0 12px rgba(255,255,255,0.15)' : undefined,
-              opacity: selected ? 1 : 0.5,
+              boxShadow: selected ? '0 0 14px rgba(245,167,66,0.35)' : undefined,
+              opacity: 1,
               transition: 'all 180ms ease',
             }}
           >

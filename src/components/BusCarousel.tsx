@@ -1,11 +1,5 @@
 import { useMemo } from 'react'
-import {
-  isBusDeparted,
-  normalizeStatus,
-  sortBuses,
-  type Bus,
-  type Student,
-} from '../types'
+import { isBusDeparted, sortBuses, type Bus, type Student } from '../types'
 import { BusIcon } from './icons'
 
 interface BusCarouselProps {
@@ -15,23 +9,8 @@ interface BusCarouselProps {
   onSelect: (busId: string) => void
 }
 
-function busStudents(students: Student[], busId: string): Student[] {
-  return students.filter(
-    (student) =>
-      student.transport_mode === 'bus' &&
-      (student.arrival_bus_id === busId || student.departure_bus_id === busId),
-  )
-}
-
-function isBusDone(students: Student[], busId: string): boolean {
-  const riders = busStudents(students, busId)
-  if (riders.length === 0) return true
-  return riders.every((student) => normalizeStatus(student.current_status) !== 'not_arrived')
-}
-
 export default function BusCarousel({
   buses,
-  students,
   selectedBusId,
   onSelect,
 }: BusCarouselProps) {
@@ -46,8 +25,6 @@ export default function BusCarousel({
       {sortedBuses.map((bus) => {
         const selected = bus.id === selectedBusId
         const departed = isBusDeparted(bus)
-        const done = isBusDone(students, bus.id)
-        const fill = departed ? '#2c2c2e' : done ? '#005bb5' : '#0071e3'
         return (
           <button
             key={bus.id}
@@ -56,13 +33,16 @@ export default function BusCarousel({
             onClick={() => onSelect(bus.id)}
             aria-label={`קו ${bus.label}`}
             aria-pressed={selected}
-            className="flex-none flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold text-white whitespace-nowrap"
+            className="flex-none flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap"
             style={{
-              backgroundColor: fill,
-              border: selected ? '2px solid #fff' : '2px solid transparent',
-              transform: selected ? 'scale(1.08)' : 'none',
-              boxShadow: selected ? '0 0 12px rgba(0,113,227,0.4)' : undefined,
-              opacity: selected ? 1 : 0.55,
+              background: selected
+                ? 'linear-gradient(135deg, #f5a742, #F0A030)'
+                : '#2c2c2e',
+              color: selected ? '#000000' : '#ffffff',
+              border: selected ? '2px solid rgba(255,255,255,0.3)' : '2px solid transparent',
+              transform: selected ? 'scale(1.05)' : 'none',
+              boxShadow: selected ? '0 0 14px rgba(245,167,66,0.35)' : undefined,
+              opacity: departed ? 0.4 : 1,
               transition: 'all 180ms ease',
             }}
           >
