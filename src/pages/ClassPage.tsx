@@ -96,20 +96,23 @@ export default function ClassPage() {
   }
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-[calc(env(safe-area-inset-top,0px)+1rem)]">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-[env(safe-area-inset-top,0px)]">
       <div className="shrink-0">
+        <h2 className="text-base font-normal text-[#98989d] px-5 pt-3 pb-2">כיתות</h2>
         <ClassCarousel
           classes={filteredClasses}
           selectedClassId={selectedClassId}
           onSelect={handleSelectClass}
         />
-        <InlineSearch
-          value={search}
-          onChange={setSearch}
-          placeholder="חיפוש כיתה..."
-        />
+        <div className="mt-3">
+          <InlineSearch
+            value={search}
+            onChange={setSearch}
+            placeholder="חיפוש כיתה..."
+          />
+        </div>
         {selectedClass && (
-          <p className="text-center text-xs text-[#98989d] mt-1 mb-2">
+          <p className="px-5 text-xs text-[#98989d] mt-1 mb-2">
             {selectedClass.name}
           </p>
         )}

@@ -52,8 +52,9 @@ export default function SideStrip() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          background:
-            'linear-gradient(180deg, rgba(62,142,222,0.12) 0%, rgba(155,89,208,0.12) 55%, rgba(224,68,124,0.12) 100%)',
+          backgroundColor: 'rgba(0,0,0,0.20)',
+          backgroundImage:
+            'linear-gradient(180deg, rgba(62,142,222,0.04) 0%, rgba(155,89,208,0.04) 55%, rgba(224,68,124,0.04) 100%)',
           borderLeft: '1px solid rgba(255,255,255,0.08)',
           zIndex: 30,
           paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)',
@@ -135,6 +136,7 @@ export default function SideStrip() {
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               color: 'transparent',
+              opacity: 0.5,
             }}
           >
             new mainstream

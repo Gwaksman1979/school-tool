@@ -32,8 +32,8 @@ export default function ClassCarousel({
               background: selected
                 ? 'linear-gradient(135deg, #f5a742, #F0A030)'
                 : '#2c2c2e',
-              color: selected ? '#000000' : '#ffffff',
-              border: selected ? '2px solid #fff' : '2px solid transparent',
+              color: selected ? '#000' : '#fff',
+              border: selected ? '2px solid rgba(255,255,255,0.3)' : '2px solid transparent',
               transform: selected ? 'scale(1.05)' : 'none',
               boxShadow: selected ? '0 0 14px rgba(245,167,66,0.35)' : undefined,
               opacity: 1,

@@ -10,7 +10,7 @@ export default function InlineSearch({
   placeholder = 'חיפוש...',
 }: InlineSearchProps) {
   return (
-    <div className="mx-4 mb-2">
+    <div className="mb-2 px-5">
       <div className="flex h-10 items-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-3">
         <svg
           className="h-4 w-4 shrink-0 text-[#98989d]"
