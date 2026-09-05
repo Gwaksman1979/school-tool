@@ -164,7 +164,7 @@ export default function BusPage() {
             <span style={{ color: '#f4c542', fontSize: 17, fontWeight: 700 }}>{atSchoolCount}</span>
           </div>
         </div>
-        <div style={{ marginTop: 'calc(2rem - 4mm)' }}>
+        <div className="mt-8">
           <BusCarousel
             buses={filteredBuses}
             students={students}

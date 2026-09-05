@@ -96,7 +96,7 @@ export default function StudentsPage() {
           <span style={{ color: '#f4c542', fontSize: 17, fontWeight: 700 }}>{atSchoolCount}</span>
         </div>
       </div>
-      <div className="box-border w-full shrink-0 overflow-hidden bg-transparent px-4 py-2">
+      <div className="mt-3 box-border w-full shrink-0 overflow-hidden bg-transparent px-4 py-2">
         <div className="flex h-10 w-full box-border items-center overflow-hidden rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-3">
           <span className="shrink-0 text-[#98989d]">
             <SearchIcon className="h-5 w-5" />
