@@ -28,19 +28,31 @@
     min-height: 100%;
   }
 
-  /* Vertical wordmark strip, fixed full height on the left */
+  /* Hero glow: full-bleed band behind the headline, edge to edge */
+  .hero-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse 70% 100% at 75% 0%, rgba(0,113,227,0.22), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Vertical wordmark strip, stops where the tab bar begins */
   .side-strip {
     position: fixed;
     left: 0;
     top: 0;
-    bottom: 0;
+    bottom: var(--tabbar-height);
     width: var(--side-strip-width);
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg, rgba(62,142,222,0.16) 0%, rgba(155,89,208,0.16) 55%, rgba(224,68,124,0.16) 100%);
     border-right: 1px solid var(--border-subtle);
-    z-index: 20;
+    z-index: 10;
     pointer-events: none;
   }
   .side-strip .wordmark {
@@ -60,6 +72,8 @@
 
   /* Main content column */
   main {
+    position: relative;
+    z-index: 1;
     max-width: 480px;
     margin: 0 auto;
     padding: 24px 20px calc(var(--tabbar-height) + 24px) 56px;
@@ -68,11 +82,6 @@
 
   .hero {
     padding: 12px 0 6px;
-    background:
-      radial-gradient(circle at 25% 10%, rgba(0,113,227,0.20), transparent 55%),
-      var(--bg-black);
-    margin: 0 -20px 0;
-    padding-inline: 20px;
   }
   .hero h1 {
     font-size: 24px;
@@ -232,7 +241,7 @@
     background: rgba(20,20,22,0.92);
     border-top: 1px solid var(--border-subtle);
     backdrop-filter: blur(10px);
-    z-index: 15;
+    z-index: 25;
   }
   .tabbar a {
     color: var(--text-secondary);
@@ -261,7 +270,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 16;
+    z-index: 26;
     box-shadow: 0 4px 12px rgba(0,0,0,0.4);
   }
   .a11y-btn svg { width: 24px; height: 24px; stroke: #fff; }
@@ -274,7 +283,7 @@
     border: 1px solid var(--border-subtle);
     border-radius: 16px;
     padding: 14px;
-    z-index: 17;
+    z-index: 27;
     display: none;
     box-shadow: 0 8px 24px rgba(0,0,0,0.5);
   }
@@ -337,6 +346,8 @@
 </style>
 </head>
 <body>
+
+<div class="hero-glow"></div>
 
 <div class="side-strip">
   <span class="wordmark">new mainstream</span>
