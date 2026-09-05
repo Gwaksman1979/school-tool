@@ -35,11 +35,22 @@ export default function ClassPage() {
     [classes],
   )
 
+  const filteredClasses = useMemo(() => {
+    const query = search.trim()
+    return sortedClasses.filter((cls) => !query || cls.name.includes(query))
+  }, [sortedClasses, search])
+
   useEffect(() => {
     if (!selectedClassId && sortedClasses[0]) {
       setSelectedClassId(sortedClasses[0].id)
     }
   }, [selectedClassId, sortedClasses])
+
+  useEffect(() => {
+    if (search.trim() && filteredClasses.length === 1) {
+      handleSelectClass(filteredClasses[0].id)
+    }
+  }, [search, filteredClasses, handleSelectClass])
 
   const busLabelById = useMemo(
     () => Object.fromEntries(buses.map((bus) => [bus.id, bus.label])),
@@ -70,25 +81,14 @@ export default function ClassPage() {
 
   const visibleStudents = useMemo(() => {
     if (!selectedClassId) return []
-    const query = search.trim().toLocaleLowerCase('he')
     return students
       .filter((student) => student.class_id === selectedClassId)
-      .filter((student) => {
-        if (!query) return true
-        const first = student.first_name.toLocaleLowerCase('he')
-        const last = student.last_name.toLocaleLowerCase('he')
-        return (
-          first.includes(query) ||
-          last.includes(query) ||
-          `${first} ${last}`.includes(query)
-        )
-      })
       .sort((a, b) => {
         const first = a.first_name.localeCompare(b.first_name, 'he')
         if (first !== 0) return first
         return a.last_name.localeCompare(b.last_name, 'he')
       })
-  }, [students, selectedClassId, search])
+  }, [students, selectedClassId])
 
   function arrivalBusLabel(student: Student): string | null {
     if (!student.arrival_bus_id) return null
@@ -99,14 +99,14 @@ export default function ClassPage() {
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-4">
       <div className="shrink-0">
         <ClassCarousel
-          classes={sortedClasses}
+          classes={filteredClasses}
           selectedClassId={selectedClassId}
           onSelect={handleSelectClass}
         />
         <InlineSearch
           value={search}
           onChange={setSearch}
-          placeholder="חיפוש תלמיד..."
+          placeholder="חיפוש כיתה..."
         />
         {selectedClass && (
           <p className="text-center text-xs text-[#98989d] mt-1 mb-2">
@@ -124,9 +124,7 @@ export default function ClassPage() {
             בחר כיתה כדי לראות תלמידים
           </p>
         ) : visibleStudents.length === 0 ? (
-          <p className="py-12 text-center text-[#98989d]">
-            {search.trim() ? 'לא נמצאו תלמידים' : 'אין תלמידים בכיתה זו'}
-          </p>
+          <p className="py-12 text-center text-[#98989d]">אין תלמידים בכיתה זו</p>
         ) : (
           <ul className="flex min-w-0 list-none flex-col gap-0 p-0">
             {visibleStudents.map((student) => (

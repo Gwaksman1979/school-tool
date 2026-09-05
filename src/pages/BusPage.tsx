@@ -36,6 +36,10 @@ export default function BusPage() {
   }, [])
 
   const sortedBuses = useMemo(() => sortBuses(buses), [buses])
+  const filteredBuses = useMemo(() => {
+    const query = search.trim()
+    return sortedBuses.filter((bus) => !query || bus.label.includes(query))
+  }, [sortedBuses, search])
   const chromeKeyRef = useRef('')
 
   useEffect(() => {
@@ -43,6 +47,12 @@ export default function BusPage() {
       setSelectedBusId(sortedBuses[0].id)
     }
   }, [selectedBusId, sortedBuses])
+
+  useEffect(() => {
+    if (search.trim() && filteredBuses.length === 1) {
+      handleSelectBus(filteredBuses[0].id)
+    }
+  }, [search, filteredBuses, handleSelectBus])
 
   const classNameById = useMemo(
     () => Object.fromEntries(classes.map((schoolClass) => [schoolClass.id, schoolClass.name])),
@@ -94,7 +104,6 @@ export default function BusPage() {
 
   const visibleStudents = useMemo(() => {
     if (!selectedBusId) return []
-    const query = search.trim().toLocaleLowerCase('he')
     return students
       .filter(
         (student) =>
@@ -102,18 +111,8 @@ export default function BusPage() {
           (student.arrival_bus_id === selectedBusId ||
             student.departure_bus_id === selectedBusId),
       )
-      .filter((student) => {
-        if (!query) return true
-        const first = student.first_name.toLocaleLowerCase('he')
-        const last = student.last_name.toLocaleLowerCase('he')
-        return (
-          first.includes(query) ||
-          last.includes(query) ||
-          `${first} ${last}`.includes(query)
-        )
-      })
       .sort((a, b) => a.first_name.localeCompare(b.first_name, 'he'))
-  }, [students, selectedBusId, search])
+  }, [students, selectedBusId])
 
   async function handleDeparted() {
     if (!schoolId || !selectedBusId || departed || isDeparting) return
@@ -153,7 +152,7 @@ export default function BusPage() {
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden pt-4">
       <div className="shrink-0">
         <BusCarousel
-          buses={buses}
+          buses={filteredBuses}
           students={students}
           selectedBusId={selectedBusId}
           onSelect={handleSelectBus}
@@ -161,7 +160,7 @@ export default function BusPage() {
         <InlineSearch
           value={search}
           onChange={setSearch}
-          placeholder="חיפוש תלמיד..."
+          placeholder="חיפוש קו..."
         />
         {selectedBus && (
           <p className="text-center text-xs text-[#98989d] mt-1 mb-2">
@@ -186,7 +185,7 @@ export default function BusPage() {
             </h2>
             {visibleStudents.length === 0 ? (
               <p className="py-12 text-center text-[#98989d]">
-                {search.trim() ? 'לא נמצאו תלמידים' : 'אין תלמידים משויכים לאוטובוס זה'}
+                אין תלמידים משויכים לאוטובוס זה
               </p>
             ) : (
               <ul className="flex min-w-0 list-none flex-col gap-2 p-0">
