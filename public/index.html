@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Mainstream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-black: #000000;
+    --bg-card: #1c1c1e;
+    --text-primary: #f5f5f7;
+    --text-secondary: #98989d;
+    --accent-blue: #0071e3;
+    --border-subtle: rgba(255,255,255,0.08);
+    --side-strip-width: 46px;
+    --tabbar-height: 76px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg-black);
+    color: var(--text-primary);
+    font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+  }
+
+  /* Vertical wordmark strip, fixed full height on the left */
+  .side-strip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--side-strip-width);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(62,142,222,0.16) 0%, rgba(155,89,208,0.16) 55%, rgba(224,68,124,0.16) 100%);
+    border-right: 1px solid var(--border-subtle);
+    z-index: 20;
+    pointer-events: none;
+  }
+  .side-strip .wordmark {
+    writing-mode: vertical-rl;
+    transform: scaleY(1.35) rotate(180deg);
+    font-family: "Montserrat", -apple-system, sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    background: linear-gradient(180deg, #3E8EDE 0%, #9B59D0 55%, #E0447C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Main content column */
+  main {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 20px calc(var(--tabbar-height) + 24px) 56px;
+    min-height: 100vh;
+  }
+
+  .hero {
+    padding: 12px 0 6px;
+    background:
+      radial-gradient(circle at 25% 10%, rgba(0,113,227,0.20), transparent 55%),
+      var(--bg-black);
+    margin: 0 -20px 0;
+    padding-inline: 20px;
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .story-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin: 18px 0 18px;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+  }
+  .search-bar svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+    flex: 0 0 auto;
+  }
+  .search-bar input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    padding: 0;
+    min-width: 0;
+    font-family: inherit;
+  }
+  .search-bar input::placeholder { color: var(--text-secondary); }
+  .search-bar .filter-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+  }
+
+  .filter-panel { margin-bottom: 8px; }
+  .filter-panel.hidden { display: none; }
+  .filter-group-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 6px;
+  }
+  .filter-chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+  }
+  .chip {
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .chip.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: #fff;
+  }
+
+  .app-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .app-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .app-name-sub {
+    color: var(--text-secondary);
+    font-weight: 400;
+    font-size: 13px;
+  }
+  .badge-free {
+    display: inline-block;
+    background: rgba(52, 199, 89, 0.15);
+    color: #34c759;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-inline-start: 4px;
+  }
+  .badge-soon {
+    display: inline-block;
+    background: rgba(255,255,255,0.08);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-inline-start: 4px;
+  }
+  .app-card p {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+  .open-btn {
+    color: var(--accent-blue);
+    font-weight: 600;
+    font-size: 13.5px;
+    text-decoration: none;
+  }
+  .soon-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 13.5px;
+  }
+
+  /* Tab bar fixed to viewport bottom */
+  .tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 max(20px, env(safe-area-inset-bottom));
+    background: rgba(20,20,22,0.92);
+    border-top: 1px solid var(--border-subtle);
+    backdrop-filter: blur(10px);
+    z-index: 15;
+  }
+  .tabbar a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 11px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .tabbar a.active { color: var(--accent-blue); }
+  .tabbar svg { width: 22px; height: 22px; }
+
+  /* Accessibility widget */
+  .a11y-btn {
+    position: fixed;
+    bottom: calc(var(--tabbar-height) + 12px);
+    left: 14px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 16;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .a11y-btn svg { width: 24px; height: 24px; stroke: #fff; }
+  .a11y-panel {
+    position: fixed;
+    bottom: calc(var(--tabbar-height) + 64px);
+    left: 14px;
+    width: 220px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 14px;
+    z-index: 17;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .a11y-panel.open { display: block; }
+  .a11y-panel h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--text-primary);
+  }
+  .a11y-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .a11y-row:first-of-type { border-top: none; }
+  .a11y-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .a11y-stepper button {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .a11y-toggle {
+    width: 38px;
+    height: 22px;
+    border-radius: 11px;
+    background: #444;
+    position: relative;
+    cursor: pointer;
+    border: none;
+  }
+  .a11y-toggle::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.15s ease;
+  }
+  .a11y-toggle.on { background: var(--accent-blue); }
+  .a11y-toggle.on::after { transform: translateX(16px); }
+  body.high-contrast .app-card { border-color: rgba(255,255,255,0.35); background: #000; }
+  body.high-contrast .app-card p { color: #e5e5e5; }
+</style>
+</head>
+<body>
+
+<div class="side-strip">
+  <span class="wordmark">new mainstream</span>
+</div>
+
+<main>
+  <div class="hero">
+    <h1>כלים פשוטים,<br>בטוחים, ללא המתנה</h1>
+  </div>
+
+  <a class="story-pill" href="/story">הסיפור של ניו מיינסטרים ›</a>
+
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="appSearch" placeholder="חיפוש כלי">
+    <button class="filter-btn" onclick="toggleFilters()" aria-label="סינון">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg>
+    </button>
+  </div>
+
+  <div class="filter-panel hidden" id="filterPanel">
+    <p class="filter-group-label">לפי פרופיל</p>
+    <div class="filter-chips">
+      <button class="chip active" onclick="selectChip(this)" data-group="profile" data-value="all">הכל</button>
+      <button class="chip" onclick="selectChip(this)" data-group="profile" data-value="parents">הורים</button>
+      <button class="chip" onclick="selectChip(this)" data-group="profile" data-value="educators">מחנכים</button>
+      <button class="chip" onclick="selectChip(this)" data-group="profile" data-value="orgs">ארגונים</button>
+    </div>
+    <p class="filter-group-label">לפי קטגוריה</p>
+    <div class="filter-chips">
+      <button class="chip active" onclick="selectChip(this)" data-group="category" data-value="all">הכל</button>
+      <button class="chip" onclick="selectChip(this)" data-group="category" data-value="ai">צ'אטבוטים AI</button>
+      <button class="chip" onclick="selectChip(this)" data-group="category" data-value="tracking">מעקב</button>
+      <button class="chip" onclick="selectChip(this)" data-group="category" data-value="planning">תכנון</button>
+      <button class="chip" onclick="selectChip(this)" data-group="category" data-value="family">משפחה</button>
+    </div>
+  </div>
+
+  <div id="appList">
+    <div class="app-card" data-name="SchoolTool מעקב הסעות" data-category="tracking" data-profile="educators">
+      <h3>SchoolTool <span class="app-name-sub">· מעקב הסעות</span></h3>
+      <p>מי עלה, מי ירד, על איזה אוטובוס. בזמן אמת, בלי ניירת ובלי טלפונים להורים.</p>
+      <a class="open-btn" href="/app/">כניסה למערכת ›</a>
+    </div>
+
+    <div class="app-card" data-name="WellBe מעקב מצב רוח" data-category="planning" data-profile="parents,educators">
+      <h3>WellBe <span class="app-name-sub">· מעקב מצב רוח</span> <span class="badge-soon">בקרוב</span></h3>
+      <p>סימון מהיר עם אימוג'ים, גרף לאורך היום, והצעה לערב לפי איך שהיה.</p>
+      <span class="soon-label">בפיתוח</span>
+    </div>
+
+    <div class="app-card" data-name="Loop ניהול משפחתי" data-category="family" data-profile="parents">
+      <h3>Loop <span class="app-name-sub">· ניהול משפחתי</span> <span class="badge-soon">בקרוב</span></h3>
+      <p>לוח משימות אחד למשפחה, מסונכרן לוואטסאפ ולמייל. כל אחד רואה רק מה שנוגע אליו.</p>
+      <span class="soon-label">בפיתוח</span>
+    </div>
+
+    <div class="app-card" data-name="MyAi צ'אטבוט AI" data-category="ai" data-profile="parents,educators,orgs">
+      <h3>MyAi <span class="app-name-sub">· צ'אטבוט AI</span> <span class="badge-soon">בקרוב</span></h3>
+      <p>שיחה בטוחה לילדים ונוער, בתקן בינלאומי. עובד ישירות בוואטסאפ — בלי הורדת אפליקציה.</p>
+      <span class="soon-label">בפיתוח</span>
+    </div>
+
+    <div class="app-card" data-name="Flow תכנון יום" data-category="planning" data-profile="parents,educators">
+      <h3>Flow <span class="app-name-sub">· תכנון יום</span> <span class="badge-soon">בקרוב</span></h3>
+      <p>היום שלך, שלב אחר שלב. ברור מראש, בלי הפתעות.</p>
+      <span class="soon-label">בפיתוח</span>
+    </div>
+  </div>
+</main>
+
+<button class="a11y-btn" onclick="toggleA11yPanel()" aria-label="נגישות">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="4" r="1.6" fill="#fff" stroke="none"/><path d="M4 8c3 1 13 1 16 0"/><path d="M12 8v6"/><path d="M12 14l-3 7"/><path d="M12 14l3 7"/><path d="M8 11l-2 3"/><path d="M16 11l2 3"/></svg>
+</button>
+
+<div class="a11y-panel" id="a11yPanel">
+  <h4>נגישות</h4>
+  <div class="a11y-row">
+    <span>גודל טקסט</span>
+    <div class="a11y-stepper">
+      <button onclick="adjustFont(-1)">−</button>
+      <button onclick="adjustFont(1)">+</button>
+    </div>
+  </div>
+  <div class="a11y-row">
+    <span>ניגודיות גבוהה</span>
+    <button class="a11y-toggle" id="contrastToggle" onclick="toggleContrast()"></button>
+  </div>
+</div>
+
+<nav class="tabbar">
+  <a href="/" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    אפליקציות
+  </a>
+  <a href="/story">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4z"/><path d="M8 4v13"/></svg>
+    הסיפור
+  </a>
+  <a href="#" onclick="focusSearch(event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    חיפוש
+  </a>
+  <a href="/app/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    החשבון שלי
+  </a>
+</nav>
+
+<script>
+  function toggleA11yPanel() {
+    document.getElementById('a11yPanel').classList.toggle('open');
+  }
+  var fontStep = 0;
+  function adjustFont(delta) {
+    fontStep = Math.max(-2, Math.min(4, fontStep + delta));
+    document.querySelector('main').style.fontSize = (100 + fontStep * 10) + '%';
+  }
+  function toggleContrast() {
+    document.body.classList.toggle('high-contrast');
+    document.getElementById('contrastToggle').classList.toggle('on');
+  }
+  function toggleFilters() {
+    document.getElementById('filterPanel').classList.toggle('hidden');
+  }
+  function focusSearch(e) {
+    e.preventDefault();
+    var input = document.getElementById('appSearch');
+    input.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    input.focus();
+  }
+
+  var activeFilters = { profile: 'all', category: 'all' };
+
+  function selectChip(el) {
+    var group = el.dataset.group;
+    var siblings = document.querySelectorAll('.chip[data-group="' + group + '"]');
+    siblings.forEach(function(c) { c.classList.remove('active'); });
+    el.classList.add('active');
+    activeFilters[group] = el.dataset.value;
+    applyFilters();
+  }
+
+  function applyFilters() {
+    var query = document.getElementById('appSearch').value.trim().toLowerCase();
+    document.querySelectorAll('.app-card').forEach(function(card) {
+      var matchesProfile = activeFilters.profile === 'all' || (card.dataset.profile || '').split(',').indexOf(activeFilters.profile) !== -1;
+      var matchesCategory = activeFilters.category === 'all' || card.dataset.category === activeFilters.category;
+      var matchesSearch = !query || (card.dataset.name || '').toLowerCase().indexOf(query) !== -1;
+      card.style.display = (matchesProfile && matchesCategory && matchesSearch) ? '' : 'none';
+    });
+  }
+
+  document.getElementById('appSearch').addEventListener('input', applyFilters);
+</script>
+
+</body>
+</html>
