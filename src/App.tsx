@@ -25,7 +25,7 @@ function RequireAuth() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/app">
       <Routes>
         <Route path="/" element={<LoginOrRedirect />} />
         <Route path="/seed" element={<SeedPage />} />
