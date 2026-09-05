@@ -66,9 +66,13 @@ export default function StudentCard({
   const [writeError, setWriteError] = useState<string | null>(null)
 
   const remarks = useRemarks(student.school_id, student.id)
+  const filteredRemarks = useMemo(
+    () => remarks.filter((r) => r.text && r.text.trim()),
+    [remarks],
+  )
 
   const sortedRemarks = useMemo(() => {
-    const items = [...remarks]
+    const items = [...filteredRemarks]
     if (sortBy === 'created') {
       items.sort((a, b) => {
         const aTime = a.created_at?.toMillis?.() ?? 0
@@ -84,7 +88,7 @@ export default function StudentCard({
       return a.target_date.localeCompare(b.target_date)
     })
     return items
-  }, [remarks, sortBy])
+  }, [filteredRemarks, sortBy])
 
   async function handleSaveRemark() {
     if (!noteText.trim() || isSavingRemark) return
@@ -218,20 +222,20 @@ export default function StudentCard({
       )}
 
       {expanded && (
-        <div className="mt-3">
+        <div className="mt-2 w-full overflow-hidden">
           <textarea
             value={noteText}
             onChange={(event) => setNoteText(event.target.value)}
             placeholder="הוסף הערה..."
             rows={2}
-            className="w-full rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white outline-none"
+            className="w-full box-border resize-none rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white outline-none"
           />
-          <div className="mt-2 flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2 mt-2 w-full box-border">
             <button
               type="button"
               disabled={isSavingRemark || !noteText.trim()}
               onClick={() => void handleSaveRemark()}
-              className="rounded-full bg-[#0071e3] px-4 py-1.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="shrink-0 rounded-full bg-[#0071e3] px-4 py-1.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
             </button>
@@ -253,7 +257,8 @@ export default function StudentCard({
               type="date"
               value={targetDate}
               onChange={(event) => setTargetDate(event.target.value)}
-              className="mt-2 w-full rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white outline-none"
+              className="w-full box-border mt-1 min-h-[44px] rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white"
+              style={{ colorScheme: 'dark' }}
             />
           )}
           {writeError && (
@@ -262,11 +267,11 @@ export default function StudentCard({
             </p>
           )}
 
-          {remarks.length === 0 ? (
+          {filteredRemarks.length === 0 ? (
             <p className="mt-3 text-center text-sm text-[#8494AD]">אין הערות</p>
           ) : (
             <>
-              <div className="mx-auto mt-3 flex w-fit rounded-full bg-[#1A2030] p-1">
+              <div className="mx-auto mt-3 flex max-w-full w-fit rounded-full bg-[#1A2030] p-1">
                 <button
                   type="button"
                   onClick={() => setSortBy('created')}
@@ -286,14 +291,15 @@ export default function StudentCard({
                   תאריך יעד
                 </button>
               </div>
+              <div className="mt-3 w-full overflow-hidden">
               <div
-                className="mt-3 flex gap-3 overflow-x-auto pb-2"
+                className="flex gap-3 overflow-x-auto pb-2 w-full"
                 style={{ scrollbarWidth: 'none' }}
               >
                 {sortedRemarks.map((remark) => (
                   <article
                     key={remark.id}
-                    className="relative max-w-[240px] min-w-[200px] flex-shrink-0 rounded-2xl border border-[#222A3A] bg-[#1A2030] p-3"
+                    className="relative w-[min(200px,100%)] max-w-[240px] flex-shrink-0 rounded-2xl border border-[#222A3A] bg-[#1A2030] p-3"
                   >
                     <button
                       type="button"
@@ -329,6 +335,7 @@ export default function StudentCard({
                     </div>
                   </article>
                 ))}
+              </div>
               </div>
             </>
           )}
