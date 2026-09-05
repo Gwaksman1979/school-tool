@@ -14,15 +14,15 @@
 :root {
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --ff-bg: #0B0F1A;
+  --ff-bg: #000000;
   --ff-surface: #0E1220;
-  --ff-card: #151A28;
-  --ff-row: #1A2030;
-  --ff-hairline: #222A3A;
-  --ff-chip: #1A2030;
+  --ff-card: #1c1c1e;
+  --ff-row: #2c2c2e;
+  --ff-hairline: #3a3a3c;
+  --ff-chip: #2c2c2e;
   --ff-text: #FFFFFF;
-  --ff-subtitle: #8494AD;
-  --ff-dim: #4E5D75;
+  --ff-subtitle: #98989d;
+  --ff-dim: #636366;
   --ff-blue: #3D90F0;
   --ff-blue-solid: #3580E0;
   --ff-green: #278A3E;
@@ -40,10 +40,10 @@
 
   html, body {
     background:
-      radial-gradient(circle at 18% 8%, rgba(62,142,222,0.55), transparent 62%),
-      radial-gradient(circle at 78% 12%, rgba(155,89,208,0.40), transparent 58%),
-      radial-gradient(circle at 85% 88%, rgba(224,68,124,0.35), transparent 60%),
-      var(--nm-bg-page);
+      radial-gradient(circle at 18% 8%, rgba(62,142,222,0.12), transparent 50%),
+      radial-gradient(circle at 78% 12%, rgba(155,89,208,0.08), transparent 45%),
+      radial-gradient(circle at 85% 88%, rgba(224,68,124,0.06), transparent 50%),
+      #000000;
     background-attachment: fixed;
   }
 
@@ -53,6 +53,7 @@
     color: #FFFFFF;
     height: 100%;
     overflow: hidden;
+    background-color: #000000;
   }
 
   #root {
@@ -89,11 +90,12 @@
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
+  background-color: #000000;
   background:
-    radial-gradient(circle at 18% 8%, rgba(62,142,222,0.55), transparent 62%),
-    radial-gradient(circle at 78% 12%, rgba(155,89,208,0.40), transparent 58%),
-    radial-gradient(circle at 85% 88%, rgba(224,68,124,0.35), transparent 60%),
-    var(--nm-bg-page);
+    radial-gradient(circle at 18% 8%, rgba(62,142,222,0.12), transparent 50%),
+    radial-gradient(circle at 78% 12%, rgba(155,89,208,0.08), transparent 45%),
+    radial-gradient(circle at 85% 88%, rgba(224,68,124,0.06), transparent 50%),
+    #000000;
   background-attachment: fixed;
 }
 

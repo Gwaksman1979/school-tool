@@ -83,8 +83,8 @@ export default function StudentsPage() {
   return (
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
       <div className="box-border w-full shrink-0 overflow-hidden bg-transparent px-4 py-2">
-        <div className="flex h-12 w-full box-border items-center overflow-hidden rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-3">
-          <span className="shrink-0 text-[#8494AD]">
+        <div className="flex h-12 w-full box-border items-center overflow-hidden rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-3">
+          <span className="shrink-0 text-[#98989d]">
             <SearchIcon className="h-5 w-5" />
           </span>
           <input
@@ -101,7 +101,7 @@ export default function StudentsPage() {
               type="button"
               onClick={() => setSearch('')}
               aria-label="נקה חיפוש"
-              className="shrink-0 border-0 bg-transparent p-0 text-[#8494AD]"
+              className="shrink-0 border-0 bg-transparent p-0 text-[#98989d]"
             >
               <ClearIcon />
             </button>
@@ -115,7 +115,7 @@ export default function StudentsPage() {
         ) : isLoading ? (
           <Spinner />
         ) : visibleStudents.length === 0 ? (
-          <p className="py-12 text-center text-[#8494AD]">{emptyMessage}</p>
+          <p className="py-12 text-center text-[#98989d]">{emptyMessage}</p>
         ) : (
           <ul className="flex min-w-0 list-none flex-col gap-0 p-0">
             {visibleStudents.map((student) => (

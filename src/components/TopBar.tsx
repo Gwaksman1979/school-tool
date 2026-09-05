@@ -105,7 +105,7 @@ export default function TopBar({
           type="button"
           aria-label="חזרה"
           onClick={goBack}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] text-white"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] text-white"
         >
           <BackIcon className="h-6 w-6" />
         </button>
@@ -114,7 +114,7 @@ export default function TopBar({
           type="button"
           aria-label="הגדרות"
           onClick={() => navigate('/settings')}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] p-0 text-white"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] p-0 text-white"
         >
           <GearIcon className="h-6 w-6" />
         </button>
@@ -141,7 +141,7 @@ export default function TopBar({
               {title}
             </span>
             <ChevronDownIcon
-              className="h-4 w-4 shrink-0 bg-transparent text-[#8494AD] transition-transform duration-200"
+              className="h-4 w-4 shrink-0 bg-transparent text-[#98989d] transition-transform duration-200"
               style={{ transform: open ? 'rotate(180deg)' : 'none' }}
             />
           </button>
@@ -158,7 +158,7 @@ export default function TopBar({
           <ul
             dir="rtl"
             role="listbox"
-            className="absolute top-full right-1/2 z-[60] mt-2 max-h-64 w-52 translate-x-1/2 overflow-y-auto rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#14161f] py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
+            className="absolute top-full right-1/2 z-[60] mt-2 max-h-64 w-52 translate-x-1/2 overflow-y-auto rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
           >
             {dropdownItems.map((item) => (
               <li key={item.id}>
@@ -173,7 +173,7 @@ export default function TopBar({
                   className={[
                     'flex min-h-11 w-full items-center justify-between px-3 text-right text-base',
                     item.id === selectedId ? 'font-semibold text-[#3D90F0]' : 'text-white',
-                    item.muted ? 'text-[#8494AD]' : '',
+                    item.muted ? 'text-[#98989d]' : '',
                   ].join(' ')}
                 >
                   <span>{item.label}</span>
@@ -194,7 +194,7 @@ export default function TopBar({
             setOpen(false)
             setSheetOpen(true)
           }}
-          className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-3"
+          className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-3"
         >
           <PeopleIcon className="h-5 w-5 text-[#f4c542]" />
           <span className="text-base font-semibold text-[#f4c542]">{atSchoolCount}</span>
@@ -207,7 +207,7 @@ export default function TopBar({
           <button
             type="button"
             aria-label="סגור"
-            className="absolute inset-0 border-0 bg-[#0B0F1A]/70 p-0"
+            className="absolute inset-0 border-0 bg-[#000000]/70 p-0"
             onClick={() => setSheetOpen(false)}
           />
           <div
@@ -215,9 +215,9 @@ export default function TopBar({
             role="dialog"
             aria-modal="true"
             aria-labelledby="at-school-title"
-            className="relative z-10 flex w-full max-h-[70vh] flex-col rounded-t-[22px] bg-[#151A28] pb-[env(safe-area-inset-bottom,0px)]"
+            className="relative z-10 flex w-full max-h-[70vh] flex-col rounded-t-[22px] bg-[#1c1c1e] pb-[env(safe-area-inset-bottom,0px)]"
           >
-            <header className="flex shrink-0 items-center gap-3 border-b border-[#222A3A] px-4 py-3">
+            <header className="flex shrink-0 items-center gap-3 border-b border-[#3a3a3c] px-4 py-3">
               <h2
                 id="at-school-title"
                 className="min-w-0 flex-1 truncate text-[18px] font-bold text-white"
@@ -228,7 +228,7 @@ export default function TopBar({
                 type="button"
                 onClick={() => setSheetOpen(false)}
                 aria-label="סגור"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#8494AD]"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#98989d]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -248,7 +248,7 @@ export default function TopBar({
             </header>
             <div className="min-h-0 flex-1 overflow-y-auto">
               {atSchoolStudents.length === 0 ? (
-                <p className="px-4 py-12 text-center text-base text-[#8494AD]">
+                <p className="px-4 py-12 text-center text-base text-[#98989d]">
                   אין תלמידים בבית הספר
                 </p>
               ) : (
@@ -256,7 +256,7 @@ export default function TopBar({
                   {atSchoolStudents.map((student) => (
                     <li
                       key={student.id}
-                      className="border-b border-[#222A3A] py-3 text-base text-white last:border-b-0"
+                      className="border-b border-[#3a3a3c] py-3 text-base text-white last:border-b-0"
                     >
                       {student.first_name} {student.last_name}
                     </li>

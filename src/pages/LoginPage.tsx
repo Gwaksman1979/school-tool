@@ -43,13 +43,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[100dvh] w-full flex-col overflow-hidden bg-[#0B0F1A] pt-[calc(20px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+    <div className="flex min-h-[100dvh] w-full flex-col overflow-hidden bg-[#000000] pt-[calc(20px+env(safe-area-inset-top,0px))] pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
       {/* Back to the New Mainstream portal. Full page load, not a router link,
           because the portal is a static page outside the React app. */}
       <div className="shrink-0 px-5">
         <a
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#8494AD] no-underline"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#98989d] no-underline"
         >
           <svg
             viewBox="0 0 24 24"
@@ -80,7 +80,7 @@ export default function LoginPage() {
         >
           <label className="mb-3 block w-full">
             <span className="sr-only">שם בית הספר</span>
-            <span className="flex h-[62px] w-full box-border items-center overflow-hidden rounded-[18px] bg-[#151A28] px-4">
+            <span className="flex h-[62px] w-full box-border items-center overflow-hidden rounded-[18px] bg-[#1c1c1e] px-4">
               <PersonIcon className="h-6 w-6 shrink-0 text-[#3D90F0]" />
               <input
                 type="text"
@@ -96,7 +96,7 @@ export default function LoginPage() {
           </label>
           <label className="mb-4 block w-full">
             <span className="sr-only">סיסמה</span>
-            <span className="flex h-[62px] w-full box-border items-center overflow-hidden rounded-[18px] bg-[#151A28] px-4">
+            <span className="flex h-[62px] w-full box-border items-center overflow-hidden rounded-[18px] bg-[#1c1c1e] px-4">
               <LockIcon className="h-6 w-6 shrink-0 text-[#3D90F0]" />
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -112,7 +112,7 @@ export default function LoginPage() {
                 type="button"
                 onClick={() => setShowPassword((value) => !value)}
                 aria-label={showPassword ? 'הסתר סיסמה' : 'הצג סיסמה'}
-                className="shrink-0 border-0 bg-transparent p-0 text-[#8494AD]"
+                className="shrink-0 border-0 bg-transparent p-0 text-[#98989d]"
               >
                 {showPassword ? (
                   <EyeOffIcon className="h-5 w-5" />
@@ -137,9 +137,9 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-6 box-border flex w-full max-w-sm items-center gap-3 px-6">
-          <span className="h-px min-w-0 flex-1 bg-[#222A3A]" />
-          <span className="shrink-0 text-sm text-[#8494AD]">או</span>
-          <span className="h-px min-w-0 flex-1 bg-[#222A3A]" />
+          <span className="h-px min-w-0 flex-1 bg-[#3a3a3c]" />
+          <span className="shrink-0 text-sm text-[#98989d]">או</span>
+          <span className="h-px min-w-0 flex-1 bg-[#3a3a3c]" />
         </div>
         <a
           href="mailto:gilad@fireflysense.com?subject=School%20Tool%20-%20Reset%20Password&body=Please%20reset%20my%20password"

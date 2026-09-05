@@ -97,11 +97,11 @@ export default function ClassPage() {
         ) : isLoading ? (
           <Spinner />
         ) : !selectedClassId ? (
-          <p className="py-12 text-center text-[#8494AD]">
+          <p className="py-12 text-center text-[#98989d]">
             בחר כיתה כדי לראות תלמידים
           </p>
         ) : visibleStudents.length === 0 ? (
-          <p className="py-12 text-center text-[#8494AD]">אין תלמידים בכיתה זו</p>
+          <p className="py-12 text-center text-[#98989d]">אין תלמידים בכיתה זו</p>
         ) : (
           <ul className="flex min-w-0 list-none flex-col gap-0 p-0">
             {visibleStudents.map((student) => (

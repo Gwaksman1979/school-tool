@@ -12,7 +12,7 @@ export default function BottomNav() {
     <nav
       className="app-bottom-nav flex justify-around items-center px-2 pt-2.5 pb-[max(12px,env(safe-area-inset-bottom))]"
       style={{
-        background: 'rgba(8,10,18,0.72)',
+        background: 'rgba(0,0,0,0.85)',
         backdropFilter: 'blur(10px)',
         borderTop: '1px solid rgba(255,255,255,0.08)',
       }}

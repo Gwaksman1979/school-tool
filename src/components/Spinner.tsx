@@ -19,8 +19,8 @@ export default function Spinner({ compact = false, onDark = false }: SpinnerProp
           compact
             ? onDark
               ? 'h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white'
-              : 'h-5 w-5 animate-spin rounded-full border-2 border-[#222A3A] border-t-[#3D90F0]'
-            : 'h-10 w-10 animate-spin rounded-full border-4 border-[#222A3A] border-t-[#3D90F0]'
+              : 'h-5 w-5 animate-spin rounded-full border-2 border-[#3a3a3c] border-t-[#3D90F0]'
+            : 'h-10 w-10 animate-spin rounded-full border-4 border-[#3a3a3c] border-t-[#3D90F0]'
         }
       />
       <span
@@ -29,7 +29,7 @@ export default function Spinner({ compact = false, onDark = false }: SpinnerProp
             ? onDark
               ? 'text-sm font-medium text-white'
               : 'text-sm font-medium text-[#C0C0C6]'
-            : 'text-base text-[#8494AD]'
+            : 'text-base text-[#98989d]'
         }
       >
         טוען...

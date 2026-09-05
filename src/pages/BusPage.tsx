@@ -153,7 +153,7 @@ export default function BusPage() {
         ) : isLoading ? (
           <Spinner />
         ) : !selectedBusId ? (
-          <p className="py-12 text-center text-[#8494AD]">
+          <p className="py-12 text-center text-[#98989d]">
             בחר אוטובוס כדי לראות תלמידים
           </p>
         ) : (
@@ -162,7 +162,7 @@ export default function BusPage() {
               סה״כ {visibleStudents.length} תלמידים
             </h2>
             {visibleStudents.length === 0 ? (
-              <p className="py-12 text-center text-[#8494AD]">
+              <p className="py-12 text-center text-[#98989d]">
                 אין תלמידים משויכים לאוטובוס זה
               </p>
             ) : (

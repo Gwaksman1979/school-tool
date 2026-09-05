@@ -21,7 +21,7 @@ type Feedback = { type: 'success' | 'error'; text: string } | null
 type TransportMode = Student['transport_mode']
 
 const INPUT_CLASS =
-  'mt-1 box-border min-h-11 w-full overflow-hidden rounded-[14px] border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-base text-white outline-none focus:border-[#3D90F0] focus:ring-2 focus:ring-[#3D90F0]/30'
+  'mt-1 box-border min-h-11 w-full overflow-hidden rounded-[14px] border border-[#3a3a3c] bg-[#2c2c2e] px-3 py-2 text-base text-white outline-none focus:border-[#3D90F0] focus:ring-2 focus:ring-[#3D90F0]/30'
 const BUTTON_CLASS =
   'flex min-h-11 w-full items-center justify-center rounded-full bg-[#3D90F0] px-4 py-2 text-base font-medium text-white disabled:cursor-not-allowed disabled:opacity-60'
 const REQUIRED_IMPORT_HEADERS = [
@@ -59,7 +59,7 @@ function SectionCard({
   children: ReactNode
 }) {
   return (
-    <details className="group box-border w-full overflow-hidden rounded-[20px] bg-[#151A28]">
+    <details className="group box-border w-full overflow-hidden rounded-[20px] bg-[#1c1c1e]">
       <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-4 [&::-webkit-details-marker]:hidden">
         <span className="flex h-10 w-10 items-center justify-center text-[#5BA0FF]">
           {icon}
@@ -69,7 +69,7 @@ function SectionCard({
         </span>
         <ChevronDownIcon className="h-5 w-5 text-[#A0A0A6] transition-transform group-open:rotate-180" />
       </summary>
-      <div className="box-border w-full space-y-3 overflow-hidden border-t border-[#222A3A] px-4 py-3">
+      <div className="box-border w-full space-y-3 overflow-hidden border-t border-[#3a3a3c] px-4 py-3">
         {children}
       </div>
     </details>
@@ -442,11 +442,11 @@ export default function SettingsPage() {
     <div className="box-border w-full overflow-hidden px-4 py-4">
       <div className="flex w-full min-w-0 flex-col gap-3 overflow-hidden">
         <SectionCard title="חשבון" icon={<AccountIcon className="h-6 w-6" />}>
-          <p className="text-sm text-[#8494AD]">יציאה תחזיר אותך למסך ההתחברות.</p>
+          <p className="text-sm text-[#98989d]">יציאה תחזיר אותך למסך ההתחברות.</p>
           <button
             type="button"
             onClick={logout}
-            className="flex min-h-11 w-full items-center justify-center rounded-full border border-red-400/40 bg-[#1A2030] px-4 py-2 text-base font-medium text-red-400"
+            className="flex min-h-11 w-full items-center justify-center rounded-full border border-red-400/40 bg-[#2c2c2e] px-4 py-2 text-base font-medium text-red-400"
           >
             התנתקות
           </button>
@@ -573,7 +573,7 @@ export default function SettingsPage() {
               {isAddingClass ? <Spinner compact onDark /> : 'הוסף כיתה'}
             </button>
           </form>
-          <ul className="divide-y divide-[#222A3A]">
+          <ul className="divide-y divide-[#3a3a3c]">
             {sortedClasses.map((schoolClass) => (
               <li
                 key={schoolClass.id}
@@ -609,7 +609,7 @@ export default function SettingsPage() {
               {isAddingBus ? <Spinner compact onDark /> : 'הוסף אוטובוס'}
             </button>
           </form>
-          <ul className="divide-y divide-[#222A3A]">
+          <ul className="divide-y divide-[#3a3a3c]">
             {sortedBuses.map((bus) => (
               <li
                 key={bus.id}
@@ -629,7 +629,7 @@ export default function SettingsPage() {
         </SectionCard>
 
         <SectionCard title="ייבוא תלמידים" icon={<ImportIcon className="h-6 w-6" />}>
-          <p className="text-sm text-[#8494AD]">
+          <p className="text-sm text-[#98989d]">
             העלה קובץ עם העמודות: שם פרטי, שם משפחה, כיתה, אוטובוס הגעה, אוטובוס עזיבה
           </p>
           <FieldLabel htmlFor="import-file">קובץ CSV / Excel</FieldLabel>
@@ -643,7 +643,7 @@ export default function SettingsPage() {
               if (file) void handleImportFile(file)
               event.target.value = ''
             }}
-            className="box-border block w-full overflow-hidden text-sm text-[#C0C0C6] file:me-3 file:min-h-11 file:rounded-full file:border-0 file:bg-[#1A2030] file:px-4 file:text-sm file:font-medium file:text-[#5BA0FF]"
+            className="box-border block w-full overflow-hidden text-sm text-[#C0C0C6] file:me-3 file:min-h-11 file:rounded-full file:border-0 file:bg-[#2c2c2e] file:px-4 file:text-sm file:font-medium file:text-[#5BA0FF]"
           />
           {isImporting && <Spinner />}
           <FeedbackMessage message={importFeedback} />

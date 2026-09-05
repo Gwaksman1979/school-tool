@@ -217,7 +217,7 @@ export default function SeedPage() {
 
   if (!schoolId) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#0B0F1A] px-4 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#000000] px-4 text-center">
         <p className="text-xl font-medium text-white">התחבר קודם</p>
       </div>
     )
@@ -324,11 +324,11 @@ export default function SeedPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0B0F1A] px-4 text-center">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#000000] px-4 text-center">
       <h1 className="mb-3 text-2xl font-semibold text-white">
         טעינת נתוני בית הספר
       </h1>
-      <p className="mb-8 max-w-sm text-[#8494AD]">
+      <p className="mb-8 max-w-sm text-[#98989d]">
         מחק קודם את הנתונים הקיימים, ואז טען את הרשימה.
       </p>
       <div className="flex w-full max-w-xs flex-col gap-3">

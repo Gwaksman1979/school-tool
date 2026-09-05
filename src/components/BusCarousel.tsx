@@ -47,7 +47,7 @@ export default function BusCarousel({
         const selected = bus.id === selectedBusId
         const departed = isBusDeparted(bus)
         const done = isBusDone(students, bus.id)
-        const fill = departed ? '#1A2030' : done ? '#005bb5' : '#0071e3'
+        const fill = departed ? '#2c2c2e' : done ? '#005bb5' : '#0071e3'
         return (
           <button
             key={bus.id}

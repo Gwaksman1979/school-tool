@@ -177,7 +177,7 @@ export default function StudentCard({
         onClick={() => setExpanded((open) => !open)}
         aria-expanded={expanded}
         aria-label={`פרטים נוספים עבור ${fullName}`}
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#222A3A]"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#3a3a3c]"
       >
         <ChevronDownIcon
           className="h-4 w-4 text-[#9A9A9F] transition-transform duration-200"
@@ -187,7 +187,7 @@ export default function StudentCard({
     )
 
   return (
-    <article className="mb-2.5 box-border rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-4 py-3">
+    <article className="mb-2.5 box-border rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-4 py-3">
       {variant === 'directory' ? (
         <div className="flex items-center gap-2.5">
           <span
@@ -229,7 +229,7 @@ export default function StudentCard({
             onChange={(event) => setNoteText(event.target.value)}
             placeholder="הוסף הערה..."
             rows={2}
-            className="w-full box-border resize-none rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white outline-none"
+            className="w-full box-border resize-none rounded-xl border border-[#3a3a3c] bg-[#2c2c2e] px-3 py-2 text-sm text-white outline-none"
           />
           <div className="flex items-center justify-between gap-2 mt-2 w-full box-border">
             <button
@@ -276,7 +276,7 @@ export default function StudentCard({
                   type="button"
                   aria-label="ביטול תאריך יעד"
                   onClick={() => setTargetDate('')}
-                  className="relative z-10 flex items-center gap-1 rounded-full bg-[#222A3A] px-2.5 py-1 text-xs font-medium text-[#98989d]"
+                  className="relative z-10 flex items-center gap-1 rounded-full bg-[#3a3a3c] px-2.5 py-1 text-xs font-medium text-[#98989d]"
                 >
                   ביטול
                   <svg
@@ -305,10 +305,10 @@ export default function StudentCard({
           )}
 
           {filteredRemarks.length === 0 ? (
-            <p className="mt-3 text-center text-sm text-[#8494AD]">אין הערות</p>
+            <p className="mt-3 text-center text-sm text-[#98989d]">אין הערות</p>
           ) : (
             <>
-              <div className="mx-auto mt-3 flex max-w-full w-fit rounded-full bg-[#1A2030] p-1">
+              <div className="mx-auto mt-3 flex max-w-full w-fit rounded-full bg-[#2c2c2e] p-1">
                 <button
                   type="button"
                   onClick={() => setSortBy('created')}
@@ -336,13 +336,13 @@ export default function StudentCard({
                 {sortedRemarks.map((remark) => (
                   <article
                     key={remark.id}
-                    className="relative w-[min(200px,100%)] max-w-[240px] flex-shrink-0 rounded-2xl border border-[#222A3A] bg-[#1A2030] p-3"
+                    className="relative w-[min(200px,100%)] max-w-[240px] flex-shrink-0 rounded-2xl border border-[#3a3a3c] bg-[#2c2c2e] p-3"
                   >
                     <button
                       type="button"
                       onClick={() => void handleDeleteRemark(remark.id)}
                       aria-label="מחק הערה"
-                      className="absolute top-2 left-2 border-0 bg-transparent p-0 text-[#8494AD] hover:text-red-400"
+                      className="absolute top-2 left-2 border-0 bg-transparent p-0 text-[#98989d] hover:text-red-400"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
