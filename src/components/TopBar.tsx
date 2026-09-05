@@ -105,7 +105,7 @@ export default function TopBar({
           type="button"
           aria-label="חזרה"
           onClick={goBack}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] text-white"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border-0 bg-transparent text-[#98989d]"
         >
           <BackIcon className="h-6 w-6" />
         </button>
@@ -114,7 +114,7 @@ export default function TopBar({
           type="button"
           aria-label="הגדרות"
           onClick={() => navigate('/settings')}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] p-0 text-white"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border-0 bg-transparent p-0 text-[#98989d]"
         >
           <GearIcon className="h-6 w-6" />
         </button>
@@ -135,7 +135,7 @@ export default function TopBar({
             className="flex appearance-none items-center justify-center gap-1.5 border-0 bg-transparent p-0 shadow-none outline-none"
           >
             <span
-              className="truncate text-2xl font-bold text-white"
+              className="truncate text-xl font-bold text-white"
               style={{ fontFamily: '"Montserrat", -apple-system, sans-serif' }}
             >
               {title}
@@ -148,7 +148,7 @@ export default function TopBar({
         ) : (
           <h1
             dir="rtl"
-            className="truncate bg-transparent text-center text-2xl font-bold text-white"
+            className="truncate bg-transparent text-center text-xl font-bold text-white"
             style={{ fontFamily: '"Montserrat", -apple-system, sans-serif' }}
           >
             {title}
@@ -194,7 +194,7 @@ export default function TopBar({
             setOpen(false)
             setSheetOpen(true)
           }}
-          className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-3"
+          className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(28,28,30,0.6)] px-3"
         >
           <PeopleIcon className="h-5 w-5 text-[#f4c542]" />
           <span className="text-base font-semibold text-[#f4c542]">{atSchoolCount}</span>

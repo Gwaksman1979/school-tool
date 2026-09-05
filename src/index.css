@@ -91,7 +91,7 @@
 
 .app-top-bar {
   flex-shrink: 0;
-  height: calc(56px + var(--safe-top));
+  min-height: calc(48px + var(--safe-top));
 }
 
 .app-main {
