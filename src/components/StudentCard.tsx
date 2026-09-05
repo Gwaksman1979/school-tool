@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   addRemark,
   deleteRemark,
@@ -61,7 +61,6 @@ export default function StudentCard({
   const [noteText, setNoteText] = useState('')
   const [targetDate, setTargetDate] = useState('')
   const [sortBy, setSortBy] = useState<'created' | 'target'>('created')
-  const targetDateInputRef = useRef<HTMLInputElement>(null)
   const [isSavingRemark, setIsSavingRemark] = useState(false)
   const [writeError, setWriteError] = useState<string | null>(null)
 
@@ -109,20 +108,6 @@ export default function StudentCard({
       setWriteError(WRITE_ERROR)
     } finally {
       setIsSavingRemark(false)
-    }
-  }
-
-  function openTargetDatePicker() {
-    const input = targetDateInputRef.current
-    if (!input) return
-    try {
-      if (typeof input.showPicker === 'function') {
-        input.showPicker()
-      } else {
-        input.click()
-      }
-    } catch {
-      input.click()
     }
   }
 
@@ -253,17 +238,7 @@ export default function StudentCard({
               {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
             </button>
           </div>
-          <div
-            role="button"
-            tabIndex={0}
-            className="flex items-center gap-2 mt-2 cursor-pointer"
-            onClick={openTargetDatePicker}
-            onKeyDown={(event) => {
-              if (event.key !== 'Enter' && event.key !== ' ') return
-              event.preventDefault()
-              openTargetDatePicker()
-            }}
-          >
+          <div className="relative flex items-center gap-2 mt-2 cursor-pointer">
             <svg
               width="20"
               height="20"
@@ -288,11 +263,8 @@ export default function StudentCard({
               <button
                 type="button"
                 aria-label="נקה תאריך יעד"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  setTargetDate('')
-                }}
-                className="border-0 bg-transparent p-0 text-[#8494AD] hover:text-red-400"
+                onClick={() => setTargetDate('')}
+                className="relative z-10 border-0 bg-transparent p-0 text-[#8494AD] hover:text-red-400"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -310,17 +282,15 @@ export default function StudentCard({
                 </svg>
               </button>
             )}
+            <input
+              type="date"
+              value={targetDate}
+              onChange={(event) => setTargetDate(event.target.value)}
+              aria-label="הוסף תאריך יעד"
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              style={{ colorScheme: 'dark' }}
+            />
           </div>
-          <input
-            ref={targetDateInputRef}
-            type="date"
-            value={targetDate}
-            onChange={(event) => setTargetDate(event.target.value)}
-            className="sr-only"
-            style={{ colorScheme: 'dark' }}
-            tabIndex={-1}
-            aria-hidden="true"
-          />
           {writeError && (
             <p className="mt-2 text-xs text-red-400" role="alert">
               {writeError}
