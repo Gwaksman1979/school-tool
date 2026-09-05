@@ -240,62 +240,63 @@ export default function StudentCard({
             >
               {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
             </button>
-          </div>
-          <div className="flex items-center gap-2 mt-2">
-            <div className="relative flex min-w-0 flex-1 items-center gap-2 cursor-pointer">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={targetDate ? 'text-[#0071e3]' : 'text-[#98989d]'}
-                aria-hidden="true"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" />
-                <path d="M16 2v4" />
-                <path d="M8 2v4" />
-                <path d="M3 10h18" />
-              </svg>
-              <span className={targetDate ? 'text-sm text-[#0071e3]' : 'text-sm text-[#98989d]'}>
-                {targetDate ? formatRemarkDate(targetDate) : 'הוסף תאריך יעד'}
-              </span>
-              <input
-                type="date"
-                value={targetDate}
-                onChange={(event) => setTargetDate(event.target.value)}
-                aria-label="הוסף תאריך יעד"
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                style={{ colorScheme: 'dark' }}
-              />
-            </div>
-            {targetDate && (
-              <button
-                type="button"
-                aria-label="נקה תאריך יעד"
-                onClick={() => setTargetDate('')}
-                className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#222A3A] text-[#98989d] hover:text-white"
-              >
+            <div className="flex min-w-0 items-center gap-2">
+              <div className="relative flex min-w-0 items-center gap-2 cursor-pointer">
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  width="16"
-                  height="16"
+                  className={`shrink-0 ${targetDate ? 'text-[#0071e3]' : 'text-[#98989d]'}`}
                   aria-hidden="true"
                 >
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4" />
+                  <path d="M8 2v4" />
+                  <path d="M3 10h18" />
                 </svg>
-              </button>
-            )}
+                <span className={`truncate ${targetDate ? 'text-sm text-[#0071e3]' : 'text-sm text-[#98989d]'}`}>
+                  {targetDate ? formatRemarkDate(targetDate) : 'הוסף תאריך יעד'}
+                </span>
+                <input
+                  type="date"
+                  value={targetDate}
+                  onChange={(event) => setTargetDate(event.target.value)}
+                  aria-label="הוסף תאריך יעד"
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  style={{ colorScheme: 'dark' }}
+                />
+              </div>
+              {targetDate && (
+                <button
+                  type="button"
+                  aria-label="ביטול תאריך יעד"
+                  onClick={() => setTargetDate('')}
+                  className="relative z-10 flex items-center gap-1 rounded-full bg-[#222A3A] px-2.5 py-1 text-xs font-medium text-[#98989d]"
+                >
+                  ביטול
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    width="12"
+                    height="12"
+                    aria-hidden="true"
+                  >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
           {writeError && (
             <p className="mt-2 text-xs text-red-400" role="alert">
