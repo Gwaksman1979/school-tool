@@ -8,7 +8,7 @@ import { useStatusToggle } from '../hooks/useStatusToggle'
 import { getSchoolId } from '../lib/auth'
 import { useBusChrome } from '../lib/bus-chrome'
 import { usePageTitle } from '../lib/page-title'
-import type { Student } from '../types'
+import { normalizeStatus, type Student } from '../types'
 
 export default function ClassPage() {
   const schoolId = getSchoolId()
@@ -59,6 +59,9 @@ export default function ClassPage() {
 
   const selectedClass =
     sortedClasses.find((schoolClass) => schoolClass.id === selectedClassId) ?? null
+  const atSchoolCount = students.filter(
+    (s) => normalizeStatus(s.current_status) === 'at_school',
+  ).length
 
   useEffect(() => {
     setTitle(selectedClass ? selectedClass.name : 'כיתה')
@@ -98,12 +101,16 @@ export default function ClassPage() {
   return (
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
       <div className="shrink-0">
-        <h2
-          className="text-base font-normal text-[#98989d] px-5 pb-2"
-          style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}
+        <div
+          className="flex items-center justify-between px-4"
+          style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 14px)', paddingBottom: 8 }}
         >
-          כיתות
-        </h2>
+          <div className="flex items-center gap-1.5">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f4c542" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span style={{ color: '#f4c542', fontSize: 15, fontWeight: 700 }}>{atSchoolCount}</span>
+          </div>
+          <h2 className="text-base font-normal text-[#98989d] m-0">כיתות</h2>
+        </div>
         <ClassCarousel
           classes={filteredClasses}
           selectedClassId={selectedClassId}
