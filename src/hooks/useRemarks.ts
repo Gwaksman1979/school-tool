@@ -60,20 +60,22 @@ export async function addRemark(
   studentId: string,
   date: string,
   text: string,
+  targetDate?: string | null,
 ): Promise<void> {
   const trimmed = text.trim()
   if (!trimmed) return
-
   const remarkRef = doc(
     collection(db, 'schools', schoolId, 'students', studentId, 'remarks'),
   )
-  await setDoc(remarkRef, {
+  const data: Record<string, unknown> = {
     id: remarkRef.id,
     student_id: studentId,
     date,
     text: trimmed,
     created_at: serverTimestamp(),
-  })
+  }
+  if (targetDate) data.target_date = targetDate
+  await setDoc(remarkRef, data)
 }
 
 export async function deleteRemark(

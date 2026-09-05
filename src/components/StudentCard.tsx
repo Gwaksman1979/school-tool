@@ -1,26 +1,13 @@
-import { doc, updateDoc } from 'firebase/firestore'
-import { useState, type ReactNode } from 'react'
+import { useMemo, useState } from 'react'
 import {
   addRemark,
   deleteRemark,
   todayDateString,
   useRemarks,
 } from '../hooks/useRemarks'
-import { db } from '../lib/firebase'
 import { WRITE_ERROR } from '../lib/messages'
 import { normalizeStatus, type Student } from '../types'
-import {
-  BusIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  ClassRoomIcon,
-  ExitLeftIcon,
-  ExitRightIcon,
-  NoteIcon,
-  ChevronLeftIcon,
-  PersonFilledIcon,
-} from './icons'
-import Modal from './Modal'
+import { ChevronDownIcon, ChevronLeftIcon, PersonFilledIcon } from './icons'
 import Spinner from './Spinner'
 
 interface StudentCardProps {
@@ -56,43 +43,10 @@ function statusBadge(status: Student['current_status'] | string) {
   }
 }
 
-async function setTransportMode(
-  student: Student,
-  mode: Student['transport_mode'],
-) {
-  await updateDoc(doc(db, 'schools', student.school_id, 'students', student.id), {
-    transport_mode: mode,
-    arrival_bus_id: null,
-    departure_bus_id: null,
-  })
-}
-
-function DetailRow({
-  icon,
-  label,
-  children,
-}: {
-  icon: ReactNode
-  label: string
-  children: ReactNode
-}) {
-  return (
-    <div className="flex min-h-11 items-center justify-between gap-3 border-b border-[#222A3A] py-2 last:border-b-0">
-      <div className="flex min-w-0 items-center gap-2">
-        <span className="text-[#5BA0FF]">{icon}</span>
-        <span className="text-sm text-[#C0C0C6]">{label}</span>
-      </div>
-      <div className="min-w-0 text-sm font-medium text-white">{children}</div>
-    </div>
-  )
-}
-
 export default function StudentCard({
   student,
-  busLabel,
   className,
   onStatusToggle,
-  onRemarkClick,
   variant = 'row',
 }: StudentCardProps) {
   const fullName = `${student.first_name} ${student.last_name}`
@@ -101,65 +55,51 @@ export default function StudentCard({
       ? className
       : `כיתה ${className}`
     : null
-  const isNotBus = student.transport_mode !== 'bus'
   const badge = statusBadge(student.current_status)
-  const independentArrival = isNotBus || !student.arrival_bus_id
-  const independentDeparture = isNotBus || !student.departure_bus_id
 
   const [expanded, setExpanded] = useState(false)
-  const [pickingMode, setPickingMode] = useState(false)
-  const [remarksOpen, setRemarksOpen] = useState(false)
-  const [remarkDate, setRemarkDate] = useState(todayDateString)
-  const [remarkText, setRemarkText] = useState('')
+  const [noteText, setNoteText] = useState('')
+  const [includeTargetDate, setIncludeTargetDate] = useState(false)
+  const [targetDate, setTargetDate] = useState('')
+  const [sortBy, setSortBy] = useState<'created' | 'target'>('created')
   const [isSavingRemark, setIsSavingRemark] = useState(false)
   const [writeError, setWriteError] = useState<string | null>(null)
 
   const remarks = useRemarks(student.school_id, student.id)
-  const today = todayDateString()
-  const todayRemarkCount = remarks.filter((remark) => remark.date === today).length
-  const showModeSelector = isNotBus || pickingMode
 
-  async function handleTransportCheck(checked: boolean) {
-    if (checked) {
-      setPickingMode(true)
-      return
+  const sortedRemarks = useMemo(() => {
+    const items = [...remarks]
+    if (sortBy === 'created') {
+      items.sort((a, b) => {
+        const aTime = a.created_at?.toMillis?.() ?? 0
+        const bTime = b.created_at?.toMillis?.() ?? 0
+        return bTime - aTime
+      })
+      return items
     }
-    setPickingMode(false)
-    if (student.transport_mode !== 'bus') {
-      try {
-        await setTransportMode(student, 'bus')
-        setWriteError(null)
-      } catch (error) {
-        console.error('Failed to revert transport mode', error)
-        setWriteError(WRITE_ERROR)
-      }
-    }
-  }
-
-  async function handleSelectMode(mode: 'independent' | 'family') {
-    try {
-      await setTransportMode(student, mode)
-      setPickingMode(false)
-      setWriteError(null)
-    } catch (error) {
-      console.error('Failed to update transport mode', error)
-      setWriteError(WRITE_ERROR)
-    }
-  }
-
-  function openRemarks() {
-    setRemarkDate(todayDateString())
-    setRemarkText('')
-    setRemarksOpen(true)
-    onRemarkClick?.(student)
-  }
+    items.sort((a, b) => {
+      if (!a.target_date && !b.target_date) return 0
+      if (!a.target_date) return 1
+      if (!b.target_date) return -1
+      return a.target_date.localeCompare(b.target_date)
+    })
+    return items
+  }, [remarks, sortBy])
 
   async function handleSaveRemark() {
-    if (!remarkText.trim() || isSavingRemark) return
+    if (!noteText.trim() || isSavingRemark) return
     setIsSavingRemark(true)
     try {
-      await addRemark(student.school_id, student.id, remarkDate, remarkText)
-      setRemarkText('')
+      await addRemark(
+        student.school_id,
+        student.id,
+        todayDateString(),
+        noteText,
+        includeTargetDate && targetDate ? targetDate : null,
+      )
+      setNoteText('')
+      setIncludeTargetDate(false)
+      setTargetDate('')
       setWriteError(null)
     } catch (error) {
       console.error('Failed to save remark', error)
@@ -242,9 +182,7 @@ export default function StudentCard({
     )
 
   return (
-    <article
-      className="mb-2.5 box-border rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-4 py-3"
-    >
+    <article className="mb-2.5 box-border rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-4 py-3">
       {variant === 'directory' ? (
         <div className="flex items-center gap-2.5">
           <span
@@ -269,185 +207,133 @@ export default function StudentCard({
       ) : (
         <div className="flex min-h-11 items-center gap-2">
           {statusButton}
-          <p className="min-w-0 flex-1 truncate text-right text-[15px] font-semibold text-[#f5f5f7]">
-            {fullName}
-          </p>
+          <div className="min-w-0 flex-1 text-right">
+            <p className="truncate text-[15px] font-semibold text-[#f5f5f7]">{fullName}</p>
+            {classLabel && (
+              <p className="truncate text-[12px] text-[#98989d]">{classLabel}</p>
+            )}
+          </div>
           {expandButton}
         </div>
       )}
 
       {expanded && (
-        <div className="mt-2">
-          <DetailRow icon={<ClassRoomIcon className="h-4 w-4" />} label="כיתה">
-            {className || '—'}
-          </DetailRow>
-          <DetailRow icon={<BusIcon className="h-4 w-4" />} label="מספר אוטובוס">
-            {busLabel || '—'}
-          </DetailRow>
-          <DetailRow icon={<ExitRightIcon className="h-4 w-4" />} label="הגעה עצמאית">
-            {independentArrival ? (
-              <CheckIcon className="h-5 w-5 text-[#278A3E]" />
-            ) : (
-              <span className="text-[#4E5D75]">—</span>
-            )}
-          </DetailRow>
-          <DetailRow icon={<ExitLeftIcon className="h-4 w-4" />} label="יציאה עצמאית">
-            {independentDeparture ? (
-              <CheckIcon className="h-5 w-5 text-[#278A3E]" />
-            ) : (
-              <span className="text-[#4E5D75]">—</span>
-            )}
-          </DetailRow>
-          <button
-            type="button"
-            onClick={openRemarks}
-            className="flex min-h-11 w-full items-center justify-between border-b border-[#222A3A] py-2"
-          >
-            <span className="flex items-center gap-2">
-              <NoteIcon className="h-4 w-4 text-[#5BA0FF]" />
-              <span className="text-sm text-[#C0C0C6]">הערות</span>
-            </span>
-            {todayRemarkCount > 0 && (
-              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#3D90F0] px-1 text-[10px] font-medium text-white">
-                {todayRemarkCount}
-              </span>
-            )}
-          </button>
-          <label className="mt-2 flex min-h-11 items-center gap-1.5 text-xs text-[#C0C0C6]">
+        <div className="mt-3">
+          <textarea
+            value={noteText}
+            onChange={(event) => setNoteText(event.target.value)}
+            placeholder="הוסף הערה..."
+            rows={2}
+            className="w-full rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white outline-none"
+          />
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <button
+              type="button"
+              disabled={isSavingRemark || !noteText.trim()}
+              onClick={() => void handleSaveRemark()}
+              className="rounded-full bg-[#0071e3] px-4 py-1.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
+            </button>
+            <label className="flex min-w-0 items-center gap-1.5 text-xs text-[#C0C0C6]">
+              <input
+                type="checkbox"
+                checked={includeTargetDate}
+                onChange={(event) => {
+                  setIncludeTargetDate(event.target.checked)
+                  if (!event.target.checked) setTargetDate('')
+                }}
+                className="h-4 w-4 accent-[#0071e3]"
+              />
+              הוסף תאריך יעד
+            </label>
+          </div>
+          {includeTargetDate && (
             <input
-              type="checkbox"
-              checked={isNotBus || pickingMode}
-              onChange={(event) => {
-                void handleTransportCheck(event.target.checked)
-              }}
-              className="h-4 w-4 accent-[#3D90F0]"
+              type="date"
+              value={targetDate}
+              onChange={(event) => setTargetDate(event.target.value)}
+              className="mt-2 w-full rounded-xl border border-[#222A3A] bg-[#1A2030] px-3 py-2 text-sm text-white outline-none"
             />
-            לא נוסע באוטובוס
-          </label>
-          {showModeSelector && (
-            <div className="mt-1 flex gap-1">
-              <button
-                type="button"
-                onClick={() => void handleSelectMode('independent')}
-                className={[
-                  'min-h-11 rounded-full px-3 text-xs font-medium',
-                  student.transport_mode === 'independent'
-                    ? 'bg-[#3D90F0] text-white'
-                    : 'bg-[#222A3A] text-[#C0C0C6]',
-                ].join(' ')}
-              >
-                עצמאי
-              </button>
-              <button
-                type="button"
-                onClick={() => void handleSelectMode('family')}
-                className={[
-                  'min-h-11 rounded-full px-3 text-xs font-medium',
-                  student.transport_mode === 'family'
-                    ? 'bg-[#3D90F0] text-white'
-                    : 'bg-[#222A3A] text-[#C0C0C6]',
-                ].join(' ')}
-              >
-                משפחה
-              </button>
-            </div>
           )}
           {writeError && (
-            <p className="mt-1 text-xs text-red-400" role="alert">
+            <p className="mt-2 text-xs text-red-400" role="alert">
               {writeError}
             </p>
+          )}
+
+          {remarks.length === 0 ? (
+            <p className="mt-3 text-center text-sm text-[#8494AD]">אין הערות</p>
+          ) : (
+            <>
+              <div className="mx-auto mt-3 flex w-fit rounded-full bg-[#1A2030] p-1">
+                <button
+                  type="button"
+                  onClick={() => setSortBy('created')}
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    sortBy === 'created' ? 'bg-[#0071e3] text-white' : 'bg-transparent text-[#98989d]'
+                  }`}
+                >
+                  תאריך יצירה
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSortBy('target')}
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    sortBy === 'target' ? 'bg-[#0071e3] text-white' : 'bg-transparent text-[#98989d]'
+                  }`}
+                >
+                  תאריך יעד
+                </button>
+              </div>
+              <div
+                className="mt-3 flex gap-3 overflow-x-auto pb-2"
+                style={{ scrollbarWidth: 'none' }}
+              >
+                {sortedRemarks.map((remark) => (
+                  <article
+                    key={remark.id}
+                    className="relative max-w-[240px] min-w-[200px] flex-shrink-0 rounded-2xl border border-[#222A3A] bg-[#1A2030] p-3"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => void handleDeleteRemark(remark.id)}
+                      aria-label="מחק הערה"
+                      className="absolute top-2 left-2 border-0 bg-transparent p-0 text-[#8494AD] hover:text-red-400"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                      >
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
+                    </button>
+                    <p className="line-clamp-3 pe-5 text-sm text-white">{remark.text}</p>
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                      <span className="text-xs text-[#98989d]">
+                        {formatRemarkDate(remark.date)}
+                      </span>
+                      {remark.target_date && (
+                        <span className="text-xs text-[#5BA0FF]">
+                          📅 {formatRemarkDate(remark.target_date)}
+                        </span>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </>
           )}
         </div>
       )}
-
-      <Modal
-        open={remarksOpen}
-        title={`הערות — ${fullName}`}
-        onClose={() => setRemarksOpen(false)}
-      >
-        <form
-          className="flex flex-col gap-3"
-          onSubmit={(event) => {
-            event.preventDefault()
-            void handleSaveRemark()
-          }}
-        >
-          <label className="block text-sm font-medium text-[#C0C0C6]">
-            תאריך
-            <input
-              type="date"
-              value={remarkDate}
-              onChange={(event) => setRemarkDate(event.target.value)}
-              className="mt-1 min-h-11 w-full rounded-lg border border-[#222A3A] bg-[#151A28] px-3 py-2 text-base text-white outline-none focus:border-[#3D90F0] focus:ring-2 focus:ring-[#3D90F0]/30"
-            />
-          </label>
-          <textarea
-            value={remarkText}
-            onChange={(event) => setRemarkText(event.target.value)}
-            placeholder="הוסף הערה..."
-            rows={3}
-            className="w-full rounded-lg border border-[#222A3A] bg-[#151A28] px-3 py-2 text-base text-white outline-none focus:border-[#3D90F0] focus:ring-2 focus:ring-[#3D90F0]/30"
-          />
-          <button
-            type="submit"
-            disabled={isSavingRemark || !remarkText.trim()}
-            className="flex min-h-11 items-center justify-center rounded-full bg-[#3D90F0] px-4 py-2 text-base font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isSavingRemark ? <Spinner compact onDark /> : 'שמור'}
-          </button>
-          {writeError && (
-            <p className="text-center text-sm text-red-400" role="alert">
-              {writeError}
-            </p>
-          )}
-        </form>
-
-        <div className="mt-5 border-t border-[#222A3A] pt-3">
-          {remarks.length === 0 ? (
-            <p className="text-center text-sm text-[#8494AD]">אין הערות</p>
-          ) : (
-            <ul className="flex flex-col">
-              {remarks.map((remark) => (
-                <li
-                  key={remark.id}
-                  className="flex items-start gap-2 border-b border-[#222A3A] py-2 last:border-b-0"
-                >
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs text-[#8494AD]">
-                      {formatRemarkDate(remark.date)}
-                    </p>
-                    <p className="whitespace-pre-wrap text-sm text-white">
-                      {remark.text}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => void handleDeleteRemark(remark.id)}
-                    aria-label="מחק הערה"
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#8494AD] hover:text-red-400"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-4 w-4"
-                      aria-hidden="true"
-                    >
-                      <path d="M3 6h18" />
-                      <path d="M8 6V4h8v2" />
-                      <path d="M19 6l-1 14H6L5 6" />
-                    </svg>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </Modal>
     </article>
   )
 }
