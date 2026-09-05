@@ -37,6 +37,10 @@ export default function ClassCarousel({
             style={{
               backgroundColor: classColor(index),
               border: selected ? '2px solid #fff' : '2px solid transparent',
+              transform: selected ? 'scale(1.05)' : 'none',
+              boxShadow: selected ? '0 0 12px rgba(255,255,255,0.15)' : undefined,
+              opacity: selected ? 1 : 0.5,
+              transition: 'all 180ms ease',
             }}
           >
             {schoolClass.name}

@@ -136,7 +136,11 @@ export default function StudentCard({
         })()
       }}
       aria-label={`עדכון סטטוס של ${fullName}`}
-      className={`flex min-h-9 min-w-[5.25rem] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-sm font-bold transition-colors duration-300 ${badge.className}`}
+      className={`flex shrink-0 items-center justify-center gap-1.5 rounded-full font-bold transition-colors duration-300 ${
+        variant === 'row'
+          ? 'min-h-8 min-w-[5.25rem] px-2.5 text-xs'
+          : 'min-h-9 min-w-[5.25rem] px-3 text-sm'
+      } ${badge.className}`}
     >
       {badge.label}
       {variant === 'directory' && (
@@ -177,7 +181,7 @@ export default function StudentCard({
         onClick={() => setExpanded((open) => !open)}
         aria-expanded={expanded}
         aria-label={`פרטים נוספים עבור ${fullName}`}
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#3a3a3c]"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#3a3a3c]"
       >
         <ChevronDownIcon
           className="h-4 w-4 text-[#9A9A9F] transition-transform duration-200"
@@ -187,7 +191,11 @@ export default function StudentCard({
     )
 
   return (
-    <article className="mb-2.5 box-border rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-4 py-3">
+    <article
+      className={`box-border rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#1c1c1e] px-4 ${
+        variant === 'row' ? 'mb-1.5 py-2' : 'mb-2.5 py-3'
+      }`}
+    >
       {variant === 'directory' ? (
         <div className="flex items-center gap-2.5">
           <span
@@ -213,9 +221,9 @@ export default function StudentCard({
         <div className="flex min-h-11 items-center gap-2">
           {statusButton}
           <div className="min-w-0 flex-1 text-right">
-            <p className="truncate text-[15px] font-semibold text-[#f5f5f7]">{fullName}</p>
+            <p className="truncate text-[14px] font-semibold text-[#f5f5f7]">{fullName}</p>
             {classLabel && (
-              <p className="truncate text-[12px] text-[#98989d]">{classLabel}</p>
+              <p className="truncate text-[11px] text-[#98989d]">{classLabel}</p>
             )}
           </div>
           {expandButton}

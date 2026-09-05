@@ -56,10 +56,14 @@ export default function BusCarousel({
             onClick={() => onSelect(bus.id)}
             aria-label={`קו ${bus.label}`}
             aria-pressed={selected}
-            className={`flex-none flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold text-white whitespace-nowrap${departed ? ' opacity-50' : ''}`}
+            className="flex-none flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold text-white whitespace-nowrap"
             style={{
               backgroundColor: fill,
               border: selected ? '2px solid #fff' : '2px solid transparent',
+              transform: selected ? 'scale(1.08)' : 'none',
+              boxShadow: selected ? '0 0 12px rgba(0,113,227,0.4)' : undefined,
+              opacity: selected ? 1 : 0.55,
+              transition: 'all 180ms ease',
             }}
           >
             <BusIcon className="h-4 w-4" />

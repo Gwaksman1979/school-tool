@@ -5,7 +5,7 @@ import { useStudents } from '../hooks/useSchoolData'
 import { getSchoolId } from '../lib/auth'
 import { usePageTitle } from '../lib/page-title'
 import { normalizeStatus } from '../types'
-import { BackIcon, ChevronDownIcon, GearIcon, PeopleIcon } from './icons'
+import { BackIcon, ChevronDownIcon, PeopleIcon } from './icons'
 
 export interface TopBarDropdownItem {
   id: string
@@ -101,7 +101,7 @@ export default function TopBar({
           className="fixed inset-0 z-[59] border-0 bg-transparent p-0"
         />
       )}
-      {isSettings ? (
+      {isSettings && (
         <button
           type="button"
           aria-label="חזרה"
@@ -109,15 +109,6 @@ export default function TopBar({
           className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border-0 bg-transparent text-[#98989d]"
         >
           <BackIcon className="h-6 w-6" />
-        </button>
-      ) : (
-        <button
-          type="button"
-          aria-label="הגדרות"
-          onClick={() => navigate('/settings')}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border-0 bg-transparent p-0 text-[#98989d]"
-        >
-          <GearIcon className="h-6 w-6" />
         </button>
       )}
 

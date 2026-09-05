@@ -33,7 +33,7 @@ function AppShell() {
 
   return (
     <div className="app-shell">
-      <SideStrip />
+      <SideStrip showSettings />
       <HeroGlow />
       <TopBar
         dropdownItems={chrome?.dropdownItems}
