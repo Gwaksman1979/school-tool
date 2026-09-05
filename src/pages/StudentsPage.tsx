@@ -88,7 +88,7 @@ export default function StudentsPage() {
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
       <div
         className="flex items-center justify-between px-4"
-        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 14px)', paddingBottom: 4 }}
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 24px)', paddingBottom: 4 }}
       >
         <h2 className="text-[17px] font-normal text-[#98989d] m-0">תלמידים</h2>
         <div className="flex items-center gap-2">

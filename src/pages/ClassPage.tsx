@@ -103,7 +103,7 @@ export default function ClassPage() {
       <div className="shrink-0">
         <div
           className="flex items-center justify-between px-4"
-          style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 14px)', paddingBottom: 4 }}
+          style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 24px)', paddingBottom: 4 }}
         >
           <h2 className="text-[17px] font-normal text-[#98989d] m-0">כיתות</h2>
           <div className="flex items-center gap-2">
@@ -111,7 +111,7 @@ export default function ClassPage() {
             <span style={{ color: '#f4c542', fontSize: 17, fontWeight: 700 }}>{atSchoolCount}</span>
           </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-8">
           <ClassCarousel
             classes={filteredClasses}
             selectedClassId={selectedClassId}
