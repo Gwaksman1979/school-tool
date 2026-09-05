@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "school-tool-5c151",
     "public": "dist",
     "cleanUrls": true,
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
