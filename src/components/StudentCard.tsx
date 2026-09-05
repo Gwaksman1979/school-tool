@@ -34,12 +34,12 @@ function statusBadge(status: Student['current_status'] | string) {
   if (isIn(status)) {
     return {
       label: 'עזיבה',
-      className: 'bg-[#278A3E] text-white',
+      className: 'bg-[#F5821F] text-white',
     }
   }
   return {
     label: 'הגעה',
-    className: 'bg-[#F5821F] text-white',
+    className: 'bg-[#278A3E] text-white',
   }
 }
 

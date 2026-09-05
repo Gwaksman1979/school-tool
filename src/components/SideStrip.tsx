@@ -27,8 +27,13 @@ export default function SideStrip() {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
-        <a
-          href="/"
+        <button
+          type="button"
+          onClick={() => {
+            if (window.confirm('האם לצאת מהמערכת?')) {
+              window.location.href = '/'
+            }
+          }}
           aria-label="דף הבית"
           style={{
             color: '#b0b0b5',
@@ -37,22 +42,17 @@ export default function SideStrip() {
             justifyContent: 'center',
             width: 44,
             height: 44,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
           }}
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 9.5L12 3l9 6.5" />
             <path d="M19 9.5V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9.5" />
           </svg>
-        </a>
+        </button>
         <button
           type="button"
           onClick={() => navigate('/settings')}
