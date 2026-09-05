@@ -52,7 +52,7 @@ function statusBadge(status: Student['current_status'] | string) {
   }
   return {
     label: 'כניסה',
-    className: 'bg-[#E06818] text-white',
+    className: 'bg-[#F5821F] text-white',
   }
 }
 
@@ -103,7 +103,6 @@ export default function StudentCard({
     : null
   const isNotBus = student.transport_mode !== 'bus'
   const badge = statusBadge(student.current_status)
-  const studentIsIn = isIn(student.current_status)
   const independentArrival = isNotBus || !student.arrival_bus_id
   const independentDeparture = isNotBus || !student.departure_bus_id
 
@@ -197,13 +196,22 @@ export default function StudentCard({
       aria-label={`עדכון סטטוס של ${fullName}`}
       className={`flex min-h-9 min-w-[5.25rem] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-sm font-bold transition-colors duration-300 ${badge.className}`}
     >
-      {variant === 'directory' &&
-        (studentIsIn ? (
-          <ExitLeftIcon className="h-4 w-4" />
-        ) : (
-          <ExitRightIcon className="h-4 w-4" />
-        ))}
       {badge.label}
+      {variant === 'directory' && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-3.5 w-3.5"
+          aria-hidden="true"
+        >
+          <path d="M15 6 9 12l6 6" />
+        </svg>
+      )}
     </button>
   )
 
@@ -235,21 +243,24 @@ export default function StudentCard({
 
   return (
     <article
-      className={
-        variant === 'directory'
-          ? 'mb-1.5 box-border rounded-[15px] bg-[#151A28] px-3 py-2'
-          : 'rounded-[15px] bg-[#1A2030] px-3 py-2'
-      }
+      className="mb-2.5 box-border rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-4 py-3"
     >
       {variant === 'directory' ? (
-        <div className="flex h-[46px] items-center gap-2.5">
-          <span className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-[#1A2030] text-[#3D90F0]">
-            <PersonFilledIcon className="h-6 w-6" />
+        <div className="flex items-center gap-2.5">
+          <span
+            className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full"
+            style={{
+              background: 'var(--nm-bg-card)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              color: '#0071e3',
+            }}
+          >
+            <PersonFilledIcon className="h-5 w-5" />
           </span>
           <div className="min-w-0 flex-1 text-right">
-            <p className="truncate text-[17px] font-bold text-white">{fullName}</p>
+            <p className="truncate text-[15px] font-semibold text-[#f5f5f7]">{fullName}</p>
             {classLabel && (
-              <p className="mt-0.5 truncate text-[13px] leading-none text-[#C0C0C6]">{classLabel}</p>
+              <p className="mt-0.5 truncate text-[13px] leading-none text-[#98989d]">{classLabel}</p>
             )}
           </div>
           {expandButton}
@@ -258,7 +269,7 @@ export default function StudentCard({
       ) : (
         <div className="flex min-h-11 items-center gap-2">
           {statusButton}
-          <p className="min-w-0 flex-1 truncate text-right text-[17px] font-medium text-white">
+          <p className="min-w-0 flex-1 truncate text-right text-[15px] font-semibold text-[#f5f5f7]">
             {fullName}
           </p>
           {expandButton}

@@ -138,7 +138,7 @@ export default function BusPage() {
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
-      <div className="shrink-0 bg-[#0B0F1A]">
+      <div className="shrink-0">
         <BusCarousel
           buses={buses}
           students={students}
@@ -158,7 +158,7 @@ export default function BusPage() {
           </p>
         ) : (
           <>
-            <h2 className="mb-2 text-center text-[17px] font-medium text-white">
+            <h2 className="mb-2 text-center text-[17px] font-medium text-[#98989d]">
               סה״כ {visibleStudents.length} תלמידים
             </h2>
             {visibleStudents.length === 0 ? (
@@ -193,7 +193,7 @@ export default function BusPage() {
                 type="button"
                 disabled={isResetting}
                 onClick={() => void handleResetDeparted()}
-                className="mx-auto mt-3 block border-0 bg-transparent p-0 text-center text-base font-medium text-[#3D90F0] disabled:opacity-50"
+                className="mx-auto mt-3 block border-0 bg-transparent p-0 text-center text-base font-medium text-[#0071e3] disabled:opacity-50"
               >
                 {isResetting ? <Spinner compact /> : 'אפס הסעה'}
               </button>
@@ -202,7 +202,7 @@ export default function BusPage() {
                 type="button"
                 disabled={isDeparting}
                 onClick={() => void handleDeparted()}
-                className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#3580E0] px-4 text-base font-semibold text-white shadow-[0_8px_28px_rgba(59,139,255,0.28)] disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#0071e3] px-4 text-base font-semibold text-white shadow-[0_8px_28px_rgba(59,139,255,0.28)] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isDeparting ? (
                   <Spinner compact onDark />

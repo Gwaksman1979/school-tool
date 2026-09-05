@@ -105,7 +105,7 @@ export default function TopBar({
           type="button"
           aria-label="חזרה"
           onClick={goBack}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full bg-[#1A2030] text-white"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] text-white"
         >
           <BackIcon className="h-6 w-6" />
         </button>
@@ -114,7 +114,7 @@ export default function TopBar({
           type="button"
           aria-label="הגדרות"
           onClick={() => navigate('/settings')}
-          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full bg-[#1A2030] p-0 text-white"
+          className="absolute left-2 flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] p-0 text-white"
         >
           <GearIcon className="h-6 w-6" />
         </button>
@@ -134,14 +134,23 @@ export default function TopBar({
             onClick={toggleDropdown}
             className="flex appearance-none items-center justify-center gap-1.5 border-0 bg-transparent p-0 shadow-none outline-none"
           >
-            <span className="truncate text-2xl font-bold text-white">{title}</span>
+            <span
+              className="truncate text-2xl font-bold text-white"
+              style={{ fontFamily: '"Montserrat", -apple-system, sans-serif' }}
+            >
+              {title}
+            </span>
             <ChevronDownIcon
               className="h-4 w-4 shrink-0 bg-transparent text-[#8494AD] transition-transform duration-200"
               style={{ transform: open ? 'rotate(180deg)' : 'none' }}
             />
           </button>
         ) : (
-          <h1 dir="rtl" className="truncate bg-transparent text-center text-2xl font-bold text-white">
+          <h1
+            dir="rtl"
+            className="truncate bg-transparent text-center text-2xl font-bold text-white"
+            style={{ fontFamily: '"Montserrat", -apple-system, sans-serif' }}
+          >
             {title}
           </h1>
         )}
@@ -149,7 +158,7 @@ export default function TopBar({
           <ul
             dir="rtl"
             role="listbox"
-            className="absolute top-full right-1/2 z-[60] mt-2 max-h-64 w-52 translate-x-1/2 overflow-y-auto rounded-[18px] border border-[#222A3A] bg-[#1A2030] py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
+            className="absolute top-full right-1/2 z-[60] mt-2 max-h-64 w-52 translate-x-1/2 overflow-y-auto rounded-[18px] border border-[rgba(255,255,255,0.08)] bg-[#14161f] py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
           >
             {dropdownItems.map((item) => (
               <li key={item.id}>
@@ -185,10 +194,10 @@ export default function TopBar({
             setOpen(false)
             setSheetOpen(true)
           }}
-          className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full bg-[#1A2030] px-3"
+          className="absolute right-2 flex h-11 items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-3"
         >
-          <PeopleIcon className="h-5 w-5 text-[#F0A030]" />
-          <span className="text-base font-semibold text-white">{atSchoolCount}</span>
+          <PeopleIcon className="h-5 w-5 text-[#f4c542]" />
+          <span className="text-base font-semibold text-[#f4c542]">{atSchoolCount}</span>
         </button>
       )}
     </header>

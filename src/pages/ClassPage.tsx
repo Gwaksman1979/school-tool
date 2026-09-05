@@ -84,7 +84,7 @@ export default function ClassPage() {
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
-      <div className="shrink-0 bg-[#0B0F1A]">
+      <div className="shrink-0">
         <ClassCarousel
           classes={sortedClasses}
           selectedClassId={selectedClassId}

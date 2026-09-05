@@ -82,8 +82,8 @@ export default function StudentsPage() {
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
-      <div className="box-border w-full shrink-0 overflow-hidden bg-[#0B0F1A] px-4 py-2">
-        <div className="flex h-12 w-full box-border items-center overflow-hidden rounded-[18px] bg-[#151A28] px-3">
+      <div className="box-border w-full shrink-0 overflow-hidden bg-transparent px-4 py-2">
+        <div className="flex h-12 w-full box-border items-center overflow-hidden rounded-full border border-[rgba(255,255,255,0.08)] bg-[#14161f] px-3">
           <span className="shrink-0 text-[#8494AD]">
             <SearchIcon className="h-5 w-5" />
           </span>
